@@ -5,7 +5,7 @@ import {GridList} from "@material-ui/core";
 import "./BookCardView.css";
 import BookCard from "./BookCard";
 
-export default function BookCardView() {
+function BookCardView() {
     const [books, setBooks] = useState<Book[]>([]);
 
     useEffect(() => {
@@ -30,3 +30,5 @@ export default function BookCardView() {
         </GridList>
     );
 }
+
+export default BookCardView;

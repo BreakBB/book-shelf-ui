@@ -9,7 +9,8 @@ interface Props {
     coverId: string;
 }
 
-export default function BookCard(props: Props) {
+function BookCard(props: Props) {
+    const history = useHistory();
 
     const localCoverUrl = `http://localhost:8080/covers/${props.isbn}`
 
@@ -26,3 +27,5 @@ export default function BookCard(props: Props) {
         </GridListTile>
     )
 }
+
+export default BookCard;
