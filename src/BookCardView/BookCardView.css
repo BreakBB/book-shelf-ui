@@ -4,6 +4,12 @@
   width: 100%;
 }
 
+.book-card {
+  height: 250px;
+  width: 180px;
+  margin: 5px;
+}
+
 .placeholder-image-container {
   height: 100%;
   width: 100%;

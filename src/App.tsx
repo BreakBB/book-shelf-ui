@@ -7,6 +7,8 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from "@material-ui/core/Typography";
 import {Container} from "@material-ui/core";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import BookDetailView from "./BookDetailView/BookDetailView";
 
 function App() {
     return (
@@ -22,7 +24,16 @@ function App() {
                 </Toolbar>
             </AppBar>
             <Container maxWidth="lg">
-                <BookCardView/>
+                <Router>
+                    <Switch>
+                        <Route path="/:isbn">
+                            <BookDetailView />
+                        </Route>
+                        <Route path="/">
+                            <BookCardView/>
+                        </Route>
+                    </Switch>
+                </Router>
             </Container>
         </div>
     );
