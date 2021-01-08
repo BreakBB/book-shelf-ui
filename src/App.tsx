@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import BookOverview from "./BookOverview/BookOverview";
+import BookCardView from "./BookCardView/BookCardView";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -22,7 +22,7 @@ function App() {
                 </Toolbar>
             </AppBar>
             <Container maxWidth="lg">
-                <BookOverview/>
+                <BookCardView/>
             </Container>
         </div>
     );

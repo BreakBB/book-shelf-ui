@@ -2,10 +2,10 @@ import React, {useEffect, useState} from "react";
 import {Book} from "../types/types";
 import axios from "axios";
 import {GridList} from "@material-ui/core";
-import "./BookOverview.css";
+import "./BookCardView.css";
 import BookCard from "./BookCard";
 
-export default function BookOverview() {
+export default function BookCardView() {
     const [books, setBooks] = useState<Book[]>([]);
 
     useEffect(() => {
