@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
 import {Book} from "../types/types";
 import axios from "axios";
-import BookCard from "../BookCard/BookCard";
 import {GridList} from "@material-ui/core";
+import "./BookOverview.css";
+import BookCard from "./BookCard";
 
 export default function BookOverview() {
     const [books, setBooks] = useState<Book[]>([]);
@@ -14,7 +15,7 @@ export default function BookOverview() {
                 setBooks(response.data);
                 return response.data.length;
             } catch (e) {
-                console.warn("Could not read the books", e)
+                console.warn("Could not fetch books", e)
                 return 0;
             }
         }
@@ -23,7 +24,9 @@ export default function BookOverview() {
 
     return (
         <GridList>
-            {books.map(book => <BookCard isbn={book.isbn} title={book.title} author={book.author}/>)}
+            {books.map(book =>
+                <BookCard title={book.title} isbn={book.isbn} coverId={book.coverId}/>
+            )}
         </GridList>
     );
 }

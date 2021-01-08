@@ -1,0 +1,20 @@
+.image {
+  flex: 1;
+  height: 100%;
+  width: 100%;
+}
+
+.placeholder-image-container {
+  height: 100%;
+  width: 100%;
+  flex: 1;
+  font-size: 12px;
+  color: white;
+}
+
+.placeholder-image-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%)
+}

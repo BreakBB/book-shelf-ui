@@ -6,7 +6,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from "@material-ui/core/Typography";
-import Container from "@material-ui/core/Container";
+import {Container} from "@material-ui/core";
 
 function App() {
     return (
@@ -14,14 +14,14 @@ function App() {
             <AppBar position="static" style={{marginBottom: "20px"}}>
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu">
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
                     <Typography variant="h6">
                         Books
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Container maxWidth="md">
+            <Container maxWidth="lg">
                 <BookOverview/>
             </Container>
         </div>
