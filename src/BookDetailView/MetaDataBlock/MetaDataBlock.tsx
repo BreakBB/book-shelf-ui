@@ -18,7 +18,7 @@ function MetaDataBlock(props: Props): JSX.Element {
                 <thead>
                     <tr style={{textAlign: "center"}}>
                         <td colSpan={2}>
-                            <Typography variant="h5">
+                            <Typography variant="h5" className="text-underline">
                                 Information
                             </Typography>
                         </td>
