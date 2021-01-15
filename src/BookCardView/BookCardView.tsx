@@ -4,6 +4,7 @@ import axios from "axios";
 import {GridList} from "@material-ui/core";
 import "./BookCardView.css";
 import BookCard from "./BookCard";
+import Typography from "@material-ui/core/Typography";
 
 function BookCardView() {
     const [books, setBooks] = useState<Book[]>([]);
@@ -22,13 +23,19 @@ function BookCardView() {
         fetchBooks().then((length) => console.info(`Fetched ${length} book(s)`));
     }, [])
 
-    return (
-        <GridList>
-            {books.map(book =>
-                <BookCard title={book.title} isbn={book.isbn} coverId={book.coverId}/>
-            )}
-        </GridList>
-    );
+    if (books && books.length > 0) {
+        return (
+            <GridList>
+                {books.map(book =>
+                    <BookCard title={book.title} isbn={book.isbn} coverId={book.coverId}/>
+                )}
+            </GridList>
+        );
+    } else {
+        return (
+            <Typography>No Books</Typography>
+        );
+    }
 }
 
 export default BookCardView;
