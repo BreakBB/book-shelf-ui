@@ -7,6 +7,24 @@ import BookCard from "./BookCard";
 import Typography from "@material-ui/core/Typography";
 
 function BookCardView() {
+    const books = useBooks();
+
+    if (books && books.length > 0) {
+        return (
+            <GridList>
+                {books.map(book =>
+                    <BookCard title={book.title} isbn={book.isbn} coverId={book.coverId}/>
+                )}
+            </GridList>
+        );
+    } else {
+        return (
+            <Typography>No Books</Typography>
+        );
+    }
+}
+
+function useBooks() {
     const [books, setBooks] = useState<Book[]>([]);
 
     useEffect(() => {
@@ -22,20 +40,7 @@ function BookCardView() {
         }
         fetchBooks().then((length) => console.info(`Fetched ${length} book(s)`));
     }, [])
-
-    if (books && books.length > 0) {
-        return (
-            <GridList>
-                {books.map(book =>
-                    <BookCard title={book.title} isbn={book.isbn} coverId={book.coverId}/>
-                )}
-            </GridList>
-        );
-    } else {
-        return (
-            <Typography>No Books</Typography>
-        );
-    }
+    return books;
 }
 
 export default BookCardView;
