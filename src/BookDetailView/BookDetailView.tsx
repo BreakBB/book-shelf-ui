@@ -2,11 +2,12 @@ import {Paper} from '@material-ui/core';
 import React, {useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom';
 import Typography from "@material-ui/core/Typography";
-import {Book} from "../types/types";
+import {Book, BookResponseData} from "../types/types";
 import axios, {AxiosResponse} from "axios";
 import Grid from '@material-ui/core/Grid/Grid';
 import MetaDataBlock from "./MetaDataBlock/MetaDataBlock";
 import "./BookDetailView.css";
+import moment from "moment";
 
 interface ParamTypes {
     isbn: string;
@@ -46,9 +47,15 @@ const useBook = (isbn: string): Book | undefined => {
 
     useEffect(() => {
         const fetchBook = async (): Promise<Book> => {
-            const response: AxiosResponse<Book> = await axios.get(`http://localhost:8080/books/${isbn}`, {});
-            setBook(response.data);
-            return response.data;
+            const response: AxiosResponse<BookResponseData> = await axios.get(`http://localhost:8080/books/${isbn}`, {});
+
+            const book: Book = {
+                ...response.data,
+                releaseDate: moment(response.data.releaseDate, "DD.MM.yyyy")
+            }
+
+            setBook(book);
+            return book;
         }
         fetchBook()
         .then((book: Book) => console.log(`Fetched Book '${book.title}'`))
