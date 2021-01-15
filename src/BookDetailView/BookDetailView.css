@@ -1,0 +1,11 @@
+.book-detail-paper {
+  padding: 15px 30px 20px;
+}
+
+.book-detail {
+  flex-grow: 1;
+}
+
+.book-title {
+  margin-bottom: 35px !important;
+}
