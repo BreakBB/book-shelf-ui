@@ -5,7 +5,7 @@ interface Props {
     title: string;
 }
 
-export const PlaceholderImage = (props: Props) => (
+export const PlaceholderImage = (props: Props): JSX.Element => (
     <div className="placeholder-image-container">
         <img className="image" src={placeholderCover} alt="placeholder"/>
         <div className="placeholder-image-text">

@@ -10,7 +10,7 @@ interface Props {
     coverId: string;
 }
 
-function BookCard(props: Props) {
+function BookCard(props: Props): JSX.Element {
     const history = useHistory();
 
     const localCoverUrl = `http://localhost:8080/covers/${props.isbn}`

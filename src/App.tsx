@@ -10,7 +10,7 @@ import {Container} from "@material-ui/core";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import BookDetailView from "./BookDetailView/BookDetailView";
 
-function App() {
+function App(): JSX.Element {
     return (
         <div className="App">
             <AppBar position="static" style={{marginBottom: "20px"}}>

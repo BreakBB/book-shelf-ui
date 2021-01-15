@@ -1,0 +1,49 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "project": "./tsconfig.json",
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true,
+            "useJSXTextNode": true
+        }
+    },
+    "env": {
+        "browser": true,
+        "node": true,
+        "mocha": true,
+        "jest": true,
+        "es6": true
+    },
+    "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "eslint:recommended",
+        "react-app"
+    ],
+    "plugins": ["@typescript-eslint", "react"],
+    "rules": {
+        "new-cap": 0,
+        "strict": 0,
+        "no-underscore-dangle": 0,
+        "no-use-before-define": 0,
+        "no-console": 0,
+        "react/jsx-no-undef": 1,
+        "react/jsx-uses-react": 1,
+        "react/jsx-uses-vars": 1,
+        "react/jsx-no-duplicate-props": 0,
+        "react/jsx-pascal-case": 1,
+        "no-unused-vars": "off",
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "prefer-const": "warn",
+        "brace-style": "warn",
+        "prefer-template": "warn",
+        "@typescript-eslint/ban-ts-ignore": "off",
+        "@typescript-eslint/no-use-before-define": "off",
+        "@typescript-eslint/no-inferrable-types": "warn",
+        "@typescript-eslint/no-var-requires": 0,
+        "@typescript-eslint/camelcase": "off",
+        "@typescript-eslint/no-empty-function": 0,
+        "@typescript-eslint/no-floating-promises": 1
+    }
+}
