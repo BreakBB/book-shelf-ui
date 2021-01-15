@@ -10,7 +10,7 @@ function DataRow(props: Props): JSX.Element {
     const theme = useTheme();
 
     return (
-        <tr>
+        <tr style={{height: 25}}>
             <td style={{color: theme.palette.text.secondary}}>{props.title}</td>
             <td>{props.value}</td>
         </tr>
