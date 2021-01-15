@@ -27,6 +27,7 @@ function MetaDataBlock(props: Props): JSX.Element {
                 <tbody>
                     <DataRow title="Author" value={book.author}/>
                     <DataRow title="Release date" value={releaseDate}/>
+                    <DataRow title="ISBN" value={book.isbn}/>
                 </tbody>
             </table>
         </div>
