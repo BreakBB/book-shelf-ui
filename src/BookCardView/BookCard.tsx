@@ -16,7 +16,7 @@ function BookCard(props: Props) {
     const localCoverUrl = `http://localhost:8080/covers/${props.isbn}`
 
     return (
-        <GridListTile onClick={() => history.push(props.isbn)} key={props.isbn} className="book-card">
+        <GridListTile onClick={() => history.push(props.isbn)} key={props.isbn} className="book-card hover-grow">
             {props.coverId
                 ? <img className="image" src={localCoverUrl} alt={props.title}/>
                 : <PlaceholderImage title={props.title}/>
