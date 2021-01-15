@@ -9,10 +9,11 @@ import Typography from "@material-ui/core/Typography";
 import {Container} from "@material-ui/core";
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import BookDetailView from "./BookDetailView/BookDetailView";
+import Theme from "./Theme";
 
 function App(): JSX.Element {
     return (
-        <div className="App">
+        <Theme className="App">
             <AppBar position="static" style={{marginBottom: "20px"}}>
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu">
@@ -27,7 +28,7 @@ function App(): JSX.Element {
                 <Router>
                     <Switch>
                         <Route path="/:isbn">
-                            <BookDetailView />
+                            <BookDetailView/>
                         </Route>
                         <Route path="/">
                             <BookCardView/>
@@ -35,7 +36,7 @@ function App(): JSX.Element {
                     </Switch>
                 </Router>
             </Container>
-        </div>
+        </Theme>
     );
 }
 
