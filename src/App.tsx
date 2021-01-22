@@ -7,9 +7,11 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from "@material-ui/core/Typography";
 import {Container} from "@material-ui/core";
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {Router} from 'react-router';
+import {Route, Switch} from "react-router-dom";
 import BookDetailView from "./BookDetailView/BookDetailView";
 import Theme from "./Theme";
+import {history} from "./history";
 
 function App(): JSX.Element {
     return (
@@ -25,7 +27,7 @@ function App(): JSX.Element {
                 </Toolbar>
             </AppBar>
             <Container maxWidth="lg">
-                <Router>
+                <Router history={history}>
                     <Switch>
                         <Route path="/:isbn">
                             <BookDetailView/>
