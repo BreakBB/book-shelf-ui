@@ -13,6 +13,10 @@ describe('BookCardView', () => {
         axios.get = axiosMockedGet;
     }
 
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     it('should render the header', async () => {
         initTest();
 
@@ -49,6 +53,20 @@ describe('BookCardView', () => {
 
     it('should render the placeholder text without books', async () => {
         initTest();
+
+        const {getByText} = render(<BookCardView/>);
+
+        await waitFor(() => {
+            expect(axiosMockedGet).toHaveBeenCalledWith("http://localhost:8080/books")
+        });
+        getByText("No Books");
+    });
+
+    it('should handle network errors', async () => {
+        axiosMockedGet = jest.fn(() => {
+            throw new Error("Some network error")
+        });
+        axios.get = axiosMockedGet;
 
         const {getByText} = render(<BookCardView/>);
 
