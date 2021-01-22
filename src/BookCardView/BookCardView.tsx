@@ -10,19 +10,22 @@ import moment from "moment";
 function BookCardView(): JSX.Element {
     const books = useBooks();
 
-    if (books && books.length > 0) {
-        return (
-            <GridList>
-                {books.map((book, index) =>
-                    <BookCard key={index} title={book.title} isbn={book.isbn} coverId={book.coverId}/>
-                )}
-            </GridList>
-        );
-    } else {
-        return (
-            <Typography>No Books</Typography>
-        );
-    }
+    return (
+        <>
+            <Typography className="title text-underline" variant="h3">
+                Your Collection
+            </Typography>
+            {
+                books && books.length > 0
+                    ? (<GridList>
+                        {books.map((book, index) =>
+                            <BookCard key={index} title={book.title} isbn={book.isbn} coverId={book.coverId}/>
+                        )}
+                    </GridList>)
+                    : <Typography>No Books</Typography>
+            }
+        </>
+    );
 }
 
 function useBooks(): Book[] {
@@ -30,7 +33,7 @@ function useBooks(): Book[] {
 
     useEffect(() => {
         const fetchBooks = async (): Promise<number> => {
-            const response: AxiosResponse<BookResponseData[]> = await axios.get("http://localhost:8080/books", {});
+            const response: AxiosResponse<BookResponseData[]> = await axios.get("http://localhost:8080/books");
 
             const books = transformReleaseDates(response.data);
 
