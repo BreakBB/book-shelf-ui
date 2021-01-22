@@ -1,8 +1,8 @@
 import React from "react";
 import {GridListTile} from "@material-ui/core";
-import "./BookCardView.css";
-import {PlaceholderImage} from "./PlaceholderImage";
+import "../BookCardView.css";
 import {useHistory } from "react-router-dom";
+import {PlaceholderImage} from "../PlaceholderImage/PlaceholderImage";
 
 interface Props {
     title: string;

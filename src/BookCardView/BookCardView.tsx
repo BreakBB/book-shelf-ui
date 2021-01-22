@@ -3,9 +3,9 @@ import {Book, BookResponseData} from "../types/types";
 import axios, {AxiosResponse} from "axios";
 import {GridList} from "@material-ui/core";
 import "./BookCardView.css";
-import BookCard from "./BookCard";
 import Typography from "@material-ui/core/Typography";
 import moment from "moment";
+import BookCard from "./BookCard/BookCard";
 
 function BookCardView(): JSX.Element {
     const books = useBooks();

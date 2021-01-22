@@ -2,8 +2,8 @@ import React from 'react';
 import {render, waitFor} from '@testing-library/react';
 import BookCardView from "./BookCardView";
 import axios from "axios";
-import {TEST_BOOKS} from "../setupTests";
 import {BookResponseData} from "../types/types";
+import {TEST_BOOKS} from "../testUtils";
 
 describe('BookCardView', () => {
     let axiosMockedGet;
