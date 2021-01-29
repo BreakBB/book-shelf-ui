@@ -2,6 +2,7 @@ import React from "react";
 import {render, RenderResult} from "@testing-library/react";
 import {Router} from 'react-router';
 import {history} from "./history";
+import { Route } from "react-router-dom";
 
 export const TEST_BOOKS = {
     harryPotter1: {
@@ -26,6 +27,14 @@ export const renderWithRouter = (component: JSX.Element): RenderResult => {
     return render(
         <Router history={history}>
             {component}
+        </Router>
+    )
+}
+
+export const renderWithRouterMatch = (component: React.ComponentType, path: string): RenderResult => {
+    return render(
+        <Router history={history}>
+            <Route path={path} component={component}/>
         </Router>
     )
 }

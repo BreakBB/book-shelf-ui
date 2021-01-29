@@ -47,15 +47,22 @@ const useBook = (isbn: string): Book | undefined => {
 
     useEffect(() => {
         const fetchBook = async (): Promise<Book> => {
-            const response: AxiosResponse<BookResponseData> = await axios.get(`http://localhost:8080/books/${isbn}`, {});
-
-            const book: Book = {
-                ...response.data,
-                releaseDate: moment(response.data.releaseDate, "DD.MM.yyyy")
+            if (isbn === undefined) {
+                throw Error("Given isbn is undefined");
             }
 
-            setBook(book);
-            return book;
+            const response: AxiosResponse<BookResponseData> = await axios.get(`http://localhost:8080/books/${isbn}`);
+
+            if (response.data) {
+                const book: Book = {
+                    ...response.data,
+                    releaseDate: moment(response.data.releaseDate, "DD.MM.yyyy")
+                }
+
+                setBook(book);
+                return book;
+            }
+            throw Error("No response data");
         }
         fetchBook()
         .then((book: Book) => console.log(`Fetched Book '${book.title}'`))
