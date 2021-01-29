@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, waitFor} from '@testing-library/react';
-import BookCardView from "./BookCardView";
+import BookCardView, {NO_BOOKS_YET, YOUR_COLLECTION} from "./BookCardView";
 import axios from "axios";
 import {BookResponseData} from "../types/types";
 import {TEST_BOOKS} from "../testUtils";
@@ -26,7 +26,7 @@ describe('BookCardView', () => {
         await waitFor(() => {
             expect(axiosMockedGet).toHaveBeenCalledWith("http://localhost:8080/books")
         })
-        const header: HTMLElement = getByText("Your Collection");
+        const header: HTMLElement = getByText(YOUR_COLLECTION);
         expect(header).not.toBeUndefined();
         expect(header.tagName).toBe("H3");
         expect(header.classList).toContain("title");
@@ -44,11 +44,11 @@ describe('BookCardView', () => {
         await waitFor(() => {
             expect(axiosMockedGet).toHaveBeenCalledWith("http://localhost:8080/books")
         });
-        expect(queryByText("No Books")).toBeNull();
-        const header: HTMLElement = getByText("Your Collection");
+        expect(queryByText(NO_BOOKS_YET)).toBeNull();
+        const header: HTMLElement = getByText(YOUR_COLLECTION);
         const list = header.parentElement?.lastChild as HTMLElement;
         expect(list).not.toBeUndefined();
-        expect(list.childNodes.length).toBe(2);
+        expect(list.childNodes.length).toBe(3);
     });
 
     it('should render the placeholder text without books', async () => {
@@ -59,7 +59,11 @@ describe('BookCardView', () => {
         await waitFor(() => {
             expect(axiosMockedGet).toHaveBeenCalledWith("http://localhost:8080/books")
         });
-        getByText("No Books");
+        getByText(NO_BOOKS_YET);
+        const header: HTMLElement = getByText(YOUR_COLLECTION);
+        const list = header.parentElement?.lastChild as HTMLElement;
+        expect(list).not.toBeUndefined();
+        expect(list.childNodes.length).toBe(1);
     });
 
     it('should handle network errors', async () => {
@@ -73,6 +77,6 @@ describe('BookCardView', () => {
         await waitFor(() => {
             expect(axiosMockedGet).toHaveBeenCalledWith("http://localhost:8080/books")
         });
-        getByText("No Books");
+        getByText(NO_BOOKS_YET);
     });
 });

@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {Book, BookResponseData} from "../types/types";
 import axios, {AxiosResponse} from "axios";
-import {GridList} from "@material-ui/core";
 import "./BookCardView.css";
 import Typography from "@material-ui/core/Typography";
 import moment from "moment";
 import BookCard from "./BookCard/BookCard";
+
+export const NO_BOOKS_YET = "You don't have any books in your Collection yet.";
+export const YOUR_COLLECTION = "Your Collection";
 
 function BookCardView(): JSX.Element {
     const books = useBooks();
@@ -13,17 +15,18 @@ function BookCardView(): JSX.Element {
     return (
         <>
             <Typography className="title text-underline" variant="h3">
-                Your Collection
+                {YOUR_COLLECTION}
             </Typography>
-            {
-                books && books.length > 0
-                    ? (<GridList>
-                        {books.map((book, index) =>
-                            <BookCard key={index} title={book.title} isbn={book.isbn} coverId={book.coverId}/>
-                        )}
-                    </GridList>)
-                    : <Typography>No Books</Typography>
-            }
+            {(books.length === 0) && (
+                <Typography variant="h6" style={{marginBottom: 10}}>{NO_BOOKS_YET}</Typography>
+            )}
+            <ul className="grid-list">
+                {
+                    books.map((book, index) =>
+                        <BookCard key={index} title={book.title} isbn={book.isbn} coverId={book.coverId}/>
+                    )
+                }
+            </ul>
         </>
     );
 }
