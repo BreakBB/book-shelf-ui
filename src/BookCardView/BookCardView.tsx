@@ -5,12 +5,21 @@ import "./BookCardView.css";
 import Typography from "@material-ui/core/Typography";
 import moment from "moment";
 import BookCard from "./BookCard/BookCard";
+import AddIcon from "@material-ui/icons/Add";
+import useTheme from "@material-ui/core/styles/useTheme";
+import NewBookModal from "./NewBookModal/NewBookModal";
 
 export const NO_BOOKS_YET = "You don't have any books in your Collection yet.";
 export const YOUR_COLLECTION = "Your Collection";
 
 function BookCardView(): JSX.Element {
     const books = useBooks();
+    const [showModal, setShowModal] = useState(false);
+    const theme = useTheme();
+
+    const handleNewBookSubmit = (data) => {
+        console.log("DATA", data);
+    }
 
     return (
         <>
@@ -26,7 +35,12 @@ function BookCardView(): JSX.Element {
                         <BookCard key={index} title={book.title} isbn={book.isbn} coverId={book.coverId}/>
                     )
                 }
+                <li onClick={() => setShowModal(true)} className="book-card hover-grow add-book-card"
+                    style={{color: theme.palette.secondary.main}}>
+                    <AddIcon className="placeholder-image-text" style={{fontSize: 90}}/>
+                </li>
             </ul>
+            <NewBookModal show={showModal} onClose={() => setShowModal(false)} onSubmit={handleNewBookSubmit}/>
         </>
     );
 }

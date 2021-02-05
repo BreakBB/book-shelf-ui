@@ -1,0 +1,31 @@
+.form-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1.5rem;
+  width: 20rem;
+}
+
+.form-block {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.form-block label {
+  width: 30%;
+  margin-bottom: 1.5rem;
+  margin-top: 0.6rem; /*Half of form-block input height */
+}
+
+.form-block input {
+  width: 60%;
+  height: 1.2rem;
+  margin: 0.5rem 0.5rem 1.5rem;
+}
+
+.form-block button {
+  margin-left: auto;
+  margin-right: auto;
+}
