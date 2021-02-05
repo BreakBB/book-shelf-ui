@@ -22,7 +22,7 @@ function BookDetailView(): JSX.Element {
             {
                 book ? (
                     <div className="book-detail">
-                        <Typography className="title text-underline" variant="h3">
+                        <Typography className="title" variant="h3">
                             {book.title}
                         </Typography>
                         <Grid container spacing={2}>

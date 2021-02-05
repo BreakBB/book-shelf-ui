@@ -30,7 +30,6 @@ describe('BookCardView', () => {
         expect(header).not.toBeUndefined();
         expect(header.tagName).toBe("H3");
         expect(header.classList).toContain("title");
-        expect(header.classList).toContain("text-underline");
     });
 
     it('should render multiple book cards', async () => {

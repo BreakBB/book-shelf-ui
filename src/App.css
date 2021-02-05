@@ -2,10 +2,12 @@
   text-align: left;
 }
 
-.text-underline {
+.title {
+  margin-bottom: 35px !important;
   border-bottom: 1px solid #9e9e9e;
 }
 
-.title {
-  margin-bottom: 35px !important;
+.title-small {
+  margin-bottom: 20px !important;
+  border-bottom: 1px solid #9e9e9e;
 }

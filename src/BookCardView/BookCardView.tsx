@@ -14,7 +14,7 @@ function BookCardView(): JSX.Element {
 
     return (
         <>
-            <Typography className="title text-underline" variant="h3">
+            <Typography className="title" variant="h3">
                 {YOUR_COLLECTION}
             </Typography>
             {(books.length === 0) && (
