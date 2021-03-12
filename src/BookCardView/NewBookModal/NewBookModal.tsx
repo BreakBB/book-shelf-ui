@@ -26,7 +26,7 @@ const NewBookModal = (props: Props): JSX.Element => {
             title: title.value,
             isbn: isbn.value,
             author: author.value,
-            releaseDate: dayjs(releaseDate.value).toISOString()
+            releaseDate: dayjs(releaseDate.value).format("YYYY-MM-DD")
         })
     }
 
