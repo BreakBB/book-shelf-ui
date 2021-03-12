@@ -7,7 +7,7 @@ import BookCard from "./BookCard/BookCard";
 import AddIcon from "@material-ui/icons/Add";
 import useTheme from "@material-ui/core/styles/useTheme";
 import NewBookModal from "./NewBookModal/NewBookModal";
-import {toast, ToastContainer} from "react-toastify";
+import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 export const NO_BOOKS_YET = "You don't have any books in your Collection yet. Go ahead and add some!";
@@ -52,14 +52,6 @@ function BookCardView(): JSX.Element {
                 </li>
             </ul>
             <NewBookModal show={showModal} onClose={() => setShowModal(false)} onSubmit={handleNewBookSubmit}/>
-            <ToastContainer
-                position="bottom-center"
-                autoClose={2500}
-                rtl={false}
-                hideProgressBar
-                pauseOnFocusLoss
-                closeOnClick
-            />
         </>
     );
 }

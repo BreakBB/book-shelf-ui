@@ -11,6 +11,7 @@ import {Route, Switch} from "react-router-dom";
 import BookDetailView from "./BookDetailView/BookDetailView";
 import Theme from "./Theme";
 import {history} from "./history";
+import {ToastContainer} from "react-toastify";
 
 function App(): JSX.Element {
     return (
@@ -34,6 +35,14 @@ function App(): JSX.Element {
                         </Route>
                     </Switch>
                 </Router>
+                <ToastContainer
+                    position="bottom-center"
+                    autoClose={2500}
+                    rtl={false}
+                    hideProgressBar
+                    pauseOnFocusLoss
+                    closeOnClick
+                />
             </Container>
         </Theme>
     );
