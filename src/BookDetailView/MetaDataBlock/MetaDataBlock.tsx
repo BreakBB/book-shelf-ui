@@ -14,7 +14,7 @@ function MetaDataBlock(props: Props): JSX.Element {
             <table style={{width: "100%"}}>
                 <thead>
                     <tr style={{textAlign: "center"}}>
-                        <td colSpan={2}>
+                        <td colSpan={3}>
                             <h3 className="title-small">
                                 Information
                             </h3>

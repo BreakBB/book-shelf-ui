@@ -42,11 +42,11 @@ function BookDetailView(): JSX.Element {
                             <Grid item md={2}>
                                 <img src={`http://localhost:8080/covers/${book.isbn}`} alt={book.title}/>
                             </Grid>
-                            <Grid item md={3}>
+                            <Grid item md={4}>
                                 <MetaDataBlock book={book}/>
-                                <div style={{float: "right", marginTop: "1rem"}}>
+                                <tr style={{float: "right", marginTop: "1rem"}}>
                                     <Button variant="outlined" onClick={deleteBook}>Delete Book</Button>
-                                </div>
+                                </tr>
                             </Grid>
                         </Grid>
                     </div>
