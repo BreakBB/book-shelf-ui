@@ -23,7 +23,7 @@ function MetaDataBlock(props: Props): JSX.Element {
                 </thead>
                 <tbody>
                     <DataRow title="Author" value={book.author}/>
-                    <DataRow title="Release date" value={book.releaseDate.format("DD.MM.yyyy").toString()}/>
+                    <DataRow title="Release date" value={book.releaseDate.format("DD.MM.YYYY")}/>
                     <DataRow title="ISBN" value={book.isbn}/>
                 </tbody>
             </table>

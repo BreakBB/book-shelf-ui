@@ -55,9 +55,8 @@ const useBook = (isbn: string): Book | undefined => {
             if (response.data) {
                 const book: Book = {
                     ...response.data,
-                    releaseDate: dayjs(response.data.releaseDate, "DD.MM.yyyy")
+                    releaseDate: dayjs(response.data.releaseDate)
                 }
-
                 setBook(book);
                 return book;
             }
