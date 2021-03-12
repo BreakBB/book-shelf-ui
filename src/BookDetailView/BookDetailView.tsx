@@ -1,12 +1,13 @@
-import {Paper} from '@material-ui/core';
+import {Button, Paper} from '@material-ui/core';
 import React, {useEffect, useState} from 'react'
-import {useParams} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import {Book, BookResponseData} from "../types/types";
 import axios, {AxiosResponse} from "axios";
 import Grid from '@material-ui/core/Grid/Grid';
 import MetaDataBlock from "./MetaDataBlock/MetaDataBlock";
 import "./BookDetailView.css";
 import dayjs from "dayjs";
+import {toast} from "react-toastify";
 
 interface ParamTypes {
     isbn: string;
@@ -15,6 +16,19 @@ interface ParamTypes {
 function BookDetailView(): JSX.Element {
     const {isbn} = useParams<ParamTypes>();
     const book = useBook(isbn);
+    const history = useHistory();
+
+    const deleteBook = async () => {
+        try {
+            await axios.delete(`http://localhost:8080/books/${isbn}`, {
+
+            });
+            toast.success("Successfully removed the book");
+            history.push("/")
+        } catch (e) {
+            toast.error("Failed to delete the book");
+        }
+    }
 
     return (
         <Paper className="book-detail-paper">
@@ -30,6 +44,9 @@ function BookDetailView(): JSX.Element {
                             </Grid>
                             <Grid item md={3}>
                                 <MetaDataBlock book={book}/>
+                                <div style={{float: "right", marginTop: "1rem"}}>
+                                    <Button variant="outlined" onClick={deleteBook}>Delete Book</Button>
+                                </div>
                             </Grid>
                         </Grid>
                     </div>
