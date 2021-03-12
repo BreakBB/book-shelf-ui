@@ -1,15 +1,16 @@
 import React, {useEffect, useState} from "react";
-import {Book, BookResponseData} from "../types/types";
+import {Book, BookResponseData, NewBookRequest} from "../types/types";
 import axios, {AxiosResponse} from "axios";
 import "./BookCardView.css";
-import Typography from "@material-ui/core/Typography";
-import moment from "moment";
+import dayjs from "dayjs";
 import BookCard from "./BookCard/BookCard";
 import AddIcon from "@material-ui/icons/Add";
 import useTheme from "@material-ui/core/styles/useTheme";
 import NewBookModal from "./NewBookModal/NewBookModal";
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
-export const NO_BOOKS_YET = "You don't have any books in your Collection yet.";
+export const NO_BOOKS_YET = "You don't have any books in your Collection yet. Go ahead and add some!";
 export const YOUR_COLLECTION = "Your Collection";
 
 function BookCardView(): JSX.Element {
@@ -17,17 +18,27 @@ function BookCardView(): JSX.Element {
     const [showModal, setShowModal] = useState(false);
     const theme = useTheme();
 
-    const handleNewBookSubmit = (data) => {
-        console.log("DATA", data);
+    const handleNewBookSubmit = (newBook: NewBookRequest) => {
+        postNewBookData(newBook)
+        .then(() => {
+            toast.success("A new book was added");
+        })
+        .catch(() => {
+            toast.error("The new book could not be added");
+        })
+    }
+
+    const postNewBookData = async (newBook: NewBookRequest) => {
+        await axios.post("http://localhost:8080/books", newBook);
     }
 
     return (
         <>
-            <Typography className="title" variant="h3">
+            <h1 className="title">
                 {YOUR_COLLECTION}
-            </Typography>
+            </h1>
             {(books.length === 0) && (
-                <Typography variant="h6" style={{marginBottom: 10}}>{NO_BOOKS_YET}</Typography>
+                <p>{NO_BOOKS_YET}</p>
             )}
             <ul className="grid-list">
                 {
@@ -41,6 +52,14 @@ function BookCardView(): JSX.Element {
                 </li>
             </ul>
             <NewBookModal show={showModal} onClose={() => setShowModal(false)} onSubmit={handleNewBookSubmit}/>
+            <ToastContainer
+                position="bottom-center"
+                autoClose={2500}
+                rtl={false}
+                hideProgressBar
+                pauseOnFocusLoss
+                closeOnClick
+            />
         </>
     );
 }
@@ -68,7 +87,7 @@ function transformReleaseDates(responseData: BookResponseData[]) {
     return responseData.map((bookData): Book => {
         return {
             ...bookData,
-            releaseDate: moment(bookData.releaseDate, "DD.MM.yyyy")
+            releaseDate: dayjs(bookData.releaseDate, "DD.MM.yyyy")
         }
     });
 }

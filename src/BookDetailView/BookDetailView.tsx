@@ -7,7 +7,7 @@ import axios, {AxiosResponse} from "axios";
 import Grid from '@material-ui/core/Grid/Grid';
 import MetaDataBlock from "./MetaDataBlock/MetaDataBlock";
 import "./BookDetailView.css";
-import moment from "moment";
+import dayjs from "dayjs";
 
 interface ParamTypes {
     isbn: string;
@@ -56,7 +56,7 @@ const useBook = (isbn: string): Book | undefined => {
             if (response.data) {
                 const book: Book = {
                     ...response.data,
-                    releaseDate: moment(response.data.releaseDate, "DD.MM.yyyy")
+                    releaseDate: dayjs(response.data.releaseDate, "DD.MM.yyyy")
                 }
 
                 setBook(book);

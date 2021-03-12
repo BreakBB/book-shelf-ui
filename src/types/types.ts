@@ -1,11 +1,18 @@
-import {Moment} from "moment";
+import {Dayjs} from "dayjs";
 
 export interface Book {
     isbn: string;
     title: string;
     author: string;
-    releaseDate: Moment;
-    coverId: string;
+    releaseDate: Dayjs;
+    coverId?: string;
+}
+
+export interface NewBookRequest {
+    isbn: string;
+    title: string;
+    author: string;
+    releaseDate: string;
 }
 
 // The backend sends the releaseDate as string

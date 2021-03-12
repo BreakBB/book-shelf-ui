@@ -6,7 +6,7 @@ import {PlaceholderImage} from "../PlaceholderImage/PlaceholderImage";
 interface Props {
     title: string;
     isbn: string;
-    coverId: string;
+    coverId: string | undefined;
 }
 
 function BookCard(props: Props): JSX.Element {

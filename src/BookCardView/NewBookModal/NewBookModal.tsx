@@ -1,30 +1,48 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, Modal, Paper} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import {useForm} from "react-hook-form";
 import './NewBookModal.css'
 import FormInput from "./FormInput";
 import useTheme from "@material-ui/core/styles/useTheme";
+import {NewBookRequest} from "../../types/types";
+import dayjs from "dayjs";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 interface Props {
     show: boolean;
     onClose: () => void;
-    onSubmit: (event) => void;
+    onSubmit: (book: NewBookRequest) => void;
 }
 
 const NewBookModal = (props: Props): JSX.Element => {
-    const {register, handleSubmit} = useForm();
     const theme = useTheme();
+    const [releaseDate, setReleaseDate] = useState(new Date());
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        const {title, isbn, author, releaseDate} = event.target.elements;
+        props.onSubmit({
+            title: title.value,
+            isbn: isbn.value,
+            author: author.value,
+            releaseDate: dayjs(releaseDate.value).toISOString()
+        })
+    }
 
     return (
         <Modal open={props.show} onClose={props.onClose}>
             <Paper className="form-container">
                 <Typography className="title-small" variant="h6">Add a new book</Typography>
-                <form className="form-block" onSubmit={handleSubmit(props.onSubmit)}>
-                    <FormInput label="Book name" id="title" register={register}/>
-                    <FormInput label="ISBN" id="isbn" register={register}/>
-                    <FormInput label="Author" id="author" register={register}/>
-                    <FormInput label="Release Date" id="releaseDate" register={register}/>
+                <form className="form-block" onSubmit={handleSubmit}>
+                    <FormInput label="Book name" name="title"/>
+                    <FormInput label="ISBN" name="isbn"/>
+                    <FormInput label="Author" name="author"/>
+                    <label htmlFor="releaseDate">Release Date</label>
+                    <DatePicker id="releaseDate" selected={releaseDate} onChange={setReleaseDate}/>
+
+                    <div style={{width: "100%"}}>
 
                     <Button
                         type="submit"
@@ -34,6 +52,7 @@ const NewBookModal = (props: Props): JSX.Element => {
                         }}>
                         Create
                     </Button>
+                    </div>
                 </form>
             </Paper>
         </Modal>

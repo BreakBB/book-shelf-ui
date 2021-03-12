@@ -2,16 +2,18 @@ import React from 'react';
 
 interface Props {
     label: string;
-    id: string;
-    register: (ref: HTMLInputElement | null) => void;
+    name: string;
+    required?: boolean;
 }
 
 const FormInput = (props: Props): JSX.Element => {
-    const id = props.id;
+    const id = props.name;
+    const required = props.required !== undefined ? props.required : true;
+
     return (
         <>
             <label htmlFor={id}>{props.label}</label>
-            <input id={id} ref={props.register} name={id}/>
+            <input id={id} name={id} required={required}/>
         </>
     );
 }
