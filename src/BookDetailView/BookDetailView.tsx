@@ -20,9 +20,7 @@ function BookDetailView(): JSX.Element {
 
     const deleteBook = async () => {
         try {
-            await axios.delete(`http://localhost:8080/books/${isbn}`, {
-
-            });
+            await axios.delete(`http://localhost:8080/books/${isbn}`);
             toast.success("Successfully removed the book");
             history.push("/")
         } catch (e) {
