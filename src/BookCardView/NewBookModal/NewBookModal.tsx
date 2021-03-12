@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Button, Modal, Paper} from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
 import './NewBookModal.css'
 import FormInput from "./FormInput";
 import useTheme from "@material-ui/core/styles/useTheme";
@@ -34,7 +33,7 @@ const NewBookModal = (props: Props): JSX.Element => {
     return (
         <Modal open={props.show} onClose={props.onClose}>
             <Paper className="form-container">
-                <Typography className="title-small" variant="h6">Add a new book</Typography>
+                <h3 className="title-small">Add a new book</h3>
                 <form className="form-block" onSubmit={handleSubmit}>
                     <FormInput label="Book name" name="title"/>
                     <FormInput label="ISBN" name="isbn"/>

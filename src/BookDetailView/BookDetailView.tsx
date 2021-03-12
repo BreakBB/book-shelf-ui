@@ -1,7 +1,6 @@
 import {Paper} from '@material-ui/core';
 import React, {useEffect, useState} from 'react'
 import {useParams} from 'react-router-dom';
-import Typography from "@material-ui/core/Typography";
 import {Book, BookResponseData} from "../types/types";
 import axios, {AxiosResponse} from "axios";
 import Grid from '@material-ui/core/Grid/Grid';
@@ -22,9 +21,9 @@ function BookDetailView(): JSX.Element {
             {
                 book ? (
                     <div className="book-detail">
-                        <Typography className="title" variant="h3">
+                        <h1 className="title">
                             {book.title}
-                        </Typography>
+                        </h1>
                         <Grid container spacing={2}>
                             <Grid item md={2}>
                                 <img src={`http://localhost:8080/covers/${book.isbn}`} alt={book.title}/>

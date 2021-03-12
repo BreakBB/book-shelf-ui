@@ -1,5 +1,4 @@
 import React from 'react'
-import Typography from "@material-ui/core/Typography";
 import {Book} from "../../types/types";
 import DataRow from "./DataRow";
 
@@ -16,9 +15,9 @@ function MetaDataBlock(props: Props): JSX.Element {
                 <thead>
                     <tr style={{textAlign: "center"}}>
                         <td colSpan={2}>
-                            <Typography variant="h5" className="title-small">
+                            <h3 className="title-small">
                                 Information
-                            </Typography>
+                            </h3>
                         </td>
                     </tr>
                 </thead>

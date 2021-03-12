@@ -5,7 +5,6 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from '@material-ui/icons/Menu';
-import Typography from "@material-ui/core/Typography";
 import {Container} from "@material-ui/core";
 import {Router} from 'react-router';
 import {Route, Switch} from "react-router-dom";
@@ -21,9 +20,7 @@ function App(): JSX.Element {
                     <IconButton edge="start" color="inherit" aria-label="menu">
                         <MenuIcon/>
                     </IconButton>
-                    <Typography variant="h6">
-                        Books
-                    </Typography>
+                    <h4>Books</h4>
                 </Toolbar>
             </AppBar>
             <Container maxWidth="lg">
