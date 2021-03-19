@@ -1,14 +1,13 @@
 import React from 'react'
-import {Book, BookResponseData} from "../../types/types";
+import {Book} from "../../types/types";
 import DataRow from "./DataRow";
-import axios from "axios";
 import DateDataRow from "./DateDataRow";
-import {toBookRequest} from "../../utils";
 import {Dayjs} from "dayjs";
+import { updateBook } from '../../utils';
 
 interface Props {
     book: Book,
-    handleBookUpdate: (updatedBook: BookResponseData) => void
+    handleBookUpdate: (updatedBook: Book) => void
 }
 
 function MetaDataBlock(props: Props): JSX.Element {
@@ -48,13 +47,6 @@ function MetaDataBlock(props: Props): JSX.Element {
             </table>
         </div>
     );
-}
-
-const updateBook = async (isbn: string, book: Book, handleBookUpdate: (BookResponseData) => void): Promise<void> => {
-    const bookResponse = await axios.put(`http://localhost:8080/books/${isbn}`, {
-        ...toBookRequest(book)
-    });
-    handleBookUpdate(bookResponse.data);
 }
 
 export default MetaDataBlock;
