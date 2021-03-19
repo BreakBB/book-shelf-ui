@@ -3,9 +3,9 @@ import useTheme from "@material-ui/core/styles/useTheme";
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import IconButton from "@material-ui/core/IconButton";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import dayjs, {Dayjs} from "dayjs";
+import {LocalizedDatePicker} from "../../ComponentLib/LocalizedDatePicker";
 
 interface Props {
     title: string,
@@ -31,7 +31,7 @@ function DateDataRow(props: Props): JSX.Element {
             {editMode
                 ? <>
                     <td style={{width: "45%"}}>
-                        <DatePicker id="releaseDate" selected={rowValue.toDate()} onChange={(newDate) => setRowValue(dayjs(newDate))}/>
+                        <LocalizedDatePicker id="releaseDate" selected={rowValue.toDate()} onChange={(newDate) => setRowValue(dayjs(newDate))}/>
                     </td>
                     <td style={{width: "10%", textAlign: "center"}}>
                         <IconButton onClick={handleChangeDone}>
