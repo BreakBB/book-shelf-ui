@@ -1,30 +1,20 @@
 import React from 'react';
-import DataRow from "./DataRow";
 import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import {EditableInput} from "./EditableInput";
 
-describe('DataRow', () => {
-    const title = "This is a title";
+describe('EditableInput', () => {
     const value = "This is a value";
     const onChangeDoneMock = jest.fn();
 
-    beforeEach(() => {
-
+    const initTest = (isHeader?: boolean) => {
         render(
-            <table>
-                <tbody>
-                    <DataRow title={title} value={value} onChangeDone={onChangeDoneMock}/>
-                </tbody>
-            </table>
+            <EditableInput text={value} header={isHeader} onChangeDone={onChangeDoneMock}/>
         );
-    });
-
-    it('should render title and value', () => {
-        screen.getByText(title);
-        screen.getByText(value);
-    });
+    }
 
     it('should switch to editMode if edit button is clicked', async () => {
+        initTest();
         screen.getByText(value);
         const editButton = screen.getByRole("button");
         userEvent.click(editButton);
@@ -35,6 +25,7 @@ describe('DataRow', () => {
     });
 
     it('should switch back to view mode if edit button is pressed twice', () => {
+        initTest();
         const editButton = screen.getByRole("button");
         userEvent.click(editButton);
 
@@ -46,6 +37,7 @@ describe('DataRow', () => {
     });
 
     it('should call onChangeDone callback if the value changed', () => {
+        initTest();
         const newValue = "Some other value";
         const editButton = screen.getByRole("button");
         userEvent.click(editButton);
@@ -61,6 +53,7 @@ describe('DataRow', () => {
     });
 
     it('should not call onChangeDone callback if value did not change', () => {
+        initTest();
         const editButton = screen.getByRole("button");
         userEvent.click(editButton);
 
@@ -69,5 +62,16 @@ describe('DataRow', () => {
 
         screen.getByText(value);
         expect(onChangeDoneMock).not.toHaveBeenCalled();
+    });
+
+    it('should render as header if header prop is given', () => {
+        initTest(true);
+
+        const textSpan = screen.getByText(value) as HTMLSpanElement;
+
+        const parentDiv = textSpan.parentElement;
+        expect(parentDiv).not.toBeNull();
+        expect(parentDiv?.parentElement).not.toBeNull();
+        expect(parentDiv?.parentElement?.className).toBe("header")
     });
 });

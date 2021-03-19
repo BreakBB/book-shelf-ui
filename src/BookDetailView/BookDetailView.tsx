@@ -4,11 +4,11 @@ import {useHistory, useParams} from 'react-router-dom';
 import {Book, BookResponseData} from "../types/types";
 import axios, {AxiosResponse} from "axios";
 import Grid from '@material-ui/core/Grid/Grid';
-import MetaDataBlock from "./MetaDataBlock/MetaDataBlock";
 import "./BookDetailView.css";
 import {toast} from "react-toastify";
 import {toBook, updateBook} from "../utils";
-import {EditableHeader} from "./EditableHeader";
+import MetaDataBlock from "./MetaDataBlock";
+import {EditableInput} from '../ComponentLib/EditableInput';
 
 interface ParamTypes {
     isbn: string;
@@ -41,7 +41,7 @@ function BookDetailView(): JSX.Element {
             {
                 book ? (
                     <div className="book-detail">
-                        <EditableHeader text={book.title} onChangeDone={handleTitleChange}/>
+                        <EditableInput text={book.title} header onChangeDone={handleTitleChange}/>
                         {/*<h1 className="title">*/}
                         {/*    {book.title}*/}
                         {/*</h1>*/}

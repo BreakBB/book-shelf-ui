@@ -3,21 +3,24 @@ import useTheme from "@material-ui/core/styles/useTheme";
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import IconButton from "@material-ui/core/IconButton";
+import "react-datepicker/dist/react-datepicker.css";
 import "./DataRow.css"
+import dayjs, {Dayjs} from "dayjs";
+import {LocalizedDatePicker} from "../../ComponentLib/LocalizedDatePicker";
 
 interface Props {
     title: string,
-    value: string,
-    onChangeDone: (string) => void
+    value: Dayjs,
+    onChangeDone: (Dayjs) => void
 }
 
-function DataRow(props: Props): JSX.Element {
+function DateDataRow(props: Props): JSX.Element {
     const theme = useTheme();
     const [editMode, setEditMode] = useState(false);
     const [rowValue, setRowValue] = useState(props.value);
 
     const handleChangeDone = () => {
-        if (rowValue !== props.value) {
+        if (props.value.diff(rowValue)) {
             props.onChangeDone(rowValue);
         }
         setEditMode(false);
@@ -29,18 +32,16 @@ function DataRow(props: Props): JSX.Element {
             {editMode
                 ? <>
                     <td className="data-value">
-                        <input value={rowValue} onChange={(event) => setRowValue(event.target.value)}/>
-                    </td>
-                    <td className="edit-button">
-                        <IconButton onClick={handleChangeDone}>
+                        <LocalizedDatePicker id="releaseDate" selected={rowValue.toDate()} onChange={(newDate) => setRowValue(dayjs(newDate))}/>
+                        <IconButton style={{marginLeft: "auto"}} onClick={handleChangeDone}>
                             <DoneIcon />
                         </IconButton>
                     </td>
                 </>
                 : <>
-                    <td className="data-value"><span>{rowValue}</span></td>
-                    <td className="edit-button">
-                        <IconButton onClick={() => setEditMode(true)}>
+                    <td className="data-value">
+                        <span>{props.value.format("DD.MM.YYYY")}</span>
+                        <IconButton style={{marginLeft: "auto"}} onClick={() => setEditMode(true)}>
                             <EditIcon />
                         </IconButton>
                     </td>
@@ -50,4 +51,4 @@ function DataRow(props: Props): JSX.Element {
     );
 }
 
-export default DataRow;
+export default DateDataRow;
