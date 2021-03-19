@@ -3,7 +3,7 @@ import useTheme from "@material-ui/core/styles/useTheme";
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import IconButton from "@material-ui/core/IconButton";
-import "react-datepicker/dist/react-datepicker.css";
+import "./DataRow.css"
 
 interface Props {
     title: string,
@@ -25,21 +25,21 @@ function DataRow(props: Props): JSX.Element {
 
     return (
         <tr className="data-row">
-            <td style={{width: "35%", color: theme.palette.text.secondary}}>{props.title}</td>
+            <td className="data-key" style={{color: theme.palette.text.secondary}}>{props.title}</td>
             {editMode
                 ? <>
-                    <td style={{width: "45%"}}>
+                    <td className="data-value">
                         <input value={rowValue} onChange={(event) => setRowValue(event.target.value)}/>
                     </td>
-                    <td style={{width: "10%", textAlign: "center"}}>
+                    <td className="edit-button">
                         <IconButton onClick={handleChangeDone}>
                             <DoneIcon />
                         </IconButton>
                     </td>
                 </>
                 : <>
-                    <td style={{width: "45%"}}>{props.value}</td>
-                    <td style={{width: "10%", textAlign: "center"}}>
+                    <td className="data-value"><span>{props.value}</span></td>
+                    <td className="edit-button">
                         <IconButton onClick={() => setEditMode(true)}>
                             <EditIcon />
                         </IconButton>

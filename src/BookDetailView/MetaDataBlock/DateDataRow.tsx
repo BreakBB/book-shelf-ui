@@ -4,6 +4,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import IconButton from "@material-ui/core/IconButton";
 import "react-datepicker/dist/react-datepicker.css";
+import "./DataRow.css"
 import dayjs, {Dayjs} from "dayjs";
 import {LocalizedDatePicker} from "../../ComponentLib/LocalizedDatePicker";
 
@@ -27,21 +28,21 @@ function DateDataRow(props: Props): JSX.Element {
 
     return (
         <tr className="data-row">
-            <td style={{width: "35%", color: theme.palette.text.secondary}}>{props.title}</td>
+            <td className="data-key" style={{color: theme.palette.text.secondary}}>{props.title}</td>
             {editMode
                 ? <>
-                    <td style={{width: "45%"}}>
+                    <td className="data-value">
                         <LocalizedDatePicker id="releaseDate" selected={rowValue.toDate()} onChange={(newDate) => setRowValue(dayjs(newDate))}/>
                     </td>
-                    <td style={{width: "10%", textAlign: "center"}}>
+                    <td className="edit-button">
                         <IconButton onClick={handleChangeDone}>
                             <DoneIcon />
                         </IconButton>
                     </td>
                 </>
                 : <>
-                    <td style={{width: "45%"}}>{props.value.format("DD.MM.YYYY")}</td>
-                    <td style={{width: "10%", textAlign: "center"}}>
+                    <td className="data-value"><span>{props.value.format("DD.MM.YYYY")}</span></td>
+                    <td className="edit-button">
                         <IconButton onClick={() => setEditMode(true)}>
                             <EditIcon />
                         </IconButton>

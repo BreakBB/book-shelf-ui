@@ -1,0 +1,28 @@
+.data-key {
+  width: 35%;
+}
+
+.data-value {
+  width: 45%;
+}
+
+.data-value > span {
+  padding-left: 0.35rem;
+}
+
+.data-value input {
+  width: 90%;
+  font-size: 1rem;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #9e9e9e;
+}
+
+.data-value input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #9e9e9e;
+}
+
+.edit-button {
+  width: 10%;
+}
