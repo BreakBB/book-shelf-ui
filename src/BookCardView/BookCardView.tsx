@@ -2,13 +2,13 @@ import React, {useEffect, useState} from "react";
 import {Book, BookResponseData, NewBookRequest} from "../types/types";
 import axios, {AxiosResponse} from "axios";
 import "./BookCardView.css";
-import dayjs from "dayjs";
 import BookCard from "./BookCard/BookCard";
 import AddIcon from "@material-ui/icons/Add";
 import useTheme from "@material-ui/core/styles/useTheme";
 import NewBookModal from "./NewBookModal/NewBookModal";
 import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import {toBook} from "../utils";
 
 export const NO_BOOKS_YET = "You don't have any books in your Collection yet. Go ahead and add some!";
 export const YOUR_COLLECTION = "Your Collection";
@@ -77,10 +77,7 @@ function useBooks(): Book[] {
 
 function transformReleaseDates(responseData: BookResponseData[]) {
     return responseData.map((bookData): Book => {
-        return {
-            ...bookData,
-            releaseDate: dayjs(bookData.releaseDate, "DD.MM.yyyy")
-        }
+        return toBook(bookData);
     });
 }
 
