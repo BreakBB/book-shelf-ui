@@ -3,21 +3,23 @@ import useTheme from "@material-ui/core/styles/useTheme";
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import IconButton from "@material-ui/core/IconButton";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import dayjs, {Dayjs} from "dayjs";
 
 interface Props {
     title: string,
-    value: string,
-    onChangeDone: (string) => void
+    value: Dayjs,
+    onChangeDone: (Dayjs) => void
 }
 
-function DataRow(props: Props): JSX.Element {
+function DateDataRow(props: Props): JSX.Element {
     const theme = useTheme();
     const [editMode, setEditMode] = useState(false);
     const [rowValue, setRowValue] = useState(props.value);
 
     const handleChangeDone = () => {
-        if (rowValue !== props.value) {
+        if (props.value.diff(rowValue)) {
             props.onChangeDone(rowValue);
         }
         setEditMode(false);
@@ -29,7 +31,7 @@ function DataRow(props: Props): JSX.Element {
             {editMode
                 ? <>
                     <td style={{width: "45%"}}>
-                        <input value={rowValue} onChange={(event) => setRowValue(event.target.value)}/>
+                        <DatePicker id="releaseDate" selected={rowValue.toDate()} onChange={(newDate) => setRowValue(dayjs(newDate))}/>
                     </td>
                     <td style={{width: "10%", textAlign: "center"}}>
                         <IconButton onClick={handleChangeDone}>
@@ -38,7 +40,7 @@ function DataRow(props: Props): JSX.Element {
                     </td>
                 </>
                 : <>
-                    <td style={{width: "45%"}}>{props.value}</td>
+                    <td style={{width: "45%"}}>{props.value.format("DD.MM.YYYY")}</td>
                     <td style={{width: "10%", textAlign: "center"}}>
                         <IconButton onClick={() => setEditMode(true)}>
                             <EditIcon />
@@ -50,4 +52,4 @@ function DataRow(props: Props): JSX.Element {
     );
 }
 
-export default DataRow;
+export default DateDataRow;

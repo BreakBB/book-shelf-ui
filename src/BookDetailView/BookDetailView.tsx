@@ -6,8 +6,8 @@ import axios, {AxiosResponse} from "axios";
 import Grid from '@material-ui/core/Grid/Grid';
 import MetaDataBlock from "./MetaDataBlock/MetaDataBlock";
 import "./BookDetailView.css";
-import dayjs from "dayjs";
 import {toast} from "react-toastify";
+import {toBook} from "../utils";
 
 interface ParamTypes {
     isbn: string;
@@ -15,7 +15,7 @@ interface ParamTypes {
 
 function BookDetailView(): JSX.Element {
     const {isbn} = useParams<ParamTypes>();
-    const book = useBook(isbn);
+    const [book, setBook] = useBook(isbn);
     const history = useHistory();
 
     const deleteBook = async () => {
@@ -37,14 +37,14 @@ function BookDetailView(): JSX.Element {
                             {book.title}
                         </h1>
                         <Grid container spacing={2}>
-                            <Grid item md={2}>
+                            <Grid item md={2} xs={12}>
                                 <img src={`http://localhost:8080/covers/${book.isbn}`} alt={book.title}/>
                             </Grid>
-                            <Grid item md={4}>
-                                <MetaDataBlock book={book}/>
-                                <tr style={{float: "right", marginTop: "1rem"}}>
+                            <Grid item md={4} xs={12}>
+                                <MetaDataBlock book={book} handleBookUpdate={(book: BookResponseData) => setBook(toBook(book))}/>
+                                <div style={{float: "right", marginTop: "1rem"}}>
                                     <Button variant="outlined" onClick={deleteBook}>Delete Book</Button>
-                                </tr>
+                                </div>
                             </Grid>
                         </Grid>
                     </div>
@@ -56,7 +56,7 @@ function BookDetailView(): JSX.Element {
     );
 }
 
-const useBook = (isbn: string): Book | undefined => {
+const useBook = (isbn: string): [Book | undefined, (Book) => void] => {
     const [book, setBook] = useState<Book>();
 
     useEffect(() => {
@@ -68,10 +68,7 @@ const useBook = (isbn: string): Book | undefined => {
             const response: AxiosResponse<BookResponseData> = await axios.get(`http://localhost:8080/books/${isbn}`);
 
             if (response.data) {
-                const book: Book = {
-                    ...response.data,
-                    releaseDate: dayjs(response.data.releaseDate)
-                }
+                const book = toBook(response.data);
                 setBook(book);
                 return book;
             }
@@ -81,7 +78,7 @@ const useBook = (isbn: string): Book | undefined => {
         .then((book: Book) => console.log(`Fetched Book '${book.title}'`))
         .catch(e => console.warn(`Could not fetch book with isbn '${isbn}'`, e));
     }, [isbn])
-    return book;
+    return [book, setBook];
 }
 
 export default BookDetailView;
