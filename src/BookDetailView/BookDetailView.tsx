@@ -7,7 +7,8 @@ import Grid from '@material-ui/core/Grid/Grid';
 import MetaDataBlock from "./MetaDataBlock/MetaDataBlock";
 import "./BookDetailView.css";
 import {toast} from "react-toastify";
-import {toBook} from "../utils";
+import {toBook, updateBook} from "../utils";
+import {EditableHeader} from "./EditableHeader";
 
 interface ParamTypes {
     isbn: string;
@@ -21,27 +22,35 @@ function BookDetailView(): JSX.Element {
     const deleteBook = async () => {
         try {
             await axios.delete(`http://localhost:8080/books/${isbn}`);
-            toast.success("Successfully removed the book");
+            toast.success(`Successfully removed '${book?.title}'`);
             history.push("/")
         } catch (e) {
             toast.error("Failed to delete the book");
         }
     }
 
+    const handleTitleChange = async (newTitle: string) => {
+        if (book !== undefined) {
+            book.title = newTitle;
+            await updateBook(book.isbn, book, setBook)
+        }
+    };
+
     return (
         <Paper className="book-detail-paper">
             {
                 book ? (
                     <div className="book-detail">
-                        <h1 className="title">
-                            {book.title}
-                        </h1>
+                        <EditableHeader text={book.title} onChangeDone={handleTitleChange}/>
+                        {/*<h1 className="title">*/}
+                        {/*    {book.title}*/}
+                        {/*</h1>*/}
                         <Grid container spacing={2}>
                             <Grid item md={2} xs={12}>
                                 <img src={`http://localhost:8080/covers/${book.isbn}`} alt={book.title}/>
                             </Grid>
                             <Grid item md={4} xs={12}>
-                                <MetaDataBlock book={book} handleBookUpdate={(book: BookResponseData) => setBook(toBook(book))}/>
+                                <MetaDataBlock book={book} handleBookUpdate={setBook}/>
                                 <div style={{float: "right", marginTop: "1rem"}}>
                                     <Button variant="outlined" onClick={deleteBook}>Delete Book</Button>
                                 </div>
