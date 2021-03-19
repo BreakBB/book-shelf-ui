@@ -38,7 +38,7 @@ function DataRow(props: Props): JSX.Element {
                     </td>
                 </>
                 : <>
-                    <td className="data-value"><span>{props.value}</span></td>
+                    <td className="data-value"><span>{rowValue}</span></td>
                     <td className="edit-button">
                         <IconButton onClick={() => setEditMode(true)}>
                             <EditIcon />
