@@ -5,6 +5,7 @@ import {renderWithRouterMatch, TEST_BOOKS} from "../testUtils";
 import BookDetailView from "./BookDetailView";
 import {history} from "../history";
 import userEvent from "@testing-library/user-event";
+import {BASE_URL} from "../bookService";
 
 describe('BookCardView', () => {
     let axiosMockedGet;
@@ -27,11 +28,11 @@ describe('BookCardView', () => {
 
         // We need to use waitFor because we have an async call in our component which changes the state
         await waitFor(() => {
-            expect(axiosMockedGet).toHaveBeenCalledWith(`http://localhost:8080/books/${book.isbn}`)
+            expect(axiosMockedGet).toHaveBeenCalledWith(`${BASE_URL}/books/${book.isbn}`)
         });
         getByText(book.title);
         const coverImage = getByAltText(book.title) as HTMLImageElement;
-        expect(coverImage.src).toBe(`http://localhost:8080/covers/${book.isbn}`)
+        expect(coverImage.src).toBe(`${BASE_URL}/covers/${book.isbn}`)
     });
 
     it('should show "no details" placeholder without a isbn', async () => {
@@ -51,7 +52,7 @@ describe('BookCardView', () => {
         const {getByText} = renderWithRouterMatch(BookDetailView, '/:isbn');
 
         await waitFor(() => {
-            expect(axiosMockedGet).toHaveBeenCalledWith(`http://localhost:8080/books/${book.isbn}`)
+            expect(axiosMockedGet).toHaveBeenCalledWith(`${BASE_URL}/books/${book.isbn}`)
         })
         getByText("No Details");
     });
@@ -64,7 +65,7 @@ describe('BookCardView', () => {
         const {getAllByRole} = renderWithRouterMatch(BookDetailView, '/:isbn');
 
         await waitFor(() => {
-            expect(axiosMockedGet).toHaveBeenCalledWith(`http://localhost:8080/books/${book.isbn}`)
+            expect(axiosMockedGet).toHaveBeenCalledWith(`${BASE_URL}/books/${book.isbn}`)
         })
         const allButtons = getAllByRole("button");
 

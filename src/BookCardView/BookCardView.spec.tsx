@@ -4,6 +4,9 @@ import BookCardView, {NO_BOOKS_YET, YOUR_COLLECTION} from "./BookCardView";
 import axios from "axios";
 import {BookResponseData} from "../types/types";
 import {TEST_BOOKS} from "../testUtils";
+import {BASE_URL} from "../bookService";
+
+const bookUrl = `${BASE_URL}/books`;
 
 describe('BookCardView', () => {
     let axiosMockedGet;
@@ -24,7 +27,7 @@ describe('BookCardView', () => {
 
         // We need to use waitFor because we have an async call in our component which changes the state
         await waitFor(() => {
-            expect(axiosMockedGet).toHaveBeenCalledWith("http://localhost:8080/books")
+            expect(axiosMockedGet).toHaveBeenCalledWith(bookUrl)
         })
         const header: HTMLElement = getByText(YOUR_COLLECTION);
         expect(header).not.toBeUndefined();
@@ -41,7 +44,7 @@ describe('BookCardView', () => {
         const {getByText, queryByText} = render(<BookCardView/>);
 
         await waitFor(() => {
-            expect(axiosMockedGet).toHaveBeenCalledWith("http://localhost:8080/books")
+            expect(axiosMockedGet).toHaveBeenCalledWith(bookUrl)
         });
         expect(queryByText(NO_BOOKS_YET)).toBeNull();
         const header: HTMLElement = getByText(YOUR_COLLECTION);
@@ -56,7 +59,7 @@ describe('BookCardView', () => {
         const {getByText} = render(<BookCardView/>);
 
         await waitFor(() => {
-            expect(axiosMockedGet).toHaveBeenCalledWith("http://localhost:8080/books")
+            expect(axiosMockedGet).toHaveBeenCalledWith(bookUrl)
         });
         getByText(NO_BOOKS_YET);
         const header: HTMLElement = getByText(YOUR_COLLECTION);
@@ -74,7 +77,7 @@ describe('BookCardView', () => {
         const {getByText} = render(<BookCardView/>);
 
         await waitFor(() => {
-            expect(axiosMockedGet).toHaveBeenCalledWith("http://localhost:8080/books")
+            expect(axiosMockedGet).toHaveBeenCalledWith(bookUrl)
         });
         getByText(NO_BOOKS_YET);
     });

@@ -1,16 +1,15 @@
 import {Button, Paper} from '@material-ui/core';
 import React, {useEffect, useState} from 'react'
 import {useHistory, useParams} from 'react-router-dom';
-import {Book, BookResponseData} from "../types/types";
-import axios, {AxiosResponse} from "axios";
+import {Book} from "../types/types";
 import Grid from '@material-ui/core/Grid/Grid';
 import "./BookDetailView.css";
 import {toast} from "react-toastify";
-import {toBook, updateBook} from "../utils";
 import MetaDataBlock from "./MetaDataBlock";
 import {EditableInput} from '../ComponentLib/EditableInput';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from "@material-ui/core/IconButton";
+import {BASE_URL, deleteBook, getBook, updateBook} from "../bookService";
 
 interface ParamTypes {
     isbn: string;
@@ -21,9 +20,9 @@ function BookDetailView(): JSX.Element {
     const [book, setBook] = useBook(isbn);
     const history = useHistory();
 
-    const deleteBook = async () => {
+    const handleClick = () => {
         try {
-            await axios.delete(`http://localhost:8080/books/${isbn}`);
+            void deleteBook(isbn);
             toast.success(`Successfully removed '${book?.title}'`);
             history.push("/")
         } catch (e) {
@@ -41,7 +40,7 @@ function BookDetailView(): JSX.Element {
     return (
         <Paper className="book-detail-paper">
             <IconButton onClick={() => history.push("/")}>
-                <ArrowBackIcon />
+                <ArrowBackIcon/>
             </IconButton>
             {
                 book ? (
@@ -50,12 +49,12 @@ function BookDetailView(): JSX.Element {
                             <EditableInput text={book.title} header onChangeDone={handleTitleChange}/>
                         </Grid>
                         <Grid item md={2} xs={12}>
-                            <img src={`http://localhost:8080/covers/${book.isbn}`} alt={book.title}/>
+                            <img src={`${BASE_URL}/covers/${book.isbn}`} alt={book.title}/>
                         </Grid>
                         <Grid item md={4} xs={12}>
                             <MetaDataBlock book={book} handleBookUpdate={setBook}/>
                             <div style={{float: "right", marginTop: "1rem"}}>
-                                <Button variant="outlined" onClick={deleteBook}>Delete Book</Button>
+                                <Button variant="outlined" onClick={handleClick}>Delete Book</Button>
                             </div>
                         </Grid>
                     </Grid>
@@ -75,15 +74,10 @@ const useBook = (isbn: string): [Book | undefined, (Book) => void] => {
             if (isbn === undefined) {
                 throw Error("Given isbn is undefined");
             }
+            const book = await getBook(isbn);
+            setBook(book);
 
-            const response: AxiosResponse<BookResponseData> = await axios.get(`http://localhost:8080/books/${isbn}`);
-
-            if (response.data) {
-                const book = toBook(response.data);
-                setBook(book);
-                return book;
-            }
-            throw Error("No response data");
+            return book;
         }
         fetchBook()
         .then((book: Book) => console.log(`Fetched Book '${book.title}'`))

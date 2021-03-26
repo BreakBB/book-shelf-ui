@@ -1,9 +1,9 @@
 import React from 'react'
 import {Dayjs} from "dayjs";
 import {Book} from "../types/types";
-import {updateBook} from "../utils";
 import DataRow from "./DataRow/DataRow";
 import DateDataRow from "./DataRow/DateDataRow";
+import {updateBook} from "../bookService";
 
 interface Props {
     book: Book,

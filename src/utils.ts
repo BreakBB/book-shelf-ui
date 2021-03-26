@@ -1,6 +1,5 @@
 import {Book, BookResponseData, NewBookRequest} from "./types/types";
 import dayjs from "dayjs";
-import axios from "axios";
 
 export const toBook = (book: BookResponseData): Book => {
     return {
@@ -16,9 +15,8 @@ export const toBookRequest = (book: Book): NewBookRequest => {
     }
 }
 
-export const updateBook = async (isbn: string, book: Book, handleBookUpdate: (Book) => void): Promise<void> => {
-    const bookResponse = await axios.put(`http://localhost:8080/books/${isbn}`, {
-        ...toBookRequest(book)
+export const transformReleaseDates = (responseData: BookResponseData[]): Book[] => {
+    return responseData.map((bookData): Book => {
+        return toBook(bookData);
     });
-    handleBookUpdate(toBook(bookResponse.data));
 }

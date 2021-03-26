@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Book, BookResponseData, NewBookRequest} from "../types/types";
-import axios, {AxiosResponse} from "axios";
+import {Book, NewBookRequest} from "../types/types";
 import "./BookCardView.css";
 import BookCard from "./BookCard/BookCard";
 import AddIcon from "@material-ui/icons/Add";
@@ -8,7 +7,7 @@ import useTheme from "@material-ui/core/styles/useTheme";
 import NewBookModal from "./NewBookModal/NewBookModal";
 import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import {toBook} from "../utils";
+import {createNewBook, getAllBooks} from "../bookService";
 
 export const NO_BOOKS_YET = "You don't have any books in your Collection yet. Go ahead and add some!";
 export const YOUR_COLLECTION = "Your Collection";
@@ -19,17 +18,13 @@ function BookCardView(): JSX.Element {
     const theme = useTheme();
 
     const handleNewBookSubmit = (newBook: NewBookRequest) => {
-        postNewBookData(newBook)
+        createNewBook(newBook)
         .then(() => {
             toast.success("A new book was added");
         })
         .catch(() => {
             toast.error("The new book could not be added");
         })
-    }
-
-    const postNewBookData = async (newBook: NewBookRequest) => {
-        await axios.post("http://localhost:8080/books", newBook);
     }
 
     return (
@@ -61,9 +56,7 @@ function useBooks(): Book[] {
 
     useEffect(() => {
         const fetchBooks = async (): Promise<number> => {
-            const response: AxiosResponse<BookResponseData[]> = await axios.get("http://localhost:8080/books");
-
-            const books = transformReleaseDates(response.data);
+            const books = await getAllBooks();
 
             setBooks(books);
             return books.length;
@@ -73,12 +66,6 @@ function useBooks(): Book[] {
         .catch(e => console.warn("Could not fetch books", e));
     }, [])
     return books;
-}
-
-function transformReleaseDates(responseData: BookResponseData[]) {
-    return responseData.map((bookData): Book => {
-        return toBook(bookData);
-    });
 }
 
 export default BookCardView;
