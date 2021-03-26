@@ -4,6 +4,7 @@ import {BookResponseData} from "../types/types";
 import {renderWithRouterMatch, TEST_BOOKS} from "../testUtils";
 import BookDetailView from "./BookDetailView";
 import {history} from "../history";
+import userEvent from "@testing-library/user-event";
 
 describe('BookCardView', () => {
     let axiosMockedGet;
@@ -53,5 +54,22 @@ describe('BookCardView', () => {
             expect(axiosMockedGet).toHaveBeenCalledWith(`http://localhost:8080/books/${book.isbn}`)
         })
         getByText("No Details");
+    });
+
+    it('should navigate to book overview on back button click', async () => {
+        const book = TEST_BOOKS.harryPotter1;
+        mockAxios(book);
+        history.push(`/${book.isbn}`)
+
+        const {getAllByRole} = renderWithRouterMatch(BookDetailView, '/:isbn');
+
+        await waitFor(() => {
+            expect(axiosMockedGet).toHaveBeenCalledWith(`http://localhost:8080/books/${book.isbn}`)
+        })
+        const allButtons = getAllByRole("button");
+
+        userEvent.click(allButtons[0]);
+
+        expect(history.location.pathname).toBe("/");
     });
 });

@@ -9,6 +9,8 @@ import {toast} from "react-toastify";
 import {toBook, updateBook} from "../utils";
 import MetaDataBlock from "./MetaDataBlock";
 import {EditableInput} from '../ComponentLib/EditableInput';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import IconButton from "@material-ui/core/IconButton";
 
 interface ParamTypes {
     isbn: string;
@@ -38,25 +40,25 @@ function BookDetailView(): JSX.Element {
 
     return (
         <Paper className="book-detail-paper">
+            <IconButton onClick={() => history.push("/")}>
+                <ArrowBackIcon />
+            </IconButton>
             {
                 book ? (
-                    <div className="book-detail">
-                        <EditableInput text={book.title} header onChangeDone={handleTitleChange}/>
-                        {/*<h1 className="title">*/}
-                        {/*    {book.title}*/}
-                        {/*</h1>*/}
-                        <Grid container spacing={2}>
-                            <Grid item md={2} xs={12}>
-                                <img src={`http://localhost:8080/covers/${book.isbn}`} alt={book.title}/>
-                            </Grid>
-                            <Grid item md={4} xs={12}>
-                                <MetaDataBlock book={book} handleBookUpdate={setBook}/>
-                                <div style={{float: "right", marginTop: "1rem"}}>
-                                    <Button variant="outlined" onClick={deleteBook}>Delete Book</Button>
-                                </div>
-                            </Grid>
+                    <Grid container spacing={2}>
+                        <Grid item md={12} xs={12}>
+                            <EditableInput text={book.title} header onChangeDone={handleTitleChange}/>
                         </Grid>
-                    </div>
+                        <Grid item md={2} xs={12}>
+                            <img src={`http://localhost:8080/covers/${book.isbn}`} alt={book.title}/>
+                        </Grid>
+                        <Grid item md={4} xs={12}>
+                            <MetaDataBlock book={book} handleBookUpdate={setBook}/>
+                            <div style={{float: "right", marginTop: "1rem"}}>
+                                <Button variant="outlined" onClick={deleteBook}>Delete Book</Button>
+                            </div>
+                        </Grid>
+                    </Grid>
                 ) : <p>
                     No Details
                 </p>
