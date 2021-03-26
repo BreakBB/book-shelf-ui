@@ -34,10 +34,6 @@ function MetaDataBlock(props: Props): JSX.Element {
             </h3>
             <table style={{width: "100%"}}>
                 <thead>
-                    {/*<tr style={{textAlign: "center"}}>*/}
-                    {/*    <td colSpan={4}>*/}
-                    {/*    </td>*/}
-                    {/*</tr>*/}
                 </thead>
                 <tbody>
                     <DataRow title="Author" value={book.author} onChangeDone={handleAuthorChange}/>

@@ -22,7 +22,7 @@ describe('NewBookModal', () => {
             title: "Some Book Title",
             isbn: "Some ISBN",
             author: "Some Book Author",
-            releaseDate: dayjs("03/12/2021").toISOString()
+            releaseDate: dayjs("03/12/2021").format("YYYY-MM-DD")
         });
     });
 });

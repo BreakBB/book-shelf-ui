@@ -1,7 +1,7 @@
 import React from 'react';
 import useTheme from "@material-ui/core/styles/useTheme";
 import "./DataRow.css"
-import { EditableInput } from '../../ComponentLib/EditableInput';
+import {EditableInput} from '../../ComponentLib/EditableInput';
 
 interface Props {
     title: string,

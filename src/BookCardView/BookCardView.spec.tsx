@@ -28,7 +28,7 @@ describe('BookCardView', () => {
         })
         const header: HTMLElement = getByText(YOUR_COLLECTION);
         expect(header).not.toBeUndefined();
-        expect(header.tagName).toBe("H3");
+        expect(header.tagName).toBe("H1");
         expect(header.classList).toContain("title");
     });
 
