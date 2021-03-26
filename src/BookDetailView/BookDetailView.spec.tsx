@@ -14,7 +14,7 @@ describe('BookCardView', () => {
     }
 
     afterEach(() => {
-        history.goBack();
+        history.push('/');
     });
 
     it('should render the book details', async () => {
@@ -27,9 +27,8 @@ describe('BookCardView', () => {
         // We need to use waitFor because we have an async call in our component which changes the state
         await waitFor(() => {
             expect(axiosMockedGet).toHaveBeenCalledWith(`http://localhost:8080/books/${book.isbn}`)
-        })
-        const pageTitle: HTMLElement = getByText(book.title);
-        expect(pageTitle.tagName).toBe("H3");
+        });
+        getByText(book.title);
         const coverImage = getByAltText(book.title) as HTMLImageElement;
         expect(coverImage.src).toBe(`http://localhost:8080/covers/${book.isbn}`)
     });
