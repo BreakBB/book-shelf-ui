@@ -1,13 +1,13 @@
 import React from 'react';
 import NewBookModal from "./NewBookModal";
-import {render} from "@testing-library/react";
+import {render, screen} from '@testing-library/react';
 import userEvent from "@testing-library/user-event";
 import dayjs from "dayjs";
 
 describe('NewBookModal', () => {
     it('should submit the new book data when all fields are filled', () => {
         const onSubmitMock = jest.fn();
-        const {getByLabelText, getByText} = render(<NewBookModal show={true} onClose={jest.fn()} onSubmit={onSubmitMock}/>);
+        const {getByLabelText, getByText} = render(<NewBookModal show={true} onClose={jest.fn()} onSubmit={onSubmitMock} bookAlreadyExists={false}/>);
 
         userEvent.type(getByLabelText("Book name"), "Some Book Title");
         userEvent.type(getByLabelText("ISBN"), "Some ISBN");
@@ -24,5 +24,12 @@ describe('NewBookModal', () => {
             author: "Some Book Author",
             releaseDate: dayjs("03/12/2021").format("YYYY-MM-DD")
         });
+    });
+
+    it('should render book already exists error message', () => {
+        const onSubmitMock = jest.fn();
+        render(<NewBookModal show={true} onClose={jest.fn()} onSubmit={onSubmitMock} bookAlreadyExists={true}/>);
+
+        screen.getByText("This book is already in your library")
     });
 });

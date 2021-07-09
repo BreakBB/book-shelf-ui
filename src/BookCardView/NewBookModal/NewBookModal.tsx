@@ -12,6 +12,7 @@ interface Props {
     show: boolean;
     onClose: () => void;
     onSubmit: (book: NewBookRequest) => void;
+    bookAlreadyExists: boolean;
 }
 
 const NewBookModal = (props: Props): JSX.Element => {
@@ -34,6 +35,10 @@ const NewBookModal = (props: Props): JSX.Element => {
         <Modal open={props.show} onClose={props.onClose}>
             <Paper className="form-container">
                 <h3 className="title-small">Add a new book</h3>
+                {props.bookAlreadyExists && <span style={{color: theme.palette.error.main}}>
+                        This book is already in your library
+                    </span>
+                }
                 <form className="form-block" onSubmit={handleSubmit}>
                     <FormInput label="Book name" name="title"/>
                     <FormInput label="ISBN" name="isbn"/>
@@ -42,15 +47,14 @@ const NewBookModal = (props: Props): JSX.Element => {
                     <DatePicker id="releaseDate" selected={releaseDate} onChange={setReleaseDate}/>
 
                     <div style={{width: "100%"}}>
-
-                    <Button
-                        type="submit"
-                        style={{
-                            backgroundColor: theme.palette.primary.dark,
-                            color: theme.palette.primary.contrastText
-                        }}>
-                        Create
-                    </Button>
+                        <Button
+                            type="submit"
+                            style={{
+                                backgroundColor: theme.palette.primary.dark,
+                                color: theme.palette.primary.contrastText
+                            }}>
+                            Create
+                        </Button>
                     </div>
                 </form>
             </Paper>

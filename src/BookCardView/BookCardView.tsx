@@ -8,6 +8,7 @@ import NewBookModal from "./NewBookModal/NewBookModal";
 import {toast} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {createNewBook, getAllBooks} from "../bookService";
+import {AxiosError} from "axios";
 
 export const NO_BOOKS_YET = "You don't have any books in your Collection yet. Go ahead and add some!";
 export const YOUR_COLLECTION = "Your Collection";
@@ -15,16 +16,23 @@ export const YOUR_COLLECTION = "Your Collection";
 function BookCardView(): JSX.Element {
     const books = useBooks();
     const [showModal, setShowModal] = useState(false);
+    const [bookAlreadyExists, setBookAlreadyExists] = useState(false);
     const theme = useTheme();
 
     const handleNewBookSubmit = (newBook: NewBookRequest) => {
         createNewBook(newBook)
         .then(() => {
             toast.success("A new book was added");
+            setBookAlreadyExists(false);
         })
-        .catch(() => {
+        .catch((e: AxiosError) => {
+            if (e.response?.status === 409) {
+                setBookAlreadyExists(true);
+                return;
+            }
+
             toast.error("The new book could not be added");
-        })
+        });
     }
 
     return (
@@ -46,7 +54,15 @@ function BookCardView(): JSX.Element {
                     <AddIcon className="placeholder-image-text" style={{fontSize: 90}}/>
                 </li>
             </ul>
-            <NewBookModal show={showModal} onClose={() => setShowModal(false)} onSubmit={handleNewBookSubmit}/>
+            <NewBookModal
+                show={showModal}
+                onClose={() => {
+                    setShowModal(false);
+                    setBookAlreadyExists(false);
+                }}
+                onSubmit={handleNewBookSubmit}
+                bookAlreadyExists={bookAlreadyExists}
+            />
         </>
     );
 }

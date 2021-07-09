@@ -6,7 +6,6 @@ import { Route } from "react-router-dom";
 
 export const TEST_BOOKS = {
     harryPotter1: {
-        id: 1,
         isbn: "3551551677",
         title: "Harry Potter und der Stein der Weisen",
         author: "J. K. Rowling",
@@ -14,7 +13,6 @@ export const TEST_BOOKS = {
         coverId: "abc123"
     },
     harryPotter2: {
-        id: 2,
         isbn: "3551551685",
         title: "Harry Potter und die Kammer des Schreckens",
         author: "J. K. Rowling",
