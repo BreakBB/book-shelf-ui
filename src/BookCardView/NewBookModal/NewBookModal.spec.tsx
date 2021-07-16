@@ -7,23 +7,31 @@ import dayjs from "dayjs";
 describe('NewBookModal', () => {
     it('should submit the new book data when all fields are filled', () => {
         const onSubmitMock = jest.fn();
-        const {getByLabelText, getByText} = render(<NewBookModal show={true} onClose={jest.fn()} onSubmit={onSubmitMock} bookAlreadyExists={false}/>);
+        render(<NewBookModal show={true} onClose={jest.fn()} onSubmit={onSubmitMock} bookAlreadyExists={false}/>);
 
-        userEvent.type(getByLabelText("Book name"), "Some Book Title");
-        userEvent.type(getByLabelText("ISBN"), "Some ISBN");
-        userEvent.type(getByLabelText("Author"), "Some Book Author");
-        const releaseDateInput = getByLabelText("Release Date");
-        userEvent.clear(releaseDateInput); // today's date is the initial value which we need to clear
-        userEvent.type(releaseDateInput, "03/12/2021");
+        userEvent.type(screen.getByLabelText("Book name"), "Some Book Title");
+        userEvent.type(screen.getByLabelText("ISBN"), "Some ISBN");
+        userEvent.type(screen.getByLabelText("Author"), "Some Book Author");
+        const releaseDateInput = screen.getByLabelText("Release Date");
+        userEvent.type(releaseDateInput, "2021-03-12"); // input of type date need this format
 
-        userEvent.click(getByText("Create"));
+        userEvent.click(screen.getByText("Create"));
 
         expect(onSubmitMock).toHaveBeenCalledWith({
             title: "Some Book Title",
             isbn: "Some ISBN",
             author: "Some Book Author",
-            releaseDate: dayjs("03/12/2021").format("YYYY-MM-DD")
+            releaseDate: dayjs("03.12.2021").format("YYYY-MM-DD")
         });
+    });
+
+    it('should not try to add a book without sufficient data', () => {
+        const onSubmitMock = jest.fn();
+        render(<NewBookModal show={true} onClose={jest.fn()} onSubmit={onSubmitMock} bookAlreadyExists={false}/>);
+
+        userEvent.click(screen.getByText("Create"));
+
+        expect(onSubmitMock).not.toHaveBeenCalled();
     });
 
     it('should render book already exists error message', () => {

@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
-import {Button, Modal, Paper} from "@material-ui/core";
+import React from 'react';
+import {Button, Dialog, DialogContent, DialogTitle} from "@material-ui/core";
 import './NewBookModal.css'
 import FormInput from "./FormInput";
 import useTheme from "@material-ui/core/styles/useTheme";
 import {NewBookRequest} from "../../types/types";
 import dayjs from "dayjs";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from '@material-ui/icons/Close';
 
 interface Props {
     show: boolean;
@@ -17,25 +17,37 @@ interface Props {
 
 const NewBookModal = (props: Props): JSX.Element => {
     const theme = useTheme();
-    const [releaseDate, setReleaseDate] = useState(new Date());
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
         const {title, isbn, author, releaseDate} = event.target.elements;
-        props.onSubmit({
-            title: title.value,
-            isbn: isbn.value,
-            author: author.value,
-            releaseDate: dayjs(releaseDate.value).format("YYYY-MM-DD")
-        })
+
+        const isValid = isValidBookRequest(title.value, isbn.value, author.value, releaseDate.value);
+
+        if (isValid) {
+            props.onSubmit({
+                title: title.value,
+                isbn: isbn.value,
+                author: author.value,
+                releaseDate: dayjs(releaseDate.value).format("YYYY-MM-DD")
+            });
+        } else {
+
+        }
     }
 
     return (
-        <Modal open={props.show} onClose={props.onClose}>
-            <Paper className="form-container">
-                <h3 className="title-small">Add a new book</h3>
-                {props.bookAlreadyExists && <span style={{color: theme.palette.error.main}}>
+        <Dialog open={props.show} onClose={props.onClose}>
+            <DialogTitle disableTypography className="dialogTitle">
+                <h3>Add a new book</h3>
+                <IconButton onClick={props.onClose}>
+                    <CloseIcon/>
+                </IconButton>
+            </DialogTitle>
+            <DialogContent>
+                {props.bookAlreadyExists &&
+                    <span style={{color: theme.palette.error.main}}>
                         This book is already in your library
                     </span>
                 }
@@ -43,9 +55,7 @@ const NewBookModal = (props: Props): JSX.Element => {
                     <FormInput label="Book name" name="title"/>
                     <FormInput label="ISBN" name="isbn"/>
                     <FormInput label="Author" name="author"/>
-                    <label htmlFor="releaseDate">Release Date</label>
-                    <DatePicker id="releaseDate" selected={releaseDate} onChange={setReleaseDate}/>
-
+                    <FormInput label="Release Date" name="releaseDate" type="date"/>
                     <div style={{width: "100%"}}>
                         <Button
                             type="submit"
@@ -57,9 +67,13 @@ const NewBookModal = (props: Props): JSX.Element => {
                         </Button>
                     </div>
                 </form>
-            </Paper>
-        </Modal>
+            </DialogContent>
+        </Dialog>
     );
+}
+
+const isValidBookRequest = (title: string, isbn: string, author: string, releaseDate: string): boolean => {
+    return !(!title || !isbn || !author || !releaseDate);
 }
 
 export default NewBookModal;
