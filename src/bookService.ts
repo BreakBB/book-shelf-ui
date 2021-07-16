@@ -16,8 +16,9 @@ export const getBook = async (isbn: string): Promise<Book> => {
     return toBook(response.data);
 }
 
-export const createNewBook = async (newBook: NewBookRequest): Promise<void> => {
-    await axios.post(`${BASE_URL}/books`, newBook);
+export const createNewBook = async (newBook: NewBookRequest): Promise<Book> => {
+    const axiosResponse: AxiosResponse<BookResponseData> = await axios.post(`${BASE_URL}/books`, newBook);
+    return toBook(axiosResponse.data);
 }
 
 export const deleteBook = async (isbn: string): Promise<void> => {

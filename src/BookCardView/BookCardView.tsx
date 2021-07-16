@@ -14,15 +14,28 @@ export const NO_BOOKS_YET = "You don't have any books in your Collection yet. Go
 export const YOUR_COLLECTION = "Your Collection";
 
 function BookCardView(): JSX.Element {
-    const books = useBooks();
+    const [books, setBooks] = useState<Book[]>([]);
     const [showModal, setShowModal] = useState(false);
     const [bookAlreadyExists, setBookAlreadyExists] = useState(false);
     const theme = useTheme();
 
+    useEffect(() => {
+        const fetchBooks = async (): Promise<number> => {
+            const books = await getAllBooks();
+
+            setBooks(books);
+            return books.length;
+        }
+        fetchBooks()
+        .then((length) => console.info(`Fetched ${length} book(s)`))
+        .catch(e => console.warn("Could not fetch books", e));
+    }, [])
+
     const handleNewBookSubmit = (newBook: NewBookRequest) => {
         createNewBook(newBook)
-        .then(() => {
+        .then((book: Book) => {
             toast.success("A new book was added");
+            setBooks([...books, book]);
             setBookAlreadyExists(false);
         })
         .catch((e: AxiosError) => {
@@ -65,23 +78,6 @@ function BookCardView(): JSX.Element {
             />
         </>
     );
-}
-
-function useBooks(): Book[] {
-    const [books, setBooks] = useState<Book[]>([]);
-
-    useEffect(() => {
-        const fetchBooks = async (): Promise<number> => {
-            const books = await getAllBooks();
-
-            setBooks(books);
-            return books.length;
-        }
-        fetchBooks()
-        .then((length) => console.info(`Fetched ${length} book(s)`))
-        .catch(e => console.warn("Could not fetch books", e));
-    }, [])
-    return books;
 }
 
 export default BookCardView;

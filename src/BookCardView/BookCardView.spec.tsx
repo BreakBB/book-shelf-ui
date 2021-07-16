@@ -5,7 +5,7 @@ import axios from "axios";
 import {TEST_BOOKS} from "../testUtils";
 import {BASE_URL} from "../bookService";
 import userEvent from "@testing-library/user-event";
-import {NewBookRequest} from "../types/types";
+import {BookResponseData, NewBookRequest} from "../types/types";
 
 jest.mock('axios');
 
@@ -14,55 +14,53 @@ const bookUrl = `${BASE_URL}/books`;
 describe('BookCardView', () => {
     const axiosMock = axios as jest.Mocked<typeof axios>;
 
+
+    const initTest = (initialBooks: BookResponseData[]) => {
+        axiosMock.get.mockResolvedValueOnce({data: initialBooks});
+        render(<BookCardView/>);
+    }
+
     afterEach(() => {
         jest.clearAllMocks();
     });
 
     it('should render the header', async () => {
-        axiosMock.get.mockResolvedValueOnce({data: []});
-
-        const {getByText} = render(<BookCardView/>);
+        initTest([]);
 
         // We need to use waitFor because we have an async call in our component which changes the state
         await waitFor(() => {
             expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
         })
-        const header: HTMLElement = getByText(YOUR_COLLECTION);
+        const header: HTMLElement = screen.getByText(YOUR_COLLECTION);
         expect(header).not.toBeUndefined();
         expect(header.tagName).toBe("H1");
         expect(header.classList).toContain("title");
     });
 
     it('should render multiple book cards', async () => {
-        axiosMock.get.mockResolvedValueOnce({
-            data: [
-                TEST_BOOKS.harryPotter1,
-                TEST_BOOKS.harryPotter2
-            ]
-        });
-
-        const {getByText, queryByText} = render(<BookCardView/>);
+        initTest([
+            TEST_BOOKS.harryPotter1,
+            TEST_BOOKS.harryPotter2
+        ]);
 
         await waitFor(() => {
             expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
         });
-        expect(queryByText(NO_BOOKS_YET)).toBeNull();
-        const header: HTMLElement = getByText(YOUR_COLLECTION);
+        expect(screen.queryByText(NO_BOOKS_YET)).toBeNull();
+        const header: HTMLElement = screen.getByText(YOUR_COLLECTION);
         const list = header.parentElement?.lastChild as HTMLElement;
         expect(list).not.toBeUndefined();
         expect(list.childNodes.length).toBe(3);
     });
 
     it('should render the placeholder text without books', async () => {
-        axiosMock.get.mockResolvedValueOnce({data: []});
-
-        const {getByText} = render(<BookCardView/>);
+        initTest([]);
 
         await waitFor(() => {
             expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
         });
-        getByText(NO_BOOKS_YET);
-        const header: HTMLElement = getByText(YOUR_COLLECTION);
+        screen.getByText(NO_BOOKS_YET);
+        const header: HTMLElement = screen.getByText(YOUR_COLLECTION);
         const list = header.parentElement?.lastChild as HTMLElement;
         expect(list).not.toBeUndefined();
         expect(list.childNodes.length).toBe(1);
@@ -71,18 +69,17 @@ describe('BookCardView', () => {
     it('should handle network errors', async () => {
         axiosMock.get.mockRejectedValueOnce("Some network error");
 
-        const {getByText} = render(<BookCardView/>);
+        render(<BookCardView/>);
 
         await waitFor(() => {
             expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
         });
-        getByText(NO_BOOKS_YET);
+        screen.getByText(NO_BOOKS_YET);
     });
 
     it('should add a new book', async () => {
-        axiosMock.get.mockResolvedValueOnce({data: []});
-
-        render(<BookCardView/>);
+        initTest([]);
+        axiosMock.post.mockResolvedValueOnce({data: TEST_BOOKS.harryPotter1});
 
         await waitFor(() => {
             expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
@@ -90,20 +87,22 @@ describe('BookCardView', () => {
 
         insertBook(TEST_BOOKS.harryPotter1);
 
-        expect(axiosMock.post).toHaveBeenCalled();
+        expect(screen.queryByText("This book is already in your library")).toBeNull();
 
-        expect(screen.queryByText("This book is already in your library")).toBe(null);
+        expect(axiosMock.post).toHaveBeenCalled();
+        expect(await screen.findByAltText("Harry Potter und der Stein der Weisen"));
+
+        expect(screen.queryByText(NO_BOOKS_YET)).toBeNull();
+        (screen.getByText(YOUR_COLLECTION));
     });
 
     it('should not add a book that already exists', async () => {
-        axiosMock.get.mockResolvedValueOnce({data: []});
+        initTest([]);
         axiosMock.post.mockRejectedValueOnce({
             response: {
                 status: 409
             }
         });
-
-        render(<BookCardView/>);
 
         await waitFor(() => {
             expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
