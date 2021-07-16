@@ -32,8 +32,6 @@ const NewBookModal = (props: Props): JSX.Element => {
                 author: author.value,
                 releaseDate: dayjs(releaseDate.value).format("YYYY-MM-DD")
             });
-        } else {
-
         }
     }
 
