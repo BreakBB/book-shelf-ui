@@ -6,6 +6,7 @@ import {TEST_BOOKS} from "../testUtils";
 import {BASE_URL} from "../bookService";
 import userEvent from "@testing-library/user-event";
 import {BookResponseData, NewBookRequest} from "../types/types";
+import dayjs from "dayjs";
 
 jest.mock('axios');
 
@@ -125,8 +126,7 @@ describe('BookCardView', () => {
         userEvent.type(screen.getByLabelText("ISBN"), book.isbn);
         userEvent.type(screen.getByLabelText("Author"), book.author);
         const releaseDateInput = screen.getByLabelText("Release Date");
-        userEvent.clear(releaseDateInput); // today's date is the initial value which we need to clear
-        userEvent.type(releaseDateInput, book.releaseDate.toString());
+        userEvent.type(releaseDateInput, dayjs(book.releaseDate).format("YYYY-MM-DD"));
 
         userEvent.click(screen.getByText("Create"));
     }
