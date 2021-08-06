@@ -1,15 +1,15 @@
 .App {
-  text-align: left;
+    text-align: left;
 }
 
 .title {
-  border-bottom: 1px solid #9e9e9e;
+    border-bottom: 1px solid #9e9e9e;
 }
 
 .title-small {
-  border-bottom: 1px solid #9e9e9e;
+    border-bottom: 1px solid #9e9e9e;
 }
 
 .data-row {
-  height: 3.5rem;
+    height: 3.5rem;
 }

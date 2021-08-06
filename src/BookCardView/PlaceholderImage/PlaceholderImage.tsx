@@ -1,5 +1,5 @@
-import React from "react";
-import placeholderCover from "./placeholder-cover.jpg";
+import React from 'react';
+import placeholderCover from './placeholder-cover.jpg';
 
 interface Props {
     title: string;
@@ -7,9 +7,7 @@ interface Props {
 
 export const PlaceholderImage = (props: Props): JSX.Element => (
     <div className="placeholder-image-container">
-        <img className="image" src={placeholderCover} alt="placeholder"/>
-        <div className="placeholder-image-text">
-            {props.title}
-        </div>
+        <img className="image" src={placeholderCover} alt="placeholder" />
+        <div className="placeholder-image-text">{props.title}</div>
     </div>
-)
+);

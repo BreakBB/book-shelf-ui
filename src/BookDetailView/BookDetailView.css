@@ -1,15 +1,15 @@
 .book-detail-paper {
-  padding: 15px 30px 20px;
+    padding: 15px 30px 20px;
 }
 
 .book-detail {
-  flex-grow: 1;
+    flex-grow: 1;
 }
 
 .delete-button {
-  background-color: #f44336;
-  color: white;
-  padding: 5px 8px;
-  border: none;
-  border-radius: 4px;
+    background-color: #f44336;
+    color: white;
+    padding: 5px 8px;
+    border: none;
+    border-radius: 4px;
 }

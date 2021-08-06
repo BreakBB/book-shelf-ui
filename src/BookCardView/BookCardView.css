@@ -1,41 +1,41 @@
 img {
-  flex: 1;
-  height: 100%;
-  width: 100%;
-  max-width: 100%;
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
 }
 
 .grid-list {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 1rem;
-  margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 1rem;
+    margin-top: 1rem;
 }
 
 .book-card {
-  height: 15rem;
-  width: 10.5rem;
-  max-width: 11rem;
-  margin: 0.4rem 0.4rem 0.8rem;
+    height: 15rem;
+    width: 10.5rem;
+    max-width: 11rem;
+    margin: 0.4rem 0.4rem 0.8rem;
 }
 
 .placeholder-image-container {
-  position: relative;
-  text-align: center;
-  height: 100%;
-  width: 100%;
-  flex: 1;
-  font-size: 0.75rem;
-  color: white;
+    position: relative;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+    flex: 1;
+    font-size: 0.75rem;
+    color: white;
 }
 
 .placeholder-image-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%)
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .add-book-card {
-  border: 1px solid #9e9e9e;
+    border: 1px solid #9e9e9e;
 }

@@ -1,36 +1,36 @@
 .dialogTitle {
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
 
 .form-block {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin-top: 1em;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 1em;
 }
 
 .form-block label {
-  width: 30%;
-  margin-bottom: 1.5rem;
-  margin-top: 0.6rem; /*Half of form-block input height */
+    width: 30%;
+    margin-bottom: 1.5rem;
+    margin-top: 0.6rem; /*Half of form-block input height */
 }
 
 .form-block > input {
-  width: 60%;
-  height: 1.2rem;
-  margin: 0.5rem 0.5rem 1.5rem;
+    width: 60%;
+    height: 1.2rem;
+    margin: 0.5rem 0.5rem 1.5rem;
 }
 
 .form-block button {
-  margin-left: auto;
-  margin-right: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .create-button {
-  background-color: #303f9f;
-  color: white;
-  padding: 5px 8px;
-  border: none;
-  border-radius: 4px;
+    background-color: #303f9f;
+    color: white;
+    padding: 5px 8px;
+    border: none;
+    border-radius: 4px;
 }

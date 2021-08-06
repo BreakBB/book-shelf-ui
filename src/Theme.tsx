@@ -1,18 +1,16 @@
 import React from 'react';
-import {ThemeProvider} from '@material-ui/core/styles';
-import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import { ThemeProvider } from '@material-ui/core/styles';
+import createMuiTheme from '@material-ui/core/styles/createMuiTheme';
 
 interface Props {
-    children: JSX.Element[],
-    className: string
+    children: JSX.Element[];
+    className: string;
 }
 
 function Theme(props: Props): JSX.Element {
     return (
         <ThemeProvider theme={theme}>
-            <div className={props.className}>
-                {props.children}
-            </div>
+            <div className={props.className}>{props.children}</div>
         </ThemeProvider>
     );
 }

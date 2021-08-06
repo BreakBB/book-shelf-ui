@@ -1,12 +1,12 @@
 import React from 'react';
-import {render, screen, waitFor} from '@testing-library/react';
-import BookCardView, {NO_BOOKS_YET, YOUR_COLLECTION} from "./BookCardView";
-import axios from "axios";
-import {TEST_BOOKS} from "../testUtils";
-import {BASE_URL} from "../bookService";
-import userEvent from "@testing-library/user-event";
-import {BookResponseData, NewBookRequest} from "../types/types";
-import dayjs from "dayjs";
+import { render, screen, waitFor } from '@testing-library/react';
+import BookCardView, { NO_BOOKS_YET, YOUR_COLLECTION } from './BookCardView';
+import axios from 'axios';
+import { TEST_BOOKS } from '../testUtils';
+import { BASE_URL } from '../bookService';
+import userEvent from '@testing-library/user-event';
+import { BookResponseData, NewBookRequest } from '../types/types';
+import dayjs from 'dayjs';
 
 jest.mock('axios');
 
@@ -15,11 +15,10 @@ const bookUrl = `${BASE_URL}/books`;
 describe('BookCardView', () => {
     const axiosMock = axios as jest.Mocked<typeof axios>;
 
-
     const initTest = (initialBooks: BookResponseData[]) => {
-        axiosMock.get.mockResolvedValueOnce({data: initialBooks});
-        render(<BookCardView/>);
-    }
+        axiosMock.get.mockResolvedValueOnce({ data: initialBooks });
+        render(<BookCardView />);
+    };
 
     afterEach(() => {
         jest.clearAllMocks();
@@ -31,18 +30,15 @@ describe('BookCardView', () => {
         // We need to use waitFor because we have an async call in our component which changes the state
         await waitFor(() => {
             expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
-        })
+        });
         const header: HTMLElement = screen.getByText(YOUR_COLLECTION);
         expect(header).not.toBeUndefined();
-        expect(header.tagName).toBe("H1");
-        expect(header.classList).toContain("title");
+        expect(header.tagName).toBe('H1');
+        expect(header.classList).toContain('title');
     });
 
     it('should render multiple book cards', async () => {
-        initTest([
-            TEST_BOOKS.harryPotter1,
-            TEST_BOOKS.harryPotter2
-        ]);
+        initTest([TEST_BOOKS.harryPotter1, TEST_BOOKS.harryPotter2]);
 
         await waitFor(() => {
             expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
@@ -68,9 +64,9 @@ describe('BookCardView', () => {
     });
 
     it('should handle network errors', async () => {
-        axiosMock.get.mockRejectedValueOnce("Some network error");
+        axiosMock.get.mockRejectedValueOnce('Some network error');
 
-        render(<BookCardView/>);
+        render(<BookCardView />);
 
         await waitFor(() => {
             expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
@@ -80,7 +76,7 @@ describe('BookCardView', () => {
 
     it('should add a new book', async () => {
         initTest([]);
-        axiosMock.post.mockResolvedValueOnce({data: TEST_BOOKS.harryPotter1});
+        axiosMock.post.mockResolvedValueOnce({ data: TEST_BOOKS.harryPotter1 });
 
         await waitFor(() => {
             expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
@@ -88,21 +84,21 @@ describe('BookCardView', () => {
 
         insertBook(TEST_BOOKS.harryPotter1);
 
-        expect(screen.queryByText("This book is already in your library")).toBeNull();
+        expect(screen.queryByText('This book is already in your library')).toBeNull();
 
         expect(axiosMock.post).toHaveBeenCalled();
-        expect(await screen.findByAltText("Harry Potter und der Stein der Weisen"));
+        expect(await screen.findByAltText('Harry Potter und der Stein der Weisen'));
 
         expect(screen.queryByText(NO_BOOKS_YET)).toBeNull();
-        (screen.getByText(YOUR_COLLECTION));
+        screen.getByText(YOUR_COLLECTION);
     });
 
     it('should not add a book that already exists', async () => {
         initTest([]);
         axiosMock.post.mockRejectedValueOnce({
             response: {
-                status: 409
-            }
+                status: 409,
+            },
         });
 
         await waitFor(() => {
@@ -115,19 +111,19 @@ describe('BookCardView', () => {
             expect(axiosMock.post).toHaveBeenCalled();
         });
 
-        expect(screen.getByText("This book is already in your library"));
+        expect(screen.getByText('This book is already in your library'));
     });
 
     const insertBook = (book: NewBookRequest) => {
-        const addButton = document.getElementsByClassName("add-book-card")[0];
+        const addButton = document.getElementsByClassName('add-book-card')[0];
         userEvent.click(addButton);
 
-        userEvent.type(screen.getByLabelText("Book name"), book.title);
-        userEvent.type(screen.getByLabelText("ISBN"), book.isbn);
-        userEvent.type(screen.getByLabelText("Author"), book.author);
-        const releaseDateInput = screen.getByLabelText("Release Date");
-        userEvent.type(releaseDateInput, dayjs(book.releaseDate).format("YYYY-MM-DD"));
+        userEvent.type(screen.getByLabelText('Book name'), book.title);
+        userEvent.type(screen.getByLabelText('ISBN'), book.isbn);
+        userEvent.type(screen.getByLabelText('Author'), book.author);
+        const releaseDateInput = screen.getByLabelText('Release Date');
+        userEvent.type(releaseDateInput, dayjs(book.releaseDate).format('YYYY-MM-DD'));
 
-        userEvent.click(screen.getByText("Create"));
-    }
+        userEvent.click(screen.getByText('Create'));
+    };
 });
