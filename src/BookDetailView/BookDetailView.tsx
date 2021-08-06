@@ -1,4 +1,4 @@
-import {Button, Paper} from '@material-ui/core';
+import {Paper} from '@material-ui/core';
 import React, {useEffect, useState} from 'react'
 import {useHistory, useParams} from 'react-router-dom';
 import {Book} from "../types/types";
@@ -59,7 +59,7 @@ function BookDetailView(): JSX.Element {
                         <Grid item md={4} xs={12}>
                             <MetaDataBlock book={book} handleBookUpdate={setBook}/>
                             <div style={{float: "right", marginTop: "1rem"}}>
-                                <Button variant="outlined" onClick={handleClick}>Delete Book</Button>
+                                <button className="delete-button" onClick={handleClick}>Delete Book</button>
                             </div>
                         </Grid>
                     </Grid>

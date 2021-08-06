@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Dialog, DialogContent, DialogTitle} from "@material-ui/core";
+import {Dialog, DialogContent, DialogTitle} from "@material-ui/core";
 import './NewBookModal.css'
 import FormInput from "./FormInput";
 import useTheme from "@material-ui/core/styles/useTheme";
@@ -54,15 +54,12 @@ const NewBookModal = (props: Props): JSX.Element => {
                     <FormInput label="ISBN" name="isbn"/>
                     <FormInput label="Author" name="author"/>
                     <FormInput label="Release Date" name="releaseDate" type="date"/>
-                    <div style={{width: "100%"}}>
-                        <Button
+                    <div style={{width: "100%", display: "flex"}}>
+                        <button
                             type="submit"
-                            style={{
-                                backgroundColor: theme.palette.primary.dark,
-                                color: theme.palette.primary.contrastText
-                            }}>
+                            className="create-button">
                             Create
-                        </Button>
+                        </button>
                     </div>
                 </form>
             </DialogContent>
