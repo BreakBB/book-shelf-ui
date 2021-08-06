@@ -1,61 +1,67 @@
 {
-  "name": "book-shelf-ui",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "axios": "^0.21.0",
-    "dayjs": "^1.10.4",
-    "esbuild": "^0.12.18",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.0",
-    "react-toastify": "^7.0.3",
-    "typescript": "^4.0.5"
-  },
-  "devDependencies": {
-    "@material-ui/core": "^4.11.0",
-    "@material-ui/icons": "^4.9.1",
-    "@testing-library/jest-dom": "^5.11.5",
-    "@testing-library/react": "^11.1.2",
-    "@testing-library/user-event": "^12.2.2",
-    "@types/jest": "^26.0.15",
-    "@types/node": "^12.19.4",
-    "@types/react": "^16.9.56",
-    "@types/react-dom": "^16.9.9",
-    "@types/react-router-dom": "^5.1.7",
-    "@typescript-eslint/eslint-plugin": "^4.13.0",
-    "@typescript-eslint/parser": "^4.13.0",
-    "eslint": "^7.17.0",
-    "eslint-plugin-react": "^7.22.0",
-    "npm-run-all": "^4.1.5",
-    "serve": "^12.0.0"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "node esbuildScript.js",
-    "test": "CI=true react-scripts test --env=jsdom --coverage --bail",
-    "eject": "react-scripts eject",
-    "lint": "node_modules/.bin/eslint ./ --ext .js,.jsx,.ts,.tsx",
-    "tsc": "node_modules/.bin/tsc",
-    "check": "npm-run-all tsc lint test"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "name": "book-shelf-ui",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "axios": "^0.21.0",
+        "dayjs": "^1.10.4",
+        "esbuild": "^0.12.18",
+        "react": "^17.0.1",
+        "react-dom": "^17.0.1",
+        "react-router-dom": "^5.2.0",
+        "react-scripts": "4.0.0",
+        "react-toastify": "^7.0.3",
+        "typescript": "^4.0.5"
+    },
+    "devDependencies": {
+        "@material-ui/core": "^4.11.0",
+        "@material-ui/icons": "^4.9.1",
+        "@testing-library/jest-dom": "^5.11.5",
+        "@testing-library/react": "^11.1.2",
+        "@testing-library/user-event": "^12.2.2",
+        "@types/jest": "^26.0.15",
+        "@types/node": "^12.19.4",
+        "@types/react": "^16.9.56",
+        "@types/react-dom": "^16.9.9",
+        "@types/react-router-dom": "^5.1.7",
+        "@typescript-eslint/eslint-plugin": "^4.13.0",
+        "@typescript-eslint/parser": "^4.13.0",
+        "eslint": "^7.17.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-prettier": "^3.4.0",
+        "eslint-plugin-react": "^7.22.0",
+        "npm-run-all": "^4.1.5",
+        "prettier": "2.3.2",
+        "pretty-quick": "^3.1.1",
+        "serve": "^12.0.0"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "node esbuildScript.js",
+        "test": "CI=true react-scripts test --env=jsdom --coverage --bail",
+        "eject": "react-scripts eject",
+        "lint": "node_modules/.bin/eslint ./ --ext .js,.jsx,.ts,.tsx",
+        "tsc": "node_modules/.bin/tsc",
+        "prettier-check": "prettier --check .",
+        "pretty-quick": "pretty-quick",
+        "check": "npm-run-all pretty-quick tsc lint test"
+    },
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    }
 }
