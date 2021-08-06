@@ -10,6 +10,7 @@ import {EditableInput} from '../ComponentLib/EditableInput';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from "@material-ui/core/IconButton";
 import {BASE_URL, deleteBook, getBook, updateBook} from "../bookService";
+import {PlaceholderImage} from "../BookCardView/PlaceholderImage/PlaceholderImage";
 
 interface ParamTypes {
     isbn: string;
@@ -49,7 +50,11 @@ function BookDetailView(): JSX.Element {
                             <EditableInput text={book.title} header onChangeDone={handleTitleChange}/>
                         </Grid>
                         <Grid item md={2} xs={12}>
-                            <img src={`${BASE_URL}/covers/${book.isbn}`} alt={book.title}/>
+                            {
+                                book.coverId ?
+                                    <img src={`${BASE_URL}/covers/${book.isbn}`} alt={book.title}/> :
+                                    <PlaceholderImage title={book.title}/>
+                            }
                         </Grid>
                         <Grid item md={4} xs={12}>
                             <MetaDataBlock book={book} handleBookUpdate={setBook}/>
