@@ -8,44 +8,35 @@ import NewBookModal from './NewBookModal/NewBookModal';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import useBooks from '../hooks/useBooks';
-import {AxiosError} from 'axios';
 
 export const NO_BOOKS_YET = "You don't have any books in your Collection yet. Go ahead and add some!";
 export const YOUR_COLLECTION = 'Your Collection';
 
 function BookCardView(): JSX.Element {
-    const [books, setBooks] = useState<Book[]>([]);
+    const {books, fetchBooks, addBook} = useBooks();
     const [showModal, setShowModal] = useState(false);
     const [bookAlreadyExists, setBookAlreadyExists] = useState(false);
     const theme = useTheme();
 
     useEffect(() => {
-        const fetchBooks = async (): Promise<number> => {
-            const books = await getAllBooks();
-
-            setBooks(books);
-            return books.length;
-        };
-        fetchBooks()
-            .then((length) => console.info(`Fetched ${length} book(s)`))
-            .catch((e) => console.warn('Could not fetch books', e));
+        void fetchBooks();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleNewBookSubmit = (newBook: NewBookRequest) => {
-        createNewBook(newBook)
-            .then((book: Book) => {
+        void addBook(
+            newBook,
+            () => {
                 toast.success('A new book was added');
-                setBooks([...books, book]);
-                setBookAlreadyExists(false);
-            })
-            .catch((e: AxiosError) => {
-                if (e.response?.status === 409) {
+            },
+            (status: number) => {
+                if (status === 409) {
                     setBookAlreadyExists(true);
                     return;
                 }
-
                 toast.error('The new book could not be added');
-            });
+            }
+        );
     };
 
     return (
