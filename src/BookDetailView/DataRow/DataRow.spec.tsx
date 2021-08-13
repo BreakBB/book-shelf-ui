@@ -1,6 +1,6 @@
 import React from 'react';
 import DataRow from './DataRow';
-import { render, screen } from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
 
 describe('DataRow', () => {
     const title = 'This is a title';

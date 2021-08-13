@@ -1,11 +1,11 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import BookCardView, { NO_BOOKS_YET, YOUR_COLLECTION } from './BookCardView';
+import {render, screen, waitFor} from '@testing-library/react';
+import BookCardView, {NO_BOOKS_YET, YOUR_COLLECTION} from './BookCardView';
 import axios from 'axios';
-import { TEST_BOOKS } from '../testUtils';
-import { BASE_URL } from '../bookService';
+import {TEST_BOOKS} from '../testUtils';
+import {BASE_URL} from '../bookService';
 import userEvent from '@testing-library/user-event';
-import { BookResponseData, NewBookRequest } from '../types/types';
+import {BookResponseData, NewBookRequest} from '../types/types';
 import dayjs from 'dayjs';
 
 jest.mock('axios');
@@ -16,7 +16,7 @@ describe('BookCardView', () => {
     const axiosMock = axios as jest.Mocked<typeof axios>;
 
     const initTest = (initialBooks: BookResponseData[]) => {
-        axiosMock.get.mockResolvedValueOnce({ data: initialBooks });
+        axiosMock.get.mockResolvedValueOnce({data: initialBooks});
         render(<BookCardView />);
     };
 
@@ -76,7 +76,7 @@ describe('BookCardView', () => {
 
     it('should add a new book', async () => {
         initTest([]);
-        axiosMock.post.mockResolvedValueOnce({ data: TEST_BOOKS.harryPotter1 });
+        axiosMock.post.mockResolvedValueOnce({data: TEST_BOOKS.harryPotter1});
 
         await waitFor(() => {
             expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);

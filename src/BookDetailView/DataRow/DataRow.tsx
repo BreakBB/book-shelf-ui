@@ -1,7 +1,7 @@
 import React from 'react';
 import useTheme from '@material-ui/core/styles/useTheme';
 import './DataRow.css';
-import { EditableInput } from '../../ComponentLib/EditableInput';
+import {EditableInput} from '../../ComponentLib/EditableInput';
 
 interface Props {
     title: string;
@@ -14,7 +14,7 @@ function DataRow(props: Props): JSX.Element {
 
     return (
         <tr className="data-row">
-            <td className="data-key" style={{ color: theme.palette.text.secondary }}>
+            <td className="data-key" style={{color: theme.palette.text.secondary}}>
                 {props.title}
             </td>
             <td colSpan={2}>

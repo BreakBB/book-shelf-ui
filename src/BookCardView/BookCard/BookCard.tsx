@@ -1,8 +1,8 @@
 import React from 'react';
 import '../BookCardView.css';
-import { useHistory } from 'react-router-dom';
-import { PlaceholderImage } from '../PlaceholderImage/PlaceholderImage';
-import { BASE_URL } from '../../bookService';
+import {useHistory} from 'react-router-dom';
+import {PlaceholderImage} from '../PlaceholderImage/PlaceholderImage';
+import {BASE_URL} from '../../bookService';
 
 interface Props {
     title: string;

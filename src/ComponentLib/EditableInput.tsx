@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
@@ -28,14 +28,14 @@ export const EditableInput = (props: Props): JSX.Element => {
             {editMode ? (
                 <div className={'data-value'}>
                     <input value={text} onChange={(event) => setText(event.target.value)} />
-                    <IconButton style={{ marginLeft: 'auto' }} onClick={handleChangeDone}>
+                    <IconButton style={{marginLeft: 'auto'}} onClick={handleChangeDone}>
                         <DoneIcon />
                     </IconButton>
                 </div>
             ) : (
                 <div className={'data-value'}>
                     <span>{text}</span>
-                    <IconButton style={{ marginLeft: 'auto' }} onClick={() => setEditMode(true)}>
+                    <IconButton style={{marginLeft: 'auto'}} onClick={() => setEditMode(true)}>
                         <EditIcon />
                     </IconButton>
                 </div>

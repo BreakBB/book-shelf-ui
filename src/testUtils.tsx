@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, RenderResult } from '@testing-library/react';
-import { Router } from 'react-router';
-import { history } from './history';
-import { Route } from 'react-router-dom';
+import {render, RenderResult} from '@testing-library/react';
+import {Router} from 'react-router';
+import {history} from './history';
+import {Route} from 'react-router-dom';
 
 export const TEST_BOOKS = {
     harryPotter1: {

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import useTheme from '@material-ui/core/styles/useTheme';
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import IconButton from '@material-ui/core/IconButton';
 import './DataRow.css';
-import dayjs, { Dayjs } from 'dayjs';
+import dayjs, {Dayjs} from 'dayjs';
 
 interface Props {
     title: string;
@@ -26,7 +26,7 @@ function DateDataRow(props: Props): JSX.Element {
 
     return (
         <tr className="data-row">
-            <td className="data-key" style={{ color: theme.palette.text.secondary }}>
+            <td className="data-key" style={{color: theme.palette.text.secondary}}>
                 {props.title}
             </td>
             {editMode ? (
@@ -38,7 +38,7 @@ function DateDataRow(props: Props): JSX.Element {
                             onChange={(e) => setRowValue(dayjs(e.target.value))}
                             required
                         />
-                        <IconButton style={{ marginLeft: 'auto' }} onClick={handleChangeDone}>
+                        <IconButton style={{marginLeft: 'auto'}} onClick={handleChangeDone}>
                             <DoneIcon />
                         </IconButton>
                     </td>
@@ -47,7 +47,7 @@ function DateDataRow(props: Props): JSX.Element {
                 <>
                     <td className="data-value">
                         <span>{props.value.format('DD.MM.YYYY')}</span>
-                        <IconButton style={{ marginLeft: 'auto' }} onClick={() => setEditMode(true)}>
+                        <IconButton style={{marginLeft: 'auto'}} onClick={() => setEditMode(true)}>
                             <EditIcon />
                         </IconButton>
                     </td>

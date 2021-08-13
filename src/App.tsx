@@ -5,18 +5,18 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Container } from '@material-ui/core';
-import { Router } from 'react-router';
-import { Route, Switch } from 'react-router-dom';
+import {Container} from '@material-ui/core';
+import {Router} from 'react-router';
+import {Route, Switch} from 'react-router-dom';
 import BookDetailView from './BookDetailView/BookDetailView';
 import Theme from './Theme';
-import { history } from './history';
-import { ToastContainer } from 'react-toastify';
+import {history} from './history';
+import {ToastContainer} from 'react-toastify';
 
 function App(): JSX.Element {
     return (
         <Theme className="App">
-            <AppBar position="static" style={{ marginBottom: '20px' }}>
+            <AppBar position="static" style={{marginBottom: '20px'}}>
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu">
                         <MenuIcon />

@@ -1,17 +1,17 @@
-import { waitFor } from '@testing-library/react';
+import {waitFor} from '@testing-library/react';
 import axios from 'axios';
-import { BookResponseData } from '../types/types';
-import { renderWithRouterMatch, TEST_BOOKS } from '../testUtils';
+import {BookResponseData} from '../types/types';
+import {renderWithRouterMatch, TEST_BOOKS} from '../testUtils';
 import BookDetailView from './BookDetailView';
-import { history } from '../history';
+import {history} from '../history';
 import userEvent from '@testing-library/user-event';
-import { BASE_URL } from '../bookService';
+import {BASE_URL} from '../bookService';
 
 describe('BookCardView', () => {
     let axiosMockedGet;
 
     const mockAxios = (responseData?: BookResponseData | null): void => {
-        axiosMockedGet = jest.fn().mockReturnValue({ data: responseData });
+        axiosMockedGet = jest.fn().mockReturnValue({data: responseData});
         axios.get = axiosMockedGet;
     };
 
@@ -24,7 +24,7 @@ describe('BookCardView', () => {
         mockAxios(book);
         history.push(`/${book.isbn}`);
 
-        const { getByText, getByAltText } = renderWithRouterMatch(BookDetailView, '/:isbn');
+        const {getByText, getByAltText} = renderWithRouterMatch(BookDetailView, '/:isbn');
 
         // We need to use waitFor because we have an async call in our component which changes the state
         await waitFor(() => {
@@ -38,7 +38,7 @@ describe('BookCardView', () => {
     it('should show "no details" placeholder without a isbn', async () => {
         mockAxios();
 
-        const { getByText } = renderWithRouterMatch(BookDetailView, '/');
+        const {getByText} = renderWithRouterMatch(BookDetailView, '/');
 
         expect(axiosMockedGet).not.toHaveBeenCalled();
         getByText('No Details');
@@ -49,7 +49,7 @@ describe('BookCardView', () => {
         mockAxios(null);
         history.push(`/${book.isbn}`);
 
-        const { getByText } = renderWithRouterMatch(BookDetailView, '/:isbn');
+        const {getByText} = renderWithRouterMatch(BookDetailView, '/:isbn');
 
         await waitFor(() => {
             expect(axiosMockedGet).toHaveBeenCalledWith(`${BASE_URL}/books/${book.isbn}`);
@@ -62,7 +62,7 @@ describe('BookCardView', () => {
         mockAxios(book);
         history.push(`/${book.isbn}`);
 
-        const { getAllByRole } = renderWithRouterMatch(BookDetailView, '/:isbn');
+        const {getAllByRole} = renderWithRouterMatch(BookDetailView, '/:isbn');
 
         await waitFor(() => {
             expect(axiosMockedGet).toHaveBeenCalledWith(`${BASE_URL}/books/${book.isbn}`);

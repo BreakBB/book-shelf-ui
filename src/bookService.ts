@@ -1,6 +1,6 @@
-import axios, { AxiosResponse } from 'axios';
-import { Book, BookResponseData, NewBookRequest } from './types/types';
-import { toBook, toBookRequest, transformReleaseDates } from './utils';
+import axios, {AxiosResponse} from 'axios';
+import {Book, BookResponseData, NewBookRequest} from './types/types';
+import {toBook, toBookRequest, transformReleaseDates} from './utils';
 
 export const BASE_URL = `http://localhost:8080`;
 

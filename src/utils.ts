@@ -1,4 +1,4 @@
-import { Book, BookResponseData, NewBookRequest } from './types/types';
+import {Book, BookResponseData, NewBookRequest} from './types/types';
 import dayjs from 'dayjs';
 
 export const toBook = (book: BookResponseData): Book => {

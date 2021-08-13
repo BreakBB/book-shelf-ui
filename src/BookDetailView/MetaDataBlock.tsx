@@ -1,9 +1,9 @@
 import React from 'react';
-import { Dayjs } from 'dayjs';
-import { Book } from '../types/types';
+import {Dayjs} from 'dayjs';
+import {Book} from '../types/types';
 import DataRow from './DataRow/DataRow';
 import DateDataRow from './DataRow/DateDataRow';
-import { updateBook } from '../bookService';
+import {updateBook} from '../bookService';
 
 interface Props {
     book: Book;
@@ -11,7 +11,7 @@ interface Props {
 }
 
 function MetaDataBlock(props: Props): JSX.Element {
-    const { book } = props;
+    const {book} = props;
 
     const handleAuthorChange = async (newAuthor: string) => {
         book.author = newAuthor;
@@ -30,7 +30,7 @@ function MetaDataBlock(props: Props): JSX.Element {
     return (
         <div>
             <h3 className="title-small">Information</h3>
-            <table style={{ width: '100%' }}>
+            <table style={{width: '100%'}}>
                 <thead></thead>
                 <tbody>
                     <DataRow title="Author" value={book.author} onChangeDone={handleAuthorChange} />

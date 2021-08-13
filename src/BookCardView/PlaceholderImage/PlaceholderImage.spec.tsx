@@ -1,13 +1,13 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { PlaceholderImage } from './PlaceholderImage';
-import { TEST_BOOKS } from '../../testUtils';
+import {render} from '@testing-library/react';
+import {PlaceholderImage} from './PlaceholderImage';
+import {TEST_BOOKS} from '../../testUtils';
 
 describe('BookCardView', () => {
     it('should render the placeholder image', () => {
-        const { title } = TEST_BOOKS.harryPotter1;
+        const {title} = TEST_BOOKS.harryPotter1;
 
-        const { getByText, getByAltText } = render(<PlaceholderImage title={title} />);
+        const {getByText, getByAltText} = render(<PlaceholderImage title={title} />);
 
         const image = getByAltText('placeholder') as HTMLImageElement;
         expect(image.className).toBe('image');

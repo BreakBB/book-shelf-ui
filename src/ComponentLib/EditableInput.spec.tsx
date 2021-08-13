@@ -1,7 +1,7 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import {render, screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { EditableInput } from './EditableInput';
+import {EditableInput} from './EditableInput';
 
 describe('EditableInput', () => {
     const value = 'This is a value';

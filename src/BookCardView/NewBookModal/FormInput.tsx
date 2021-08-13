@@ -7,7 +7,7 @@ interface Props {
     type?: string;
 }
 
-const FormInput = (props: Props = { label: '', name: '', required: true, type: 'text' }): JSX.Element => {
+const FormInput = (props: Props = {label: '', name: '', required: true, type: 'text'}): JSX.Element => {
     const id = props.name;
 
     return (

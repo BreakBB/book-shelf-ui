@@ -1,23 +1,23 @@
-import { Paper } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
-import { Book } from '../types/types';
+import {Paper} from '@material-ui/core';
+import React, {useEffect, useState} from 'react';
+import {useHistory, useParams} from 'react-router-dom';
+import {Book} from '../types/types';
 import Grid from '@material-ui/core/Grid/Grid';
 import './BookDetailView.css';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 import MetaDataBlock from './MetaDataBlock';
-import { EditableInput } from '../ComponentLib/EditableInput';
+import {EditableInput} from '../ComponentLib/EditableInput';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
-import { BASE_URL, deleteBook, getBook, updateBook } from '../bookService';
-import { PlaceholderImage } from '../BookCardView/PlaceholderImage/PlaceholderImage';
+import {BASE_URL, deleteBook, getBook, updateBook} from '../bookService';
+import {PlaceholderImage} from '../BookCardView/PlaceholderImage/PlaceholderImage';
 
 interface ParamTypes {
     isbn: string;
 }
 
 function BookDetailView(): JSX.Element {
-    const { isbn } = useParams<ParamTypes>();
+    const {isbn} = useParams<ParamTypes>();
     const [book, setBook] = useBook(isbn);
     const history = useHistory();
 
@@ -57,7 +57,7 @@ function BookDetailView(): JSX.Element {
                     </Grid>
                     <Grid item md={4} xs={12}>
                         <MetaDataBlock book={book} handleBookUpdate={setBook} />
-                        <div style={{ float: 'right', marginTop: '1rem' }}>
+                        <div style={{float: 'right', marginTop: '1rem'}}>
                             <button className="delete-button" onClick={handleClick}>
                                 Delete Book
                             </button>

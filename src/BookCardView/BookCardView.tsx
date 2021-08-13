@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Book, NewBookRequest } from '../types/types';
+import React, {useEffect, useState} from 'react';
+import {NewBookRequest} from '../types/types';
 import './BookCardView.css';
 import BookCard from './BookCard/BookCard';
 import AddIcon from '@material-ui/icons/Add';
 import useTheme from '@material-ui/core/styles/useTheme';
 import NewBookModal from './NewBookModal/NewBookModal';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { createNewBook, getAllBooks } from '../bookService';
-import { AxiosError } from 'axios';
+import useBooks from '../hooks/useBooks';
+import {AxiosError} from 'axios';
 
 export const NO_BOOKS_YET = "You don't have any books in your Collection yet. Go ahead and add some!";
 export const YOUR_COLLECTION = 'Your Collection';
@@ -59,9 +59,9 @@ function BookCardView(): JSX.Element {
                 <li
                     onClick={() => setShowModal(true)}
                     className="book-card hover-grow add-book-card"
-                    style={{ color: theme.palette.secondary.main }}
+                    style={{color: theme.palette.secondary.main}}
                 >
-                    <AddIcon className="placeholder-image-text" style={{ fontSize: 90 }} />
+                    <AddIcon className="placeholder-image-text" style={{fontSize: 90}} />
                 </li>
             </ul>
             <NewBookModal
