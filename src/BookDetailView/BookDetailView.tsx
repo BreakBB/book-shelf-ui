@@ -16,7 +16,7 @@ interface ParamTypes {
     isbn: string;
 }
 
-function BookDetailView(): JSX.Element {
+const BookDetailView = (): JSX.Element => {
     const {isbn} = useParams<ParamTypes>();
     const [book, setBook] = useBook(isbn);
     const history = useHistory();
@@ -69,7 +69,7 @@ function BookDetailView(): JSX.Element {
             )}
         </Paper>
     );
-}
+};
 
 const useBook = (isbn: string): [Book | undefined, (Book) => void] => {
     const [book, setBook] = useState<Book>();
@@ -77,7 +77,7 @@ const useBook = (isbn: string): [Book | undefined, (Book) => void] => {
     useEffect(() => {
         const fetchBook = async (): Promise<Book> => {
             if (isbn === undefined) {
-                throw Error('Given isbn is undefined');
+                throw new Error('Given isbn is undefined');
             }
             const book = await getBook(isbn);
             setBook(book);
