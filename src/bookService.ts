@@ -11,13 +11,12 @@ export const getAllBooks = async (): Promise<Book[]> => {
 
 export const getBook = async (isbn: string): Promise<Book> => {
     const response: AxiosResponse<Book> = await axios.get(`${BASE_URL}/books/${isbn}`);
-
     return response.data;
 };
 
 export const createNewBook = async (newBook: NewBookRequest): Promise<Book> => {
-    const axiosResponse: AxiosResponse<Book> = await axios.post(`${BASE_URL}/books`, newBook);
-    return axiosResponse.data;
+    const response: AxiosResponse<Book> = await axios.post(`${BASE_URL}/books`, newBook);
+    return response.data;
 };
 
 export const deleteBook = async (isbn: string): Promise<void> => {

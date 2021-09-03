@@ -31,23 +31,7 @@ describe('BookCardView', () => {
         await waitFor(() => {
             expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
         });
-        const header: HTMLElement = screen.getByText(YOUR_COLLECTION);
-        expect(header).not.toBeUndefined();
-        expect(header.tagName).toBe('H1');
-        expect(header.classList).toContain('title');
-    });
-
-    it('should render multiple book cards', async () => {
-        initTest([TEST_BOOKS.harryPotter1, TEST_BOOKS.harryPotter2]);
-
-        await waitFor(() => {
-            expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
-        });
-        expect(screen.queryByText(NO_BOOKS_YET)).toBeNull();
-        const header: HTMLElement = screen.getByText(YOUR_COLLECTION);
-        const list = header.parentElement?.lastChild as HTMLElement;
-        expect(list).not.toBeUndefined();
-        expect(list.childNodes.length).toBe(3);
+        screen.getByText(YOUR_COLLECTION);
     });
 
     it('should render the placeholder text without books', async () => {
@@ -57,10 +41,18 @@ describe('BookCardView', () => {
             expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
         });
         screen.getByText(NO_BOOKS_YET);
-        const header: HTMLElement = screen.getByText(YOUR_COLLECTION);
-        const list = header.parentElement?.lastChild as HTMLElement;
-        expect(list).not.toBeUndefined();
-        expect(list.childNodes.length).toBe(1);
+    });
+
+    it('should render multiple book cards', async () => {
+        initTest([TEST_BOOKS.harryPotter1, TEST_BOOKS.harryPotter2]);
+
+        await waitFor(() => {
+            expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
+        });
+        expect(screen.queryByText(NO_BOOKS_YET)).toBeNull();
+
+        screen.getByRole('img', {name: /harry potter und der stein der weisen/i});
+        screen.getByRole('img', {name: /harry potter und die kammer des schreckens/i});
     });
 
     it('should handle network errors', async () => {
