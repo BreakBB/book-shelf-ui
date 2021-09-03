@@ -1,30 +1,26 @@
 import React from 'react';
 import {Dayjs} from 'dayjs';
-import {Book} from '../types/types';
 import DataRow from './DataRow/DataRow';
 import DateDataRow from './DataRow/DateDataRow';
-import {updateBook} from '../bookService';
+import {Book} from '../types/types';
 
 interface Props {
     book: Book;
-    handleBookUpdate: (updatedBook: Book) => void;
+    onChange: (book: Book) => void;
 }
 
-function MetaDataBlock(props: Props): JSX.Element {
-    const {book} = props;
-
-    const handleAuthorChange = async (newAuthor: string) => {
+const MetaDataBlock = ({book, onChange}: Props): JSX.Element => {
+    const handleAuthorChange = (newAuthor: string) => {
         book.author = newAuthor;
-        void (await updateBook(book.isbn, book, props.handleBookUpdate));
+        onChange(book);
     };
-    const handleReleaseDateChange = async (newReleaseDate: Dayjs) => {
+    const handleReleaseDateChange = (newReleaseDate: Dayjs) => {
         book.releaseDate = newReleaseDate;
-        void (await updateBook(book.isbn, book, props.handleBookUpdate));
+        onChange(book);
     };
-    const handleIsbnChange = async (newIsbn: string) => {
-        const oldIsbn = book.isbn;
+    const handleIsbnChange = (newIsbn: string) => {
         book.isbn = newIsbn;
-        void (await updateBook(oldIsbn, book, props.handleBookUpdate));
+        onChange(book);
     };
 
     return (
@@ -40,6 +36,6 @@ function MetaDataBlock(props: Props): JSX.Element {
             </table>
         </div>
     );
-}
+};
 
 export default MetaDataBlock;

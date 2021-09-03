@@ -1,7 +1,6 @@
 import {Paper} from '@material-ui/core';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useHistory, useParams} from 'react-router-dom';
-import {Book} from '../types/types';
 import Grid from '@material-ui/core/Grid/Grid';
 import './BookDetailView.css';
 import {toast} from 'react-toastify';
@@ -9,8 +8,10 @@ import MetaDataBlock from './MetaDataBlock';
 import {EditableInput} from '../ComponentLib/EditableInput';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
-import {BASE_URL, deleteBook, getBook, updateBook} from '../bookService';
+import {BASE_URL} from '../bookService';
 import {PlaceholderImage} from '../BookCardView/PlaceholderImage/PlaceholderImage';
+import useBook from '../hooks/useBook';
+import {Book} from '../types/types';
 
 interface ParamTypes {
     isbn: string;
@@ -18,23 +19,25 @@ interface ParamTypes {
 
 const BookDetailView = (): JSX.Element => {
     const {isbn} = useParams<ParamTypes>();
-    const [book, setBook] = useBook(isbn);
+    const {book, setBook, deleteBook} = useBook(isbn);
     const history = useHistory();
 
-    const handleClick = () => {
-        try {
-            void deleteBook(isbn);
-            toast.success(`Successfully removed '${book?.title}'`);
-            history.push('/');
-        } catch (e) {
-            toast.error('Failed to delete the book');
-        }
+    const handleDeleteClick = () => {
+        void deleteBook(
+            () => {
+                toast.success(`Successfully removed '${book?.title}'`);
+                history.push('/');
+            },
+            () => {
+                toast.error('Failed to delete the book');
+            }
+        );
     };
 
-    const handleTitleChange = async (newTitle: string) => {
+    const handleTitleChange = (newTitle: string) => {
         if (book !== undefined) {
             book.title = newTitle;
-            await updateBook(book.isbn, book, setBook);
+            void setBook(book);
         }
     };
 
@@ -43,7 +46,7 @@ const BookDetailView = (): JSX.Element => {
             <IconButton onClick={() => history.push('/')}>
                 <ArrowBackIcon />
             </IconButton>
-            {book ? (
+            {book.isbn ? (
                 <Grid container spacing={2}>
                     <Grid item md={12} xs={12}>
                         <EditableInput text={book.title} header onChangeDone={handleTitleChange} />
@@ -56,9 +59,14 @@ const BookDetailView = (): JSX.Element => {
                         )}
                     </Grid>
                     <Grid item md={4} xs={12}>
-                        <MetaDataBlock book={book} handleBookUpdate={setBook} />
+                        <MetaDataBlock
+                            book={book}
+                            onChange={(updatedBook: Book) => {
+                                void setBook(updatedBook);
+                            }}
+                        />
                         <div style={{float: 'right', marginTop: '1rem'}}>
-                            <button className="delete-button" onClick={handleClick}>
+                            <button className="delete-button" onClick={handleDeleteClick}>
                                 Delete Book
                             </button>
                         </div>
@@ -69,26 +77,6 @@ const BookDetailView = (): JSX.Element => {
             )}
         </Paper>
     );
-};
-
-const useBook = (isbn: string): [Book | undefined, (Book) => void] => {
-    const [book, setBook] = useState<Book>();
-
-    useEffect(() => {
-        const fetchBook = async (): Promise<Book> => {
-            if (isbn === undefined) {
-                throw new Error('Given isbn is undefined');
-            }
-            const book = await getBook(isbn);
-            setBook(book);
-
-            return book;
-        };
-        fetchBook()
-            .then((book: Book) => console.log(`Fetched Book '${book.title}'`))
-            .catch((e) => console.warn(`Could not fetch book with isbn '${isbn}'`, e));
-    }, [isbn]);
-    return [book, setBook];
 };
 
 export default BookDetailView;

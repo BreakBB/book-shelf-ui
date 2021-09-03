@@ -25,9 +25,9 @@ export const deleteBook = async (isbn: string): Promise<void> => {
     await axios.delete(`${BASE_URL}/books/${isbn}`);
 };
 
-export const updateBook = async (isbn: string, book: Book, handleBookUpdate: (Book) => void): Promise<void> => {
+export const updateBook = async (isbn: string, book: Book): Promise<Book> => {
     const bookResponse = await axios.put(`${BASE_URL}/books/${isbn}`, {
         ...toBookRequest(book),
     });
-    handleBookUpdate(toBook(bookResponse.data));
+    return toBook(bookResponse.data);
 };

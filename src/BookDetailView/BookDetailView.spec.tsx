@@ -44,15 +44,17 @@ describe('BookCardView', () => {
         getByText('No Details');
     });
 
-    it('should show "no details" placeholder for empty response data', async () => {
-        const book = TEST_BOOKS.harryPotter1;
-        mockAxios(null);
-        history.push(`/${book.isbn}`);
+    it('should show "no details" placeholder for invalid ISBN', async () => {
+        axiosMockedGet = jest.fn().mockImplementation(() => {
+            throw new Error('Invalid ISBN');
+        });
+        axios.get = axiosMockedGet;
+        history.push('/123invalid');
 
         const {getByText} = renderWithRouterMatch(BookDetailView, '/:isbn');
 
         await waitFor(() => {
-            expect(axiosMockedGet).toHaveBeenCalledWith(`${BASE_URL}/books/${book.isbn}`);
+            expect(axiosMockedGet).toHaveBeenCalledWith(`${BASE_URL}/books/123invalid`);
         });
         getByText('No Details');
     });
