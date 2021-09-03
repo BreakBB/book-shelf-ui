@@ -10,8 +10,9 @@ import CloseIcon from '@material-ui/icons/Close';
 
 interface Props {
     show: boolean;
-    onClose: () => void;
     onSubmit: (book: NewBookRequest) => void;
+    closeModal: () => void;
+    onClose: () => void;
     bookAlreadyExists: boolean;
 }
 
@@ -32,6 +33,7 @@ const NewBookModal = (props: Props): JSX.Element => {
                 author: author.value,
                 releaseDate: dayjs(releaseDate.value).format('YYYY-MM-DD'),
             });
+            props.closeModal();
         }
     };
 

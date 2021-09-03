@@ -57,11 +57,12 @@ function BookCardView(): JSX.Element {
             </ul>
             <NewBookModal
                 show={showModal}
+                onSubmit={handleNewBookSubmit}
+                closeModal={() => setShowModal(false)}
                 onClose={() => {
                     setShowModal(false);
                     setBookAlreadyExists(false);
                 }}
-                onSubmit={handleNewBookSubmit}
                 bookAlreadyExists={bookAlreadyExists}
             />
         </>
