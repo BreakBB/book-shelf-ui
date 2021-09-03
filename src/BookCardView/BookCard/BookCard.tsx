@@ -16,7 +16,7 @@ const BookCard = (props: Props): JSX.Element => {
     const localCoverUrl = `${BASE_URL}/covers/${props.isbn}`;
 
     return (
-        <li onClick={() => history.push(props.isbn)} key={props.isbn} className="book-card hover-grow">
+        <li onClick={() => history.push(`/books/${props.isbn}`)} key={props.isbn} className="book-card hover-grow">
             {props.coverId ? (
                 <img className="image" src={localCoverUrl} alt={props.title} />
             ) : (

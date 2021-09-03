@@ -17,16 +17,16 @@ describe('BookCardView', () => {
     };
 
     afterEach(() => {
-        history.push('/');
+        history.push('/books');
         jest.resetAllMocks();
     });
 
     it('should render the book details', async () => {
         const book = TEST_BOOKS.harryPotter1;
         mockAxios(book);
-        history.push(`/${book.isbn}`);
+        history.push(`/books/${book.isbn}`);
 
-        renderWithRouterMatch(BookDetailView, '/:isbn');
+        renderWithRouterMatch(BookDetailView, '/books/:isbn');
 
         // We need to use waitFor because we have an async call in our component which changes the state
         await waitFor(() => {
@@ -50,9 +50,9 @@ describe('BookCardView', () => {
         axiosMock.get = jest.fn().mockImplementation(() => {
             throw new Error('Invalid ISBN');
         });
-        history.push('/123invalid');
+        history.push('/books/123invalid');
 
-        renderWithRouterMatch(BookDetailView, '/:isbn');
+        renderWithRouterMatch(BookDetailView, '/books/:isbn');
 
         await waitFor(() => {
             expect(axiosMock.get).toHaveBeenCalledWith(`${BASE_URL}/books/123invalid`);
@@ -63,9 +63,9 @@ describe('BookCardView', () => {
     it('should navigate to book overview on back button click', async () => {
         const book = TEST_BOOKS.harryPotter1;
         mockAxios(book);
-        history.push(`/${book.isbn}`);
+        history.push(`/books/${book.isbn}`);
 
-        renderWithRouterMatch(BookDetailView, '/:isbn');
+        renderWithRouterMatch(BookDetailView, '/books/:isbn');
 
         await waitFor(() => {
             expect(axiosMock.get).toHaveBeenCalledWith(`${BASE_URL}/books/${book.isbn}`);
@@ -74,6 +74,26 @@ describe('BookCardView', () => {
 
         userEvent.click(allButtons[0]);
 
-        expect(history.location.pathname).toBe('/');
+        expect(history.location.pathname).toBe('/books');
+    });
+
+    it('should navigate to book overview on book deletion', async () => {
+        const book = TEST_BOOKS.harryPotter1;
+        mockAxios(book);
+        history.push(`/books/${book.isbn}`);
+
+        renderWithRouterMatch(BookDetailView, '/books/:isbn');
+
+        await waitFor(() => {
+            expect(axiosMock.get).toHaveBeenCalledWith(`${BASE_URL}/books/${book.isbn}`);
+        });
+
+        const deleteButton = screen.getByRole('button', {name: /Delete Book/i});
+        userEvent.click(deleteButton);
+        await waitFor(() => {
+            expect(axiosMock.delete).toHaveBeenCalled();
+        });
+
+        expect(history.location.pathname).toBe('/books');
     });
 });

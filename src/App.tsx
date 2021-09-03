@@ -26,7 +26,10 @@ const App = (): JSX.Element => (
         <Container maxWidth="lg">
             <Router history={history}>
                 <Switch>
-                    <Route path="/:isbn">
+                    <Route exact path="/books">
+                        <BookCardView />
+                    </Route>
+                    <Route path="/books/:isbn">
                         <BookDetailView />
                     </Route>
                     <Route path="/">

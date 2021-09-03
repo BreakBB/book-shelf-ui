@@ -25,11 +25,11 @@ const BookDetailView = (): JSX.Element => {
     const handleDeleteClick = () => {
         void deleteBook(
             () => {
-                toast.success(`Successfully removed '${book?.title}'`);
-                history.push('/');
+                toast.success(`Successfully removed book: '${book?.title}'`);
+                history.push('/books');
             },
             () => {
-                toast.error('Failed to delete the book');
+                toast.error(`Failed to delete book: '${book?.title}'`);
             }
         );
     };
@@ -43,7 +43,7 @@ const BookDetailView = (): JSX.Element => {
 
     return (
         <Paper className="book-detail-paper">
-            <IconButton onClick={() => history.push('/')}>
+            <IconButton onClick={() => history.push('/books')}>
                 <ArrowBackIcon />
             </IconButton>
             {book.isbn ? (

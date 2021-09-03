@@ -35,6 +35,6 @@ describe('BookCardView', () => {
         const image = screen.getByAltText(book.title) as HTMLImageElement;
         expect(history.location.pathname).toBe('/');
         userEvent.click(image);
-        expect(history.location.pathname).toBe(`/${book.isbn}`);
+        expect(history.location.pathname).toBe(`/books/${book.isbn}`);
     });
 });
