@@ -7,16 +7,18 @@ import userEvent from '@testing-library/user-event';
 import {BASE_URL} from '../bookService';
 import {Book} from '../types/types';
 
+jest.mock('axios');
+
 describe('BookCardView', () => {
-    let axiosMockedGet;
+    const axiosMock = axios as jest.Mocked<typeof axios>;
 
     const mockAxios = (responseData?: Book | null): void => {
-        axiosMockedGet = jest.fn().mockReturnValue({data: responseData});
-        axios.get = axiosMockedGet;
+        axiosMock.get.mockResolvedValue({data: responseData});
     };
 
     afterEach(() => {
         history.push('/');
+        jest.resetAllMocks();
     });
 
     it('should render the book details', async () => {
@@ -28,7 +30,7 @@ describe('BookCardView', () => {
 
         // We need to use waitFor because we have an async call in our component which changes the state
         await waitFor(() => {
-            expect(axiosMockedGet).toHaveBeenCalledWith(`${BASE_URL}/books/${book.isbn}`);
+            expect(axiosMock.get).toHaveBeenCalledWith(`${BASE_URL}/books/${book.isbn}`);
         });
         screen.getByText(book.title);
         const coverImage = screen.getByAltText(book.title) as HTMLImageElement;
@@ -40,21 +42,20 @@ describe('BookCardView', () => {
 
         renderWithRouterMatch(BookDetailView, '/');
 
-        expect(axiosMockedGet).not.toHaveBeenCalled();
+        expect(axiosMock.get).not.toHaveBeenCalled();
         screen.getByText('No Details');
     });
 
     it('should show "no details" placeholder for invalid ISBN', async () => {
-        axiosMockedGet = jest.fn().mockImplementation(() => {
+        axiosMock.get = jest.fn().mockImplementation(() => {
             throw new Error('Invalid ISBN');
         });
-        axios.get = axiosMockedGet;
         history.push('/123invalid');
 
         renderWithRouterMatch(BookDetailView, '/:isbn');
 
         await waitFor(() => {
-            expect(axiosMockedGet).toHaveBeenCalledWith(`${BASE_URL}/books/123invalid`);
+            expect(axiosMock.get).toHaveBeenCalledWith(`${BASE_URL}/books/123invalid`);
         });
         screen.getByText('No Details');
     });
@@ -67,7 +68,7 @@ describe('BookCardView', () => {
         renderWithRouterMatch(BookDetailView, '/:isbn');
 
         await waitFor(() => {
-            expect(axiosMockedGet).toHaveBeenCalledWith(`${BASE_URL}/books/${book.isbn}`);
+            expect(axiosMock.get).toHaveBeenCalledWith(`${BASE_URL}/books/${book.isbn}`);
         });
         const allButtons = screen.getAllByRole('button');
 
