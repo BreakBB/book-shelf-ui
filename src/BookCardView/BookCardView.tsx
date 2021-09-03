@@ -12,7 +12,7 @@ import useBooks from '../hooks/useBooks';
 export const NO_BOOKS_YET = "You don't have any books in your Collection yet. Go ahead and add some!";
 export const YOUR_COLLECTION = 'Your Collection';
 
-function BookCardView(): JSX.Element {
+const BookCardView = (): JSX.Element => {
     const {books, fetchBooks, addBook} = useBooks();
     const [showModal, setShowModal] = useState(false);
     const [bookAlreadyExists, setBookAlreadyExists] = useState(false);
@@ -67,6 +67,6 @@ function BookCardView(): JSX.Element {
             />
         </>
     );
-}
+};
 
 export default BookCardView;

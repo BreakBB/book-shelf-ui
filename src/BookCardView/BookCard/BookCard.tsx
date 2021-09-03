@@ -10,7 +10,7 @@ interface Props {
     coverId: string | undefined;
 }
 
-function BookCard(props: Props): JSX.Element {
+const BookCard = (props: Props): JSX.Element => {
     const history = useHistory();
 
     const localCoverUrl = `${BASE_URL}/covers/${props.isbn}`;
@@ -24,6 +24,6 @@ function BookCard(props: Props): JSX.Element {
             )}
         </li>
     );
-}
+};
 
 export default BookCard;

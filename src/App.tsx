@@ -13,39 +13,37 @@ import Theme from './Theme';
 import {history} from './history';
 import {ToastContainer} from 'react-toastify';
 
-function App(): JSX.Element {
-    return (
-        <Theme className="App">
-            <AppBar position="static" style={{marginBottom: '20px'}}>
-                <Toolbar>
-                    <IconButton edge="start" color="inherit" aria-label="menu">
-                        <MenuIcon />
-                    </IconButton>
-                    <h4>Books</h4>
-                </Toolbar>
-            </AppBar>
-            <Container maxWidth="lg">
-                <Router history={history}>
-                    <Switch>
-                        <Route path="/:isbn">
-                            <BookDetailView />
-                        </Route>
-                        <Route path="/">
-                            <BookCardView />
-                        </Route>
-                    </Switch>
-                </Router>
-                <ToastContainer
-                    position="bottom-center"
-                    autoClose={2500}
-                    rtl={false}
-                    hideProgressBar
-                    pauseOnFocusLoss
-                    closeOnClick
-                />
-            </Container>
-        </Theme>
-    );
-}
+const App = (): JSX.Element => (
+    <Theme className="App">
+        <AppBar position="static" style={{marginBottom: '20px'}}>
+            <Toolbar>
+                <IconButton edge="start" color="inherit" aria-label="menu">
+                    <MenuIcon />
+                </IconButton>
+                <h4>Books</h4>
+            </Toolbar>
+        </AppBar>
+        <Container maxWidth="lg">
+            <Router history={history}>
+                <Switch>
+                    <Route path="/:isbn">
+                        <BookDetailView />
+                    </Route>
+                    <Route path="/">
+                        <BookCardView />
+                    </Route>
+                </Switch>
+            </Router>
+            <ToastContainer
+                position="bottom-center"
+                autoClose={2500}
+                rtl={false}
+                hideProgressBar
+                pauseOnFocusLoss
+                closeOnClick
+            />
+        </Container>
+    </Theme>
+);
 
 export default App;

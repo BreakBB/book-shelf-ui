@@ -7,13 +7,11 @@ interface Props {
     className: string;
 }
 
-function Theme(props: Props): JSX.Element {
-    return (
-        <ThemeProvider theme={theme}>
-            <div className={props.className}>{props.children}</div>
-        </ThemeProvider>
-    );
-}
+const Theme = (props: Props): JSX.Element => (
+    <ThemeProvider theme={theme}>
+        <div className={props.className}>{props.children}</div>
+    </ThemeProvider>
+);
 
 const theme = createMuiTheme({
     // palette: {

@@ -9,7 +9,7 @@ interface Props {
     onChangeDone: (string) => void;
 }
 
-function DataRow(props: Props): JSX.Element {
+const DataRow = (props: Props): JSX.Element => {
     const theme = useTheme();
 
     return (
@@ -22,6 +22,6 @@ function DataRow(props: Props): JSX.Element {
             </td>
         </tr>
     );
-}
+};
 
 export default DataRow;

@@ -13,7 +13,7 @@ interface Props {
     onChangeDone: (string) => void;
 }
 
-function DateDataRow(props: Props): JSX.Element {
+const DateDataRow = (props: Props): JSX.Element => {
     const theme = useTheme();
     const [editMode, setEditMode] = useState(false);
     const [rowValue, setRowValue] = useState(props.value);
@@ -56,6 +56,6 @@ function DateDataRow(props: Props): JSX.Element {
             )}
         </tr>
     );
-}
+};
 
 export default DateDataRow;
