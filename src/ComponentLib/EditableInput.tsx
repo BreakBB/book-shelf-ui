@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
@@ -14,6 +14,10 @@ interface Props {
 export const EditableInput = (props: Props): JSX.Element => {
     const [editMode, setEditMode] = useState(false);
     const [text, setText] = useState(props.text);
+
+    useEffect(() => {
+        setText(props.text);
+    }, [props.text]);
 
     const handleChangeDone = () => {
         if (text !== props.text) {
