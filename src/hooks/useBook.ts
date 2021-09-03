@@ -1,7 +1,6 @@
 import {Book} from '../types/types';
 import {useEffect, useState} from 'react';
 import {deleteBook as remoteDeleteBook, updateBook as remoteUpdateBook, getBook} from '../bookService';
-import dayjs from 'dayjs';
 
 interface UseBook {
     book: Book;
@@ -12,7 +11,7 @@ interface UseBook {
 const EMPTY_BOOK: Book = {
     author: '',
     isbn: '',
-    releaseDate: dayjs(),
+    releaseDate: '',
     title: '',
 };
 

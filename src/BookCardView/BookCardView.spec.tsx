@@ -5,7 +5,7 @@ import axios from 'axios';
 import {TEST_BOOKS} from '../testUtils';
 import {BASE_URL} from '../bookService';
 import userEvent from '@testing-library/user-event';
-import {BookResponseData, NewBookRequest} from '../types/types';
+import {Book, NewBookRequest} from '../types/types';
 import dayjs from 'dayjs';
 
 jest.mock('axios');
@@ -15,7 +15,7 @@ const bookUrl = `${BASE_URL}/books`;
 describe('BookCardView', () => {
     const axiosMock = axios as jest.Mocked<typeof axios>;
 
-    const initTest = (initialBooks: BookResponseData[]) => {
+    const initTest = (initialBooks: Book[]) => {
         axiosMock.get.mockResolvedValueOnce({data: initialBooks});
         render(<BookCardView />);
     };

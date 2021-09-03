@@ -1,5 +1,4 @@
 import React from 'react';
-import {Dayjs} from 'dayjs';
 import DataRow from './DataRow/DataRow';
 import DateDataRow from './DataRow/DateDataRow';
 import {Book} from '../types/types';
@@ -14,7 +13,7 @@ const MetaDataBlock = ({book, onChange}: Props): JSX.Element => {
         book.author = newAuthor;
         onChange(book);
     };
-    const handleReleaseDateChange = (newReleaseDate: Dayjs) => {
+    const handleReleaseDateChange = (newReleaseDate: string) => {
         book.releaseDate = newReleaseDate;
         onChange(book);
     };

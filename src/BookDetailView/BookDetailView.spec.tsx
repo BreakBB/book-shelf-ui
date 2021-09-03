@@ -1,16 +1,16 @@
 import {waitFor} from '@testing-library/react';
 import axios from 'axios';
-import {BookResponseData} from '../types/types';
 import {renderWithRouterMatch, TEST_BOOKS} from '../testUtils';
 import BookDetailView from './BookDetailView';
 import {history} from '../history';
 import userEvent from '@testing-library/user-event';
 import {BASE_URL} from '../bookService';
+import {Book} from '../types/types';
 
 describe('BookCardView', () => {
     let axiosMockedGet;
 
-    const mockAxios = (responseData?: BookResponseData | null): void => {
+    const mockAxios = (responseData?: Book | null): void => {
         axiosMockedGet = jest.fn().mockReturnValue({data: responseData});
         axios.get = axiosMockedGet;
     };

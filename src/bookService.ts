@@ -1,24 +1,23 @@
 import axios, {AxiosResponse} from 'axios';
-import {Book, BookResponseData, NewBookRequest} from './types/types';
-import {toBook, toBookRequest, transformReleaseDates} from './utils';
+import {Book, NewBookRequest} from './types/types';
 
 export const BASE_URL = `http://localhost:8080`;
 
 export const getAllBooks = async (): Promise<Book[]> => {
-    const response: AxiosResponse<BookResponseData[]> = await axios.get(`${BASE_URL}/books`);
+    const response: AxiosResponse<Book[]> = await axios.get(`${BASE_URL}/books`);
 
-    return transformReleaseDates(response.data);
+    return response.data;
 };
 
 export const getBook = async (isbn: string): Promise<Book> => {
-    const response: AxiosResponse<BookResponseData> = await axios.get(`${BASE_URL}/books/${isbn}`);
+    const response: AxiosResponse<Book> = await axios.get(`${BASE_URL}/books/${isbn}`);
 
-    return toBook(response.data);
+    return response.data;
 };
 
 export const createNewBook = async (newBook: NewBookRequest): Promise<Book> => {
-    const axiosResponse: AxiosResponse<BookResponseData> = await axios.post(`${BASE_URL}/books`, newBook);
-    return toBook(axiosResponse.data);
+    const axiosResponse: AxiosResponse<Book> = await axios.post(`${BASE_URL}/books`, newBook);
+    return axiosResponse.data;
 };
 
 export const deleteBook = async (isbn: string): Promise<void> => {
@@ -27,7 +26,7 @@ export const deleteBook = async (isbn: string): Promise<void> => {
 
 export const updateBook = async (isbn: string, book: Book): Promise<Book> => {
     const bookResponse = await axios.put(`${BASE_URL}/books/${isbn}`, {
-        ...toBookRequest(book),
+        ...book,
     });
-    return toBook(bookResponse.data);
+    return bookResponse.data;
 };
