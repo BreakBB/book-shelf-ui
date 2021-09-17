@@ -4,7 +4,7 @@ import App from './App';
 import {history} from './history';
 import {isLoggedIn} from './LoginView/loginUtils';
 
-jest.mock('./loginView/loginUtils.ts', () => {
+jest.mock('./LoginView/loginUtils.ts', () => {
     return {
         isLoggedIn: jest.fn(),
     };
