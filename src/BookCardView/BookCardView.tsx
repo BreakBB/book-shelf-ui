@@ -3,7 +3,6 @@ import {NewBookRequest} from '../types/types';
 import './BookCardView.css';
 import BookCard from './BookCard/BookCard';
 import AddIcon from '@material-ui/icons/Add';
-import useTheme from '@material-ui/core/styles/useTheme';
 import NewBookModal from './NewBookModal/NewBookModal';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,7 +15,6 @@ const BookCardView = (): JSX.Element => {
     const {books, fetchBooks, addBook} = useBooks();
     const [showModal, setShowModal] = useState(false);
     const [bookAlreadyExists, setBookAlreadyExists] = useState(false);
-    const theme = useTheme();
 
     useEffect(() => {
         void fetchBooks();
@@ -47,11 +45,7 @@ const BookCardView = (): JSX.Element => {
                 {books.map((book, index) => (
                     <BookCard key={index} title={book.title} isbn={book.isbn} coverId={book.coverId} />
                 ))}
-                <li
-                    onClick={() => setShowModal(true)}
-                    className="book-card hover-grow add-book-card"
-                    style={{color: theme.palette.secondary.main}}
-                >
+                <li onClick={() => setShowModal(true)} className="book-card hover-grow add-book-card">
                     <AddIcon className="placeholder-image-text" style={{fontSize: 90}} />
                 </li>
             </ul>

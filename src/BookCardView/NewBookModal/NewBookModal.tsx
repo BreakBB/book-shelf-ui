@@ -2,7 +2,6 @@ import React from 'react';
 import {Dialog, DialogContent, DialogTitle} from '@material-ui/core';
 import './NewBookModal.css';
 import FormInput from './FormInput';
-import useTheme from '@material-ui/core/styles/useTheme';
 import {NewBookRequest} from '../../types/types';
 import dayjs from 'dayjs';
 import IconButton from '@material-ui/core/IconButton';
@@ -17,8 +16,6 @@ interface Props {
 }
 
 const NewBookModal = (props: Props): JSX.Element => {
-    const theme = useTheme();
-
     const handleSubmit = (event) => {
         event.preventDefault();
 
@@ -46,9 +43,7 @@ const NewBookModal = (props: Props): JSX.Element => {
                 </IconButton>
             </DialogTitle>
             <DialogContent>
-                {props.bookAlreadyExists && (
-                    <span style={{color: theme.palette.error.main}}>This book is already in your library</span>
-                )}
+                {props.bookAlreadyExists && <span className="error-message">This book is already in your library</span>}
                 <form className="form-block" onSubmit={handleSubmit}>
                     <FormInput label="Book name" name="title" />
                     <FormInput label="ISBN" name="isbn" />
