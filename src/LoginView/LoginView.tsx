@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {history} from '../history';
 import {Redirect} from 'react-router-dom';
 import {isLoggedIn} from './loginUtils';
+import './LoginView.css';
 
 const LoginView = (): JSX.Element => {
     const [loginFailed, setLoginFailed] = useState(false);
@@ -26,15 +27,20 @@ const LoginView = (): JSX.Element => {
     return (
         <>
             <h1 className="title">Login</h1>
-            <form onSubmit={onSubmit}>
+            <form className="login-form" onSubmit={onSubmit}>
                 <label htmlFor="username">Username</label>
-                <input id="username" name="username" type="email" required />
-                <br />
+                <input id="username" name="username" type="email" />
+
                 <label htmlFor="password">Password</label>
-                <input id="password" name="password" type="password" required />
-                <br />
-                {loginFailed && <span>Login failed</span>}
-                <button type="submit">Login</button>
+                <input id="password" name="password" type="password" />
+                {loginFailed && (
+                    <>
+                        <span className="login-error-message">Login failed</span>
+                    </>
+                )}
+                <button className="login-button" type="submit">
+                    Login
+                </button>
             </form>
         </>
     );
