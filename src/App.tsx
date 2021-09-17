@@ -9,15 +9,14 @@ import {Container} from '@material-ui/core';
 import {Router} from 'react-router';
 import {Redirect, Route, Switch} from 'react-router-dom';
 import BookDetailView from './BookDetailView/BookDetailView';
-import Theme from './Theme';
 import {history} from './history';
 import {ToastContainer} from 'react-toastify';
 import LoginView from './LoginView/LoginView';
 
 const App = (): JSX.Element => (
-    <Theme className="App">
+    <>
         <AppBar position="static" style={{marginBottom: '20px'}}>
-            <Toolbar>
+            <Toolbar className="toolbar">
                 <IconButton edge="start" color="inherit" aria-label="menu">
                     <MenuIcon />
                 </IconButton>
@@ -51,7 +50,7 @@ const App = (): JSX.Element => (
                 closeOnClick
             />
         </Container>
-    </Theme>
+    </>
 );
 
 export default App;

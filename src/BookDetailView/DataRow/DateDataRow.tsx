@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import useTheme from '@material-ui/core/styles/useTheme';
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import IconButton from '@material-ui/core/IconButton';
@@ -14,7 +13,6 @@ interface Props {
 }
 
 const DateDataRow = (props: Props): JSX.Element => {
-    const theme = useTheme();
     const [editMode, setEditMode] = useState(false);
     const [rowValue, setRowValue] = useState(props.value);
 
@@ -27,9 +25,7 @@ const DateDataRow = (props: Props): JSX.Element => {
 
     return (
         <tr className="data-row">
-            <td className="data-key" style={{color: theme.palette.text.secondary}}>
-                {props.title}
-            </td>
+            <td className="data-key">{props.title}</td>
             {editMode ? (
                 <>
                     <td className="data-value">

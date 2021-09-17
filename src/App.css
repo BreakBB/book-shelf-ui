@@ -1,5 +1,20 @@
-.App {
-    text-align: left;
+/*
+main colors
+
+default: #3f51b5
+dark: #2c387e
+light: #6573c3
+
+secondary colors
+
+default: #f50057
+dark: #ab003c
+light: #f73378
+
+*/
+
+.toolbar {
+    background-color: #3f51b5;
 }
 
 .title {
@@ -12,4 +27,8 @@
 
 .data-row {
     height: 3.5rem;
+}
+
+.error-message {
+    color: #da0c0c;
 }
