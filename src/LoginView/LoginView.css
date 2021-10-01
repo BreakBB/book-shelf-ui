@@ -1,0 +1,26 @@
+.login-form {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-column-gap: 20px;
+    grid-row-gap: 15px;
+}
+
+.login-error-message {
+    color: #da0c0c;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    display: flex;
+    justify-self: center;
+}
+
+.login-button {
+    background-color: #f50057;
+    color: white;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    display: flex;
+    justify-self: center;
+    padding: 3px 15px;
+    border: none;
+    border-radius: 4px;
+}
