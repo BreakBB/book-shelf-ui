@@ -21,7 +21,9 @@ const App = (): JSX.Element => (
                     <MenuIcon />
                 </IconButton>
                 <h4 style={{flexGrow: 1}}>Books</h4>
-                <button onClick={() => history.push('/login')}>Login</button>
+                <button className="menu-login-button" onClick={() => history.push('/login')}>
+                    Login
+                </button>
             </Toolbar>
         </AppBar>
         <Container maxWidth="lg">
