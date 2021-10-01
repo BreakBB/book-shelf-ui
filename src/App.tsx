@@ -12,6 +12,7 @@ import BookDetailView from './BookDetailView/BookDetailView';
 import {history} from './history';
 import {ToastContainer} from 'react-toastify';
 import LoginView from './LoginView/LoginView';
+import {isLoggedIn} from './LoginView/loginUtils';
 
 const App = (): JSX.Element => (
     <>
@@ -22,7 +23,7 @@ const App = (): JSX.Element => (
                 </IconButton>
                 <h4 style={{flexGrow: 1}}>Books</h4>
                 <button className="menu-login-button" onClick={() => history.push('/login')}>
-                    Login
+                    {isLoggedIn() ? 'Logout' : 'Login'}
                 </button>
             </Toolbar>
         </AppBar>
