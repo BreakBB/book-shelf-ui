@@ -1,11 +1,10 @@
 import axios, {AxiosResponse} from 'axios';
 import {Book, NewBookRequest} from './types/types';
 
-export const BASE_URL = `http://localhost:8080`;
+export const BASE_URL = '/api';
 
 export const getAllBooks = async (): Promise<Book[]> => {
     const response: AxiosResponse<Book[]> = await axios.get(`${BASE_URL}/books`);
-
     return response.data;
 };
 
