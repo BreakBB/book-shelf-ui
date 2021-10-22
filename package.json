@@ -8,6 +8,8 @@
         "axios": "^0.21.0",
         "dayjs": "^1.10.4",
         "esbuild": "^0.12.18",
+        "http-proxy-middleware": "^2.0.1",
+        "morgan": "^1.10.0",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
         "react-router-dom": "^5.2.0",
@@ -39,7 +41,8 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "node esbuildScript.js",
-        "test": "CI=true react-scripts test --env=jsdom --coverage --bail",
+        "test": "CI=true react-scripts test --env=jsdom",
+        "test:coverage": "CI=true react-scripts test --env=jsdom --coverage",
         "eject": "react-scripts eject",
         "lint": "node_modules/.bin/eslint ./ --ext .js,.jsx,.ts,.tsx",
         "tsc": "node_modules/.bin/tsc",

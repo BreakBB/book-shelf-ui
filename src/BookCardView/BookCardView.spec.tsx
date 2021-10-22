@@ -3,14 +3,14 @@ import {render, screen, waitFor} from '@testing-library/react';
 import BookCardView, {NO_BOOKS_YET, YOUR_COLLECTION} from './BookCardView';
 import axios from 'axios';
 import {TEST_BOOKS} from '../testUtils';
-import {BASE_URL} from '../bookService';
+import {API_ROUTE} from '../bookService';
 import userEvent from '@testing-library/user-event';
 import {Book, NewBookRequest} from '../types/types';
 import dayjs from 'dayjs';
 
 jest.mock('axios');
 
-const bookUrl = `${BASE_URL}/books`;
+const bookUrl = `${API_ROUTE}/books`;
 
 describe('BookCardView', () => {
     const axiosMock = axios as jest.Mocked<typeof axios>;
