@@ -4,7 +4,7 @@ import {renderWithRouterMatch, TEST_BOOKS} from '../testUtils';
 import BookDetailView from './BookDetailView';
 import {history} from '../history';
 import userEvent from '@testing-library/user-event';
-import {BASE_URL} from '../bookService';
+import {API_ROUTE} from '../bookService';
 import {Book} from '../types/types';
 
 jest.mock('axios');
@@ -30,11 +30,11 @@ describe('BookCardView', () => {
 
         // We need to use waitFor because we have an async call in our component which changes the state
         await waitFor(() => {
-            expect(axiosMock.get).toHaveBeenCalledWith(`${BASE_URL}/books/${book.isbn}`);
+            expect(axiosMock.get).toHaveBeenCalledWith(`${API_ROUTE}/books/${book.isbn}`);
         });
         screen.getByText(book.title);
         const coverImage = screen.getByAltText(book.title) as HTMLImageElement;
-        expect(coverImage.src).toBe(`${BASE_URL}/covers/${book.isbn}`);
+        expect(coverImage.src).toBe(`http://localhost${API_ROUTE}/covers/${book.isbn}`);
     });
 
     it('should show "no details" placeholder without a isbn', async () => {
@@ -55,7 +55,7 @@ describe('BookCardView', () => {
         renderWithRouterMatch(BookDetailView, '/books/:isbn');
 
         await waitFor(() => {
-            expect(axiosMock.get).toHaveBeenCalledWith(`${BASE_URL}/books/123invalid`);
+            expect(axiosMock.get).toHaveBeenCalledWith(`${API_ROUTE}/books/123invalid`);
         });
         screen.getByText('No Details');
     });
@@ -68,7 +68,7 @@ describe('BookCardView', () => {
         renderWithRouterMatch(BookDetailView, '/books/:isbn');
 
         await waitFor(() => {
-            expect(axiosMock.get).toHaveBeenCalledWith(`${BASE_URL}/books/${book.isbn}`);
+            expect(axiosMock.get).toHaveBeenCalledWith(`${API_ROUTE}/books/${book.isbn}`);
         });
         const allButtons = screen.getAllByRole('button');
 
@@ -85,7 +85,7 @@ describe('BookCardView', () => {
         renderWithRouterMatch(BookDetailView, '/books/:isbn');
 
         await waitFor(() => {
-            expect(axiosMock.get).toHaveBeenCalledWith(`${BASE_URL}/books/${book.isbn}`);
+            expect(axiosMock.get).toHaveBeenCalledWith(`${API_ROUTE}/books/${book.isbn}`);
         });
 
         const deleteButton = screen.getByRole('button', {name: /Delete Book/i});
