@@ -4,7 +4,7 @@ import BookCard from './BookCard';
 import {renderWithRouter, TEST_BOOKS} from '../../testUtils';
 import userEvent from '@testing-library/user-event';
 import {history} from '../../history';
-import {BASE_URL} from '../../bookService';
+import {API_ROUTE} from '../../bookService';
 
 describe('BookCardView', () => {
     it('should render the cover', () => {
@@ -14,7 +14,7 @@ describe('BookCardView', () => {
 
         const image = screen.getByAltText(book.title) as HTMLImageElement;
         expect(image.className).toBe('image');
-        expect(image.src).toBe(`${BASE_URL}/covers/${book.isbn}`);
+        expect(image.src).toBe(`http://localhost${API_ROUTE}/covers/${book.isbn}`);
     });
 
     it('should render the placeholder image', () => {
