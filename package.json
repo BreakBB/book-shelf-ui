@@ -41,7 +41,8 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "node esbuildScript.js",
-        "test": "CI=true react-scripts test --env=jsdom --coverage --bail",
+        "test": "CI=true react-scripts test --env=jsdom",
+        "test:coverage": "CI=true react-scripts test --env=jsdom --coverage",
         "eject": "react-scripts eject",
         "lint": "node_modules/.bin/eslint ./ --ext .js,.jsx,.ts,.tsx",
         "tsc": "node_modules/.bin/tsc",
