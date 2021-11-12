@@ -3,6 +3,7 @@ import {render, screen} from '@testing-library/react';
 import App from './App';
 import {history} from './history';
 import {isLoggedIn} from './LoginView/loginUtils';
+import {renderWithRouter} from './testUtils';
 
 jest.mock('./LoginView/loginUtils.ts', () => {
     return {
@@ -36,7 +37,7 @@ describe('App', () => {
     it('should navigate to book overview if already logged in', () => {
         isLoggedInMock.mockReturnValue(true);
 
-        render(<App />);
+        renderWithRouter(<App />);
 
         expect(history.location.pathname).toBe('/books');
     });

@@ -1,6 +1,6 @@
 import React from 'react';
 import LoginView from './LoginView';
-import {render, screen} from '@testing-library/react';
+import {screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {history} from '../history';
 import {renderWithRouter} from '../testUtils';
@@ -16,7 +16,7 @@ describe('LoginView', () => {
     const isLoggedInMock = isLoggedIn as jest.Mock;
 
     it('should initially render empty inputs', () => {
-        render(<LoginView />);
+        renderWithRouter(<LoginView />);
 
         const usernameInput = screen.getByLabelText('Username') as HTMLInputElement;
         expect(usernameInput.value).toBe('');
@@ -34,7 +34,7 @@ describe('LoginView', () => {
         });
 
         it('should navigate to Book overview on successful login', () => {
-            render(<LoginView />);
+            renderWithRouter(<LoginView />);
 
             const usernameInput = screen.getByLabelText('Username');
             userEvent.type(usernameInput, 'testUsername');
@@ -47,7 +47,7 @@ describe('LoginView', () => {
         });
 
         it('should not navigate anywhere without required information', () => {
-            render(<LoginView />);
+            renderWithRouter(<LoginView />);
 
             const submitButton = screen.getByRole('button', {name: /Login/i});
             userEvent.click(submitButton);
@@ -56,7 +56,7 @@ describe('LoginView', () => {
         });
 
         it('should show error message on failed login', () => {
-            render(<LoginView />);
+            renderWithRouter(<LoginView />);
 
             const submitButton = screen.getByRole('button', {name: /Login/i});
             userEvent.click(submitButton);
