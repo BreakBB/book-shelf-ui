@@ -5,13 +5,13 @@ const morgan = require('morgan');
 
 module.exports = (app) => {
     app.use(
-        '/api',
+        '/covers',
         createProxyMiddleware({
             target: 'http://localhost:8090',
             changeOrigin: true,
-            pathRewrite: {
-                '^/api': '', // Remove the /api prefix
-            },
+            // pathRewrite: {
+            //     '^/api': '', // Remove the /api prefix
+            // },
         })
     );
 

@@ -1,5 +1,6 @@
-import React, {createContext, ReactNode, useContext, useState} from 'react';
-import axios, {AxiosResponse} from 'axios';
+import React, {createContext, useContext, useState} from 'react';
+import {AxiosResponse} from 'axios';
+import apiClient from '../apiClient';
 
 interface UseLogin {
     isAuthenticated: boolean;
@@ -14,12 +15,12 @@ interface TokenResponse {
 
 const LoginContext = createContext({isAuthenticated: false} as UseLogin);
 
-export const LoginProvider = ({children}: {children: ReactNode}): JSX.Element => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+export const LoginProvider = ({children}: {children: JSX.Element}): JSX.Element => {
+    const [isAuthenticated, setIsAuthenticated] = useState(true);
 
     const login = async (username: string, password: string): Promise<boolean> => {
         try {
-            const tokenResponse: AxiosResponse<TokenResponse> = await axios.post('/api/login', {
+            const tokenResponse: AxiosResponse<TokenResponse> = await apiClient.post('/login', {
                 username,
                 password,
             });
@@ -36,7 +37,9 @@ export const LoginProvider = ({children}: {children: ReactNode}): JSX.Element =>
         }
     };
 
-    const logout = (): void => {};
+    const logout = (): void => {
+        // TODO: Logout
+    };
 
     return <LoginContext.Provider value={{isAuthenticated, login, logout}}>{children}</LoginContext.Provider>;
 };
