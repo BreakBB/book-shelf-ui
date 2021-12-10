@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useState} from 'react';
+import React, {createContext, useContext, useEffect, useState} from 'react';
 import {AxiosResponse} from 'axios';
 import apiClient from '../apiClient';
 
@@ -16,7 +16,22 @@ interface TokenResponse {
 const LoginContext = createContext({isAuthenticated: false} as UseLogin);
 
 export const LoginProvider = ({children}: {children: JSX.Element}): JSX.Element => {
-    const [isAuthenticated, setIsAuthenticated] = useState(true);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        if (!isAuthenticated && localStorage.getItem('access_token')) {
+            const checkExistingAccessToken = async () => {
+                try {
+                    const response: boolean = await apiClient.get('/login/checkToken');
+                    setIsAuthenticated(response);
+                } catch(e) {
+                    // Response is different to 2XX
+                    setIsAuthenticated(false);
+                }
+            };
+            void checkExistingAccessToken();
+        }
+    })
 
     const login = async (username: string, password: string): Promise<boolean> => {
         try {
