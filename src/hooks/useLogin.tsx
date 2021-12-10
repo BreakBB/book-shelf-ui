@@ -24,14 +24,14 @@ export const LoginProvider = ({children}: {children: JSX.Element}): JSX.Element 
                 try {
                     const response: boolean = await apiClient.get('/login/checkToken');
                     setIsAuthenticated(response);
-                } catch(e) {
+                } catch (e) {
                     // Response is different to 2XX
                     setIsAuthenticated(false);
                 }
             };
             void checkExistingAccessToken();
         }
-    })
+    });
 
     const login = async (username: string, password: string): Promise<boolean> => {
         try {
