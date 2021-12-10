@@ -8,7 +8,7 @@ interface UseBook {
     deleteBook: (onSuccess: () => void, onError: () => void) => Promise<void>;
 }
 
-const EMPTY_BOOK: Book = {
+export const EMPTY_BOOK: Book = {
     author: '',
     isbn: '',
     releaseDate: '',

@@ -1,53 +1,60 @@
 import React from 'react';
 import {render, screen, waitFor} from '@testing-library/react';
 import BookCardView, {NO_BOOKS_YET, YOUR_COLLECTION} from './BookCardView';
-import axios from 'axios';
 import {TEST_BOOKS} from '../testUtils';
-import {API_ROUTE} from '../bookService';
 import userEvent from '@testing-library/user-event';
 import {Book, NewBookRequest} from '../types/types';
 import dayjs from 'dayjs';
+import useBooks from '../hooks/useBooks';
 
-jest.mock('axios');
-
-const bookUrl = `${API_ROUTE}/books`;
+jest.mock('../hooks/useBooks');
 
 describe('BookCardView', () => {
-    const axiosMock = axios as jest.Mocked<typeof axios>;
+    const useBooksMock = useBooks as jest.Mock;
+    let booksMock: Book[] = [];
+    const fetchBooksMock = jest.fn();
+    const addBookMock = jest.fn();
 
-    const initTest = (initialBooks: Book[]) => {
-        axiosMock.get.mockResolvedValueOnce({data: initialBooks});
-        render(<BookCardView />);
-    };
+    beforeEach(() => {
+        useBooksMock.mockImplementation(() => {
+            return {
+                books: booksMock,
+                fetchBooks: fetchBooksMock,
+                addBook: addBookMock,
+            };
+        });
+    });
 
     afterEach(() => {
-        jest.clearAllMocks();
+        jest.resetAllMocks();
     });
 
     it('should render the header', async () => {
-        initTest([]);
+        render(<BookCardView />);
 
         // We need to use waitFor because we have an async call in our component which changes the state
         await waitFor(() => {
-            expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
+            expect(fetchBooksMock).toHaveBeenCalled();
         });
         screen.getByText(YOUR_COLLECTION);
     });
 
     it('should render the placeholder text without books', async () => {
-        initTest([]);
+        render(<BookCardView />);
 
         await waitFor(() => {
-            expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
+            expect(fetchBooksMock).toHaveBeenCalled();
         });
         screen.getByText(NO_BOOKS_YET);
     });
 
     it('should render multiple book cards', async () => {
-        initTest([TEST_BOOKS.harryPotter1, TEST_BOOKS.harryPotter2]);
+        booksMock = [TEST_BOOKS.harryPotter1, TEST_BOOKS.harryPotter2];
+
+        render(<BookCardView />);
 
         await waitFor(() => {
-            expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
+            expect(fetchBooksMock).toHaveBeenCalled();
         });
         expect(screen.queryByText(NO_BOOKS_YET)).toBeNull();
 
@@ -55,30 +62,25 @@ describe('BookCardView', () => {
         screen.getByRole('img', {name: /harry potter und die kammer des schreckens/i});
     });
 
-    it('should handle network errors', async () => {
-        axiosMock.get.mockRejectedValueOnce('Some network error');
+    it('should add a new book', async () => {
+        addBookMock.mockImplementation((newBook, onSuccess) => {
+            onSuccess();
+        });
 
         render(<BookCardView />);
 
         await waitFor(() => {
-            expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
-        });
-        screen.getByText(NO_BOOKS_YET);
-    });
-
-    it('should add a new book', async () => {
-        initTest([]);
-        axiosMock.post.mockResolvedValueOnce({data: TEST_BOOKS.harryPotter1});
-
-        await waitFor(() => {
-            expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
+            expect(fetchBooksMock).toHaveBeenCalled();
         });
 
         insertBook(TEST_BOOKS.harryPotter1);
 
+        await waitFor(() => {
+            expect(addBookMock).toHaveBeenCalled();
+        });
+
         expect(screen.queryByText('This book is already in your library')).toBeNull();
 
-        expect(axiosMock.post).toHaveBeenCalled();
         expect(await screen.findByAltText('Harry Potter und der Stein der Weisen'));
 
         expect(screen.queryByText(NO_BOOKS_YET)).toBeNull();
@@ -86,21 +88,20 @@ describe('BookCardView', () => {
     });
 
     it('should not add a book that already exists', async () => {
-        initTest([]);
-        axiosMock.post.mockRejectedValueOnce({
-            response: {
-                status: 409,
-            },
+        addBookMock.mockImplementation((newBook, onSuccess, onError) => {
+            onError(409);
         });
 
+        render(<BookCardView />);
+
         await waitFor(() => {
-            expect(axiosMock.get).toHaveBeenCalledWith(bookUrl);
+            expect(fetchBooksMock).toHaveBeenCalled();
         });
 
         insertBook(TEST_BOOKS.harryPotter1);
 
         await waitFor(() => {
-            expect(axiosMock.post).toHaveBeenCalled();
+            expect(addBookMock).toHaveBeenCalled();
         });
 
         expect(screen.getByText('This book is already in your library'));

@@ -23,7 +23,7 @@ export const TEST_BOOKS = {
 };
 
 export const renderWithRouter = (component: JSX.Element): RenderResult => {
-    return renderWithLoginProvider(<Router history={history}>{component}</Router>);
+    return render(<Router history={history}>{component}</Router>);
 };
 
 export const renderWithRouterMatch = (component: React.ComponentType, path: string): RenderResult => {

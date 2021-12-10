@@ -34,10 +34,8 @@ const BookDetailView = (): JSX.Element => {
     };
 
     const handleTitleChange = (newTitle: string) => {
-        if (book !== undefined) {
-            book.title = newTitle;
-            void setBook(book);
-        }
+        book.title = newTitle;
+        void setBook(book);
     };
 
     return (

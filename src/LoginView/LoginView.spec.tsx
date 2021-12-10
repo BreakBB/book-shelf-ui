@@ -4,16 +4,27 @@ import {screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {history} from '../history';
 import {renderWithRouter} from '../testUtils';
-import {isLoggedIn} from './loginUtils';
+import useLogin from '../hooks/useLogin';
 
-jest.mock('./loginUtils.ts', () => {
-    return {
-        isLoggedIn: jest.fn(),
-    };
-});
+jest.mock('../hooks/useLogin');
 
 describe('LoginView', () => {
-    const isLoggedInMock = isLoggedIn as jest.Mock;
+    const useLoginMock = useLogin as jest.Mock;
+    let isAuthenticatedMock = false;
+    const loginMock = jest.fn();
+
+    beforeEach(() => {
+        useLoginMock.mockImplementation(() => {
+            return {
+                isAuthenticated: isAuthenticatedMock,
+                login: loginMock,
+            };
+        });
+    });
+
+    afterEach(() => {
+        jest.resetAllMocks();
+    });
 
     it('should initially render empty inputs', () => {
         renderWithRouter(<LoginView />);
@@ -28,12 +39,13 @@ describe('LoginView', () => {
 
     describe('if not logged in', () => {
         beforeEach(() => {
-            jest.resetAllMocks();
-            isLoggedInMock.mockReturnValue(false);
+            isAuthenticatedMock = false;
             history.push('/login');
         });
 
         it('should navigate to Book overview on successful login', () => {
+            loginMock.mockReturnValue(true);
+
             renderWithRouter(<LoginView />);
 
             const usernameInput = screen.getByLabelText('Username');
@@ -44,6 +56,21 @@ describe('LoginView', () => {
             userEvent.click(submitButton);
 
             expect(history.location.pathname).toBe('/books');
+        });
+
+        it('should show error message on failed login', () => {
+            loginMock.mockReturnValue(false);
+
+            renderWithRouter(<LoginView />);
+
+            const usernameInput = screen.getByLabelText('Username');
+            userEvent.type(usernameInput, 'wrongUsername');
+            const passwordInput = screen.getByLabelText('Password');
+            userEvent.type(passwordInput, 'wrongPassword');
+            const submitButton = screen.getByRole('button', {name: /Login/i});
+            userEvent.click(submitButton);
+
+            screen.getByText('Login failed');
         });
 
         it('should not navigate anywhere without required information', () => {
@@ -67,8 +94,7 @@ describe('LoginView', () => {
 
     describe('if already logged in', () => {
         beforeEach(() => {
-            jest.resetAllMocks();
-            isLoggedInMock.mockReturnValue(true);
+            isAuthenticatedMock = true;
             history.push('/login');
         });
 

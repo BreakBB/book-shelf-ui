@@ -32,14 +32,14 @@ export const EditableInput = (props: Props): JSX.Element => {
             {editMode ? (
                 <div className={'data-value'}>
                     <input value={text} onChange={(event) => setText(event.target.value)} />
-                    <IconButton style={{marginLeft: 'auto'}} onClick={handleChangeDone}>
+                    <IconButton data-testid="editDoneButton" style={{marginLeft: 'auto'}} onClick={handleChangeDone}>
                         <DoneIcon />
                     </IconButton>
                 </div>
             ) : (
                 <div className={'data-value'}>
                     <span>{text}</span>
-                    <IconButton style={{marginLeft: 'auto'}} onClick={() => setEditMode(true)}>
+                    <IconButton data-testid="editButton" style={{marginLeft: 'auto'}} onClick={() => setEditMode(true)}>
                         <EditIcon />
                     </IconButton>
                 </div>
