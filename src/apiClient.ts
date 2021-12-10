@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {getAccessToken, getRefreshToken, setAccessToken, setRefreshToken} from './utils/storageUtils';
 
 const client = axios.create({
     baseURL: 'http://localhost:8090',
@@ -9,7 +10,7 @@ const client = axios.create({
 
 client.interceptors.request.use(
     (config) => {
-        const accessToken = localStorage.getItem('access_token');
+        const accessToken = getAccessToken();
         if (accessToken && config.url !== '/login') {
             config.headers['Authorization'] = 'Bearer ' + accessToken;
         }
@@ -32,10 +33,10 @@ client.interceptors.response.use(
                 originalConfig.isRetry = true;
                 try {
                     const response = await client.post('/login', {
-                        refreshToken: localStorage.getItem('refresh_token'),
+                        refreshToken: getRefreshToken(),
                     });
-                    localStorage.setItem('access_token', response.data.access_token);
-                    localStorage.setItem('refresh_token', response.data.refresh_token);
+                    setAccessToken(response.data.access_token);
+                    setRefreshToken(response.data.refresh_token);
                     return client(originalConfig);
                 } catch (retryError) {
                     return Promise.reject(retryError);

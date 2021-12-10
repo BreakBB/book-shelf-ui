@@ -1,6 +1,7 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import {AxiosResponse} from 'axios';
 import apiClient from '../apiClient';
+import {getAccessToken, setAccessToken, setRefreshToken} from '../utils/storageUtils';
 
 interface UseLogin {
     isAuthenticated: boolean;
@@ -19,7 +20,7 @@ export const LoginProvider = ({children}: {children: JSX.Element}): JSX.Element 
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        if (!isAuthenticated && localStorage.getItem('access_token')) {
+        if (!isAuthenticated && getAccessToken()) {
             const checkExistingAccessToken = async () => {
                 try {
                     const response: boolean = await apiClient.get('/login/checkToken');
@@ -40,8 +41,8 @@ export const LoginProvider = ({children}: {children: JSX.Element}): JSX.Element 
                 password,
             });
 
-            localStorage.setItem('access_token', tokenResponse.data.access_token);
-            localStorage.setItem('refresh_token', tokenResponse.data.refresh_token);
+            setAccessToken(tokenResponse.data.access_token);
+            setRefreshToken(tokenResponse.data.refresh_token);
 
             setIsAuthenticated(true);
             return true;
