@@ -1,5 +1,5 @@
 import {renderHook} from '@testing-library/react-hooks';
-import useBook from './useBook';
+import useBook, {EMPTY_BOOK} from './useBook';
 import {act, waitFor} from '@testing-library/react';
 import {updateBook, getBook, deleteBook} from '../bookService';
 import {TEST_BOOKS} from '../testUtils';
@@ -12,6 +12,9 @@ describe('useBook', () => {
     const getBookMock = getBook as jest.Mock;
     const updateBookMock = updateBook as jest.Mock;
     const deleteBookMock = deleteBook as jest.Mock;
+
+    const onSuccessMock = jest.fn();
+    const onErrorMock = jest.fn();
 
     it('should return an empty book without an isbn', () => {
         const {result} = renderHook(() => useBook(''));
@@ -32,6 +35,19 @@ describe('useBook', () => {
         expect(updatedBook.title).toBe(TEST_BOOKS.harryPotter1.title);
         expect(updatedBook.author).toBe(TEST_BOOKS.harryPotter1.author);
         expect(updatedBook.releaseDate).toBe(TEST_BOOKS.harryPotter1.releaseDate);
+    });
+
+    it('should handle error when fetching a book', async () => {
+        getBookMock.mockImplementation(() => {
+            throw new Error();
+        });
+
+        const {result} = renderHook(() => useBook(ISBN));
+        await waitFor(() => {
+            expect(getBookMock).toHaveBeenCalled();
+        });
+
+        expect(result.current.book).toBe(EMPTY_BOOK);
     });
 
     it('should update a book', async () => {
@@ -57,13 +73,12 @@ describe('useBook', () => {
 
     it('should delete a book', async () => {
         getBookMock.mockReturnValue(TEST_BOOKS.harryPotter1);
-        const onSuccessMock = jest.fn();
 
         const {result} = renderHook(() => useBook(ISBN));
         await waitFor(() => {
             expect(getBookMock).toHaveBeenCalled();
         });
-        await act(() => result.current.deleteBook(onSuccessMock, () => {}));
+        await act(() => result.current.deleteBook(onSuccessMock, onErrorMock));
 
         expect(onSuccessMock).toHaveBeenCalled();
     });
@@ -73,13 +88,12 @@ describe('useBook', () => {
         deleteBookMock.mockImplementation(() => {
             throw new Error('deletion failed');
         });
-        const onErrorMock = jest.fn();
 
         const {result} = renderHook(() => useBook(ISBN));
         await waitFor(() => {
             expect(getBookMock).toHaveBeenCalled();
         });
-        await act(() => result.current.deleteBook(() => {}, onErrorMock));
+        await act(() => result.current.deleteBook(onSuccessMock, onErrorMock));
 
         expect(onErrorMock).toHaveBeenCalled();
     });
