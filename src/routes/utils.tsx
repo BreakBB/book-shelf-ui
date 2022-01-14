@@ -4,7 +4,7 @@ import type {RouteProps} from 'react-router-dom';
 import useLogin from '../hooks/useLogin';
 
 interface PrivateRouteParams extends RouteProps {
-    component: React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any>;
+    component: React.ComponentType<RouteComponentProps> | React.ComponentType;
 }
 
 export const PrivateRoute = ({component: Component, ...rest}: PrivateRouteParams): JSX.Element => {

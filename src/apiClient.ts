@@ -12,7 +12,7 @@ client.interceptors.request.use(
     (config) => {
         const accessToken = getAccessToken();
         if (accessToken && config.url !== '/login') {
-            config.headers['Authorization'] = 'Bearer ' + accessToken;
+            config.headers['Authorization'] = `Bearer ${accessToken}`;
         }
         return config;
     },

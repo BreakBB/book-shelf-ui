@@ -1,4 +1,3 @@
-import axios from 'axios';
 import apiClient from './apiClient';
 import {getAccessToken, setAccessToken, setRefreshToken} from './utils/storageUtils';
 
@@ -6,8 +5,8 @@ jest.mock('./utils/storageUtils');
 
 jest.mock('axios', () => {
     const client = jest.fn((config) => config) as unknown as {
-        interceptors: {};
-        post: () => {};
+        interceptors: Record<string, unknown>;
+        post: () => Record<string, unknown>;
     };
     client.interceptors = {
         request: {
@@ -102,14 +101,12 @@ describe('apiClient', () => {
                 isRetry: false,
             };
 
-            const result = await responseOnRejectedMock(error);
+            await responseOnRejectedMock(error);
 
             expect(clientPostMock).toHaveBeenCalled();
             expect(setAccessTokenMock).toHaveBeenLastCalledWith('at');
             expect(setRefreshTokenMock).toHaveBeenLastCalledWith('rt');
-            expect(result).toEqual({
-                isRetry: true,
-            });
+            expect(apiClient).toHaveBeenCalledWith({isRetry: true});
         });
 
         it('should handle network errors', async () => {
