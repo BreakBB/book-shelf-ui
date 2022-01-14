@@ -8,7 +8,6 @@ import MetaDataBlock from './MetaDataBlock';
 import {EditableInput} from '../ComponentLib/EditableInput';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
-import {API_ROUTE} from '../bookService';
 import {PlaceholderImage} from '../BookCardView/PlaceholderImage/PlaceholderImage';
 import useBook from '../hooks/useBook';
 import {Book} from '../types/types';
@@ -35,10 +34,8 @@ const BookDetailView = (): JSX.Element => {
     };
 
     const handleTitleChange = (newTitle: string) => {
-        if (book !== undefined) {
-            book.title = newTitle;
-            void setBook(book);
-        }
+        book.title = newTitle;
+        void setBook(book);
     };
 
     return (
@@ -53,7 +50,7 @@ const BookDetailView = (): JSX.Element => {
                     </Grid>
                     <Grid item md={2} xs={12}>
                         {book.coverId ? (
-                            <img src={`${API_ROUTE}/covers/${book.isbn}`} alt={book.title} />
+                            <img src={`/covers/${book.isbn}`} alt={book.title} />
                         ) : (
                             <PlaceholderImage title={book.title} />
                         )}

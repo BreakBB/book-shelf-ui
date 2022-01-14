@@ -1,75 +1,65 @@
-import {screen, waitFor} from '@testing-library/react';
-import axios from 'axios';
+import {screen} from '@testing-library/react';
 import {renderWithRouterMatch, TEST_BOOKS} from '../testUtils';
 import BookDetailView from './BookDetailView';
 import {history} from '../history';
 import userEvent from '@testing-library/user-event';
-import {API_ROUTE} from '../bookService';
 import {Book} from '../types/types';
+import useBook, {EMPTY_BOOK} from '../hooks/useBook';
 
-jest.mock('axios');
+jest.mock('../hooks/useBook');
 
 describe('BookCardView', () => {
-    const axiosMock = axios as jest.Mocked<typeof axios>;
+    const useBookMock = useBook as jest.Mock;
+    let bookMock: Book = EMPTY_BOOK;
+    const setBookMock = jest.fn();
+    const deleteBookMock = jest.fn();
 
-    const mockAxios = (responseData?: Book | null): void => {
-        axiosMock.get.mockResolvedValue({data: responseData});
-    };
+    beforeEach(() => {
+        useBookMock.mockImplementation(() => {
+            return {
+                book: bookMock,
+                setBook: setBookMock,
+                deleteBook: deleteBookMock,
+            };
+        });
+    });
 
     afterEach(() => {
         history.push('/books');
         jest.resetAllMocks();
+        bookMock = EMPTY_BOOK;
     });
 
     it('should render the book details', async () => {
-        const book = TEST_BOOKS.harryPotter1;
-        mockAxios(book);
-        history.push(`/books/${book.isbn}`);
+        bookMock = TEST_BOOKS.harryPotter1;
+        history.push(`/books/${bookMock.isbn}`);
 
         renderWithRouterMatch(BookDetailView, '/books/:isbn');
 
-        // We need to use waitFor because we have an async call in our component which changes the state
-        await waitFor(() => {
-            expect(axiosMock.get).toHaveBeenCalledWith(`${API_ROUTE}/books/${book.isbn}`);
-        });
-        screen.getByText(book.title);
-        const coverImage = screen.getByAltText(book.title) as HTMLImageElement;
-        expect(coverImage.src).toBe(`http://localhost${API_ROUTE}/covers/${book.isbn}`);
+        screen.getByText(bookMock.title);
+        screen.getByAltText(bookMock.title);
     });
 
     it('should show "no details" placeholder without a isbn', async () => {
-        mockAxios();
-
         renderWithRouterMatch(BookDetailView, '/');
 
-        expect(axiosMock.get).not.toHaveBeenCalled();
         screen.getByText('No Details');
     });
 
     it('should show "no details" placeholder for invalid ISBN', async () => {
-        axiosMock.get = jest.fn().mockImplementation(() => {
-            throw new Error('Invalid ISBN');
-        });
         history.push('/books/123invalid');
 
         renderWithRouterMatch(BookDetailView, '/books/:isbn');
 
-        await waitFor(() => {
-            expect(axiosMock.get).toHaveBeenCalledWith(`${API_ROUTE}/books/123invalid`);
-        });
         screen.getByText('No Details');
     });
 
     it('should navigate to book overview on back button click', async () => {
-        const book = TEST_BOOKS.harryPotter1;
-        mockAxios(book);
-        history.push(`/books/${book.isbn}`);
+        bookMock = TEST_BOOKS.harryPotter1;
+        history.push(`/books/${bookMock.isbn}`);
 
         renderWithRouterMatch(BookDetailView, '/books/:isbn');
 
-        await waitFor(() => {
-            expect(axiosMock.get).toHaveBeenCalledWith(`${API_ROUTE}/books/${book.isbn}`);
-        });
         const allButtons = screen.getAllByRole('button');
 
         userEvent.click(allButtons[0]);
@@ -78,22 +68,37 @@ describe('BookCardView', () => {
     });
 
     it('should navigate to book overview on book deletion', async () => {
-        const book = TEST_BOOKS.harryPotter1;
-        mockAxios(book);
-        history.push(`/books/${book.isbn}`);
+        bookMock = TEST_BOOKS.harryPotter1;
+        deleteBookMock.mockImplementation((onSuccess) => {
+            onSuccess();
+        });
+        history.push(`/books/${bookMock.isbn}`);
 
         renderWithRouterMatch(BookDetailView, '/books/:isbn');
 
-        await waitFor(() => {
-            expect(axiosMock.get).toHaveBeenCalledWith(`${API_ROUTE}/books/${book.isbn}`);
-        });
-
         const deleteButton = screen.getByRole('button', {name: /Delete Book/i});
         userEvent.click(deleteButton);
-        await waitFor(() => {
-            expect(axiosMock.delete).toHaveBeenCalled();
-        });
+
+        expect(deleteBookMock).toHaveBeenCalled();
 
         expect(history.location.pathname).toBe('/books');
+    });
+
+    it('should handle title changes', () => {
+        bookMock = TEST_BOOKS.harryPotter1;
+        history.push(`/books/${bookMock.isbn}`);
+
+        renderWithRouterMatch(BookDetailView, '/books/:isbn');
+
+        const editButton = screen.getAllByTestId('editButton');
+        userEvent.click(editButton[0]);
+
+        const titleInput = screen.getByDisplayValue(bookMock.title);
+        userEvent.clear(titleInput);
+        userEvent.type(titleInput, 'AAA');
+
+        const editDoneButton = screen.getAllByTestId('editDoneButton');
+        userEvent.click(editDoneButton[0]);
+        expect(setBookMock).toHaveBeenLastCalledWith({...bookMock, title: 'AAA'});
     });
 });
