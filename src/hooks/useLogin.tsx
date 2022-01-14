@@ -1,7 +1,8 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
 import {AxiosResponse} from 'axios';
 import apiClient from '../apiClient';
-import {getAccessToken, setAccessToken, setRefreshToken} from '../utils/storageUtils';
+import {clearTokens, getAccessToken, setAccessToken, setRefreshToken} from '../utils/storageUtils';
+import {history} from '../history';
 
 interface UseLogin {
     isAuthenticated: boolean;
@@ -54,7 +55,9 @@ export const LoginProvider = ({children}: {children: JSX.Element}): JSX.Element 
     };
 
     const logout = (): void => {
-        // TODO: Logout
+        clearTokens();
+        setIsAuthenticated(false);
+        history.push('/login');
     };
 
     return <LoginContext.Provider value={{isAuthenticated, login, logout}}>{children}</LoginContext.Provider>;

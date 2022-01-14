@@ -2,8 +2,9 @@ import React from 'react';
 import {renderHook} from '@testing-library/react-hooks';
 import {act} from '@testing-library/react';
 import useLogin, {LoginProvider} from './useLogin';
-import {getAccessToken, setAccessToken, setRefreshToken} from '../utils/storageUtils';
+import {clearTokens, getAccessToken, setAccessToken, setRefreshToken} from '../utils/storageUtils';
 import apiClient from '../apiClient';
+import {history} from '../history';
 
 jest.mock('../apiClient');
 jest.mock('../utils/storageUtils');
@@ -12,6 +13,7 @@ describe('useLogin', () => {
     const getAccessTokenMock = getAccessToken as jest.Mock;
     const setAccessTokenMock = setAccessToken as jest.Mock;
     const setRefreshTokenMock = setRefreshToken as jest.Mock;
+    const clearTokensMock = clearTokens as jest.Mock;
     const apiClientGetMock = apiClient.get as jest.Mock;
     const apiClientPostMock = apiClient.post as jest.Mock;
 
@@ -94,6 +96,22 @@ describe('useLogin', () => {
             expect(setAccessTokenMock).not.toHaveBeenCalled();
             expect(setRefreshTokenMock).not.toHaveBeenCalled();
             expect(result.current.isAuthenticated).toBe(false);
+        });
+    });
+
+    describe('logout', () => {
+        it('should remove tokens and navigate to login view', async () => {
+            getAccessTokenMock.mockReturnValue('token');
+            apiClientGetMock.mockReturnValue(true);
+
+            const {result, waitFor} = renderHook(() => useLogin(), {wrapper});
+            await act(async () => {
+                result.current.logout();
+                await waitFor(() => expect(result.current.isAuthenticated).toBe(false));
+            });
+
+            expect(clearTokensMock).toHaveBeenCalled();
+            expect(history.location.pathname).toBe('/login');
         });
     });
 });
