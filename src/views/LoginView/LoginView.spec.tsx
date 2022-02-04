@@ -6,7 +6,7 @@ import {history} from '../../history';
 import {renderWithRouter} from '../../testUtils';
 import useLogin from '../../hooks/useLogin';
 
-jest.mock('../hooks/useLogin');
+jest.mock('../../hooks/useLogin');
 
 describe('LoginView', () => {
     const useLoginMock = useLogin as jest.Mock;

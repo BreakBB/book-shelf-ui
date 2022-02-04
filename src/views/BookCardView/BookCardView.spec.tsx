@@ -7,7 +7,7 @@ import {Book, NewBookRequest} from '../../types/types';
 import dayjs from 'dayjs';
 import useBooks from '../../hooks/useBooks';
 
-jest.mock('../hooks/useBooks');
+jest.mock('../../hooks/useBooks');
 
 describe('BookCardView', () => {
     const useBooksMock = useBooks as jest.Mock;

@@ -1,6 +1,6 @@
 import React from 'react';
 import './DataRow.css';
-import {EditableInput} from '../../ComponentLib/EditableInput';
+import {EditableInput} from '../../../components/EditableInput/EditableInput';
 
 interface Props {
     title: string;

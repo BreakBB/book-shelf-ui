@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import {Book} from '../../types/types';
 import useBook, {EMPTY_BOOK} from '../../hooks/useBook';
 
-jest.mock('../hooks/useBook');
+jest.mock('../../hooks/useBook');
 
 describe('BookCardView', () => {
     const useBookMock = useBook as jest.Mock;
