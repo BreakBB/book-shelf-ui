@@ -4,7 +4,7 @@ import LoginView from '../views/LoginView/LoginView';
 import BookCardView from '../views/BookCardView/BookCardView';
 import BookDetailView from '../views/BookDetailView/BookDetailView';
 
-import {PrivateRoute} from './utils';
+import {PrivateRoute} from './PrivateRoute';
 import {history} from '../history';
 import {Redirect, Route} from 'react-router-dom';
 import {Router} from 'react-router';
