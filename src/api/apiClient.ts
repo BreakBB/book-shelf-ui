@@ -31,7 +31,6 @@ client.interceptors.response.use(
                 try {
                     const response = await makeRequestTokenRequest();
                     console.log('Saving new tokens after refresh');
-                    console.log('response.data.access_token', response.data.access_token);
                     setAccessToken(response.data.access_token);
                     setRefreshToken(response.data.refresh_token);
                     return client(originalConfig);
