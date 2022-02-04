@@ -1,6 +1,6 @@
 import React from 'react';
 import LoginView from './LoginView';
-import {screen} from '@testing-library/react';
+import {act, screen, waitFor} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {history} from '../../history';
 import {renderWithRouter} from '../../testUtils';
@@ -43,7 +43,7 @@ describe('LoginView', () => {
             history.push('/login');
         });
 
-        it('should navigate to Book overview on successful login', () => {
+        it('should navigate to Book overview on successful login', async () => {
             loginMock.mockReturnValue(true);
 
             renderWithRouter(<LoginView />);
@@ -55,11 +55,13 @@ describe('LoginView', () => {
             const submitButton = screen.getByRole('button', {name: /Login/i});
             userEvent.click(submitButton);
 
-            expect(history.location.pathname).toBe('/books');
+            await waitFor(() => {
+                expect(history.location.pathname).toBe('/books');
+            });
         });
 
-        it('should show error message on failed login', () => {
-            loginMock.mockReturnValue(false);
+        it('should show error message on failed login', async () => {
+            loginMock.mockResolvedValue(false);
 
             renderWithRouter(<LoginView />);
 
@@ -68,9 +70,11 @@ describe('LoginView', () => {
             const passwordInput = screen.getByLabelText('Password');
             userEvent.type(passwordInput, 'wrongPassword');
             const submitButton = screen.getByRole('button', {name: /Login/i});
-            userEvent.click(submitButton);
+            act(() => {
+                userEvent.click(submitButton);
+            });
 
-            screen.getByText('Login failed');
+            await screen.findByText('Login failed');
         });
 
         it('should not navigate anywhere without required information', () => {
@@ -82,13 +86,15 @@ describe('LoginView', () => {
             expect(history.location.pathname).toBe('/login');
         });
 
-        it('should show error message on failed login', () => {
+        it('should show error message on failed login without credentials', async () => {
             renderWithRouter(<LoginView />);
 
             const submitButton = screen.getByRole('button', {name: /Login/i});
-            userEvent.click(submitButton);
+            act(() => {
+                userEvent.click(submitButton);
+            });
 
-            expect(screen.getByText('Login failed')).toBeDefined();
+            await screen.findByText('Login failed');
         });
     });
 
