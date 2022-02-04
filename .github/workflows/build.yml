@@ -60,7 +60,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           browser: firefox
-          start: npm react-scripts start
+          start: npm start-node-16
           wait-on: http://localhost:3000
           wait-on-timeout: 300
 
@@ -68,6 +68,6 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           browser: chrome
-          start: npm react-scripts start
+          start: npm start-node-16
           wait-on: http://localhost:3000
           wait-on-timeout: 300

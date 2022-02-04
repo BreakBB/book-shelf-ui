@@ -42,6 +42,7 @@
     },
     "scripts": {
         "start": "react-scripts --openssl-legacy-provider start",
+        "start-node-16": "react-scripts start",
         "build": "node esbuildScript.js",
         "test": "CI=true react-scripts test --env=jsdom",
         "test:coverage": "CI=true react-scripts test --env=jsdom --coverage",
