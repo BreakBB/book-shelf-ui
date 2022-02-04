@@ -1,6 +1,6 @@
 import apiClient from './apiClient';
-import {createNewBook, deleteBook, getAllBooks, getBook, updateBook} from './bookService';
-import {TEST_BOOKS} from './testUtils';
+import {createNewBook, deleteBook, getAllBooks, getBook, updateBook} from './bookApi';
+import {TEST_BOOKS} from '../testUtils';
 
 jest.mock('./apiClient');
 

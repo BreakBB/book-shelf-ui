@@ -1,10 +1,10 @@
 import {Book} from '../types/types';
 import {useEffect, useState} from 'react';
-import {deleteBook as remoteDeleteBook, updateBook as remoteUpdateBook, getBook} from '../bookService';
+import {deleteBook as remoteDeleteBook, updateBook as remoteUpdateBook, getBook} from '../api/bookApi';
 
 interface UseBook {
     book: Book;
-    setBook: (Book) => Promise<void>;
+    setBook: (book: Book) => Promise<void>;
     deleteBook: (onSuccess: () => void, onError: () => void) => Promise<void>;
 }
 

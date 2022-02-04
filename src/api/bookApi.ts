@@ -1,5 +1,5 @@
 import {AxiosResponse} from 'axios';
-import {Book, NewBookRequest} from './types/types';
+import {Book, NewBookRequest} from '../types/types';
 import apiClient from './apiClient';
 
 export const getAllBooks = async (): Promise<Book[]> => {

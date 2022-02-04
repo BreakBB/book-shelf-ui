@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {getAccessToken, getRefreshToken, setAccessToken, setRefreshToken} from './utils/storageUtils';
+import {getAccessToken, setAccessToken, setRefreshToken} from '../utils/storageUtils';
+import {makeRequestTokenRequest} from './loginApi';
 
 const client = axios.create({
     baseURL: 'http://localhost:8090',
@@ -28,9 +29,9 @@ client.interceptors.response.use(
             if (error.response.status === 401 && !originalConfig.isRetry) {
                 originalConfig.isRetry = true;
                 try {
-                    const response = await client.post('/login', {
-                        refreshToken: getRefreshToken(),
-                    });
+                    const response = await makeRequestTokenRequest();
+                    console.log('Saving new tokens after refresh');
+                    console.log('response.data.access_token', response.data.access_token);
                     setAccessToken(response.data.access_token);
                     setRefreshToken(response.data.refresh_token);
                     return client(originalConfig);
