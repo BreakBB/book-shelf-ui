@@ -1,11 +1,11 @@
 import React from 'react';
 import {render, screen, waitFor} from '@testing-library/react';
 import BookCardView, {NO_BOOKS_YET, YOUR_COLLECTION} from './BookCardView';
-import {TEST_BOOKS} from '../testUtils';
+import {TEST_BOOKS} from '../../testUtils';
 import userEvent from '@testing-library/user-event';
-import {Book, NewBookRequest} from '../types/types';
+import {Book, NewBookRequest} from '../../types/types';
 import dayjs from 'dayjs';
-import useBooks from '../hooks/useBooks';
+import useBooks from '../../hooks/useBooks';
 
 jest.mock('../hooks/useBooks');
 

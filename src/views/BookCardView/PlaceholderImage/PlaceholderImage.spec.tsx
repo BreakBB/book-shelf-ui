@@ -1,7 +1,7 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react';
 import {PlaceholderImage} from './PlaceholderImage';
-import {TEST_BOOKS} from '../../testUtils';
+import {TEST_BOOKS} from '../../../testUtils';
 
 describe('BookCardView', () => {
     it('should render the placeholder image', () => {

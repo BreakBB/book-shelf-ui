@@ -3,7 +3,7 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DoneIcon from '@material-ui/icons/Done';
 import './EditableInput.css';
-import '../BookDetailView/DataRow/DataRow.css';
+import '../../views/BookDetailView/DataRow/DataRow.css';
 
 interface Props {
     text: string;

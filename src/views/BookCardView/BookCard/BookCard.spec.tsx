@@ -1,9 +1,9 @@
 import React from 'react';
 import {render, screen} from '@testing-library/react';
 import BookCard from './BookCard';
-import {renderWithRouter, TEST_BOOKS} from '../../testUtils';
+import {renderWithRouter, TEST_BOOKS} from '../../../testUtils';
 import userEvent from '@testing-library/user-event';
-import {history} from '../../history';
+import {history} from '../../../history';
 
 describe('BookCardView', () => {
     it('should render the cover', () => {

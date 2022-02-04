@@ -1,8 +1,8 @@
 import React from 'react';
 
-import LoginView from '../LoginView/LoginView';
-import BookCardView from '../BookCardView/BookCardView';
-import BookDetailView from '../BookDetailView/BookDetailView';
+import LoginView from '../views/LoginView/LoginView';
+import BookCardView from '../views/BookCardView/BookCardView';
+import BookDetailView from '../views/BookDetailView/BookDetailView';
 
 import {PrivateRoute} from './utils';
 import {history} from '../history';

@@ -1,10 +1,10 @@
 import {screen} from '@testing-library/react';
-import {renderWithRouterMatch, TEST_BOOKS} from '../testUtils';
+import {renderWithRouterMatch, TEST_BOOKS} from '../../testUtils';
 import BookDetailView from './BookDetailView';
-import {history} from '../history';
+import {history} from '../../history';
 import userEvent from '@testing-library/user-event';
-import {Book} from '../types/types';
-import useBook, {EMPTY_BOOK} from '../hooks/useBook';
+import {Book} from '../../types/types';
+import useBook, {EMPTY_BOOK} from '../../hooks/useBook';
 
 jest.mock('../hooks/useBook');
 

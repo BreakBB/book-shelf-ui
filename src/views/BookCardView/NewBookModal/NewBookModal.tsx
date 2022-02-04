@@ -2,7 +2,7 @@ import React from 'react';
 import {Dialog, DialogContent, DialogTitle} from '@material-ui/core';
 import './NewBookModal.css';
 import FormInput from './FormInput';
-import {NewBookRequest} from '../../types/types';
+import {NewBookRequest} from '../../../types/types';
 import dayjs from 'dayjs';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
