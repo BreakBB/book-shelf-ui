@@ -33,7 +33,7 @@ light: #f73378
     color: #da0c0c;
 }
 
-.menu-login-button {
+.logout-button {
     background-color: #3f51b5;
     font-size: large;
     color: white;
@@ -42,7 +42,7 @@ light: #f73378
     border-radius: 4px;
 }
 
-.menu-login-button:hover {
+.logout-button:hover {
     background-color: #f50057;
     cursor: pointer;
 }

@@ -46,7 +46,7 @@ const BookCardView = (): JSX.Element => {
                     <BookCard key={index} title={book.title} isbn={book.isbn} coverId={book.coverId} />
                 ))}
                 <li onClick={() => setShowModal(true)} className="book-card hover-grow add-book-card">
-                    <AddIcon className="placeholder-image-text" style={{fontSize: 90}} />
+                    <AddIcon className="add-icon" style={{fontSize: 90}} />
                 </li>
             </ul>
             <NewBookModal

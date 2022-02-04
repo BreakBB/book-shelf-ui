@@ -21,7 +21,7 @@ const App = (): JSX.Element => {
                     </IconButton>
                     <h4 style={{flexGrow: 1}}>Books</h4>
                     {isAuthenticated && (
-                        <button className="menu-login-button" onClick={logout}>
+                        <button className="logout-button" onClick={logout}>
                             Logout
                         </button>
                     )}
