@@ -13,7 +13,7 @@ const LoginView = (): JSX.Element => {
 
     const [loginFailed, setLoginFailed] = useState(false);
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         const {username, password} = e.target.elements;
 
@@ -23,7 +23,7 @@ const LoginView = (): JSX.Element => {
             return;
         }
 
-        const loginSuccessful = login(username.value, password.value);
+        const loginSuccessful = await login(username.value, password.value);
         if (!loginSuccessful) {
             setLoginFailed(true);
             return;
