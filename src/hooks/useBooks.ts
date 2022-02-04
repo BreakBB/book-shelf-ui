@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {Book, NewBookRequest} from '../types/types';
-import {createNewBook, deleteBook as remoteDeleteBook, getAllBooks} from '../bookService';
+import {createNewBook, deleteBook as remoteDeleteBook, getAllBooks} from '../api/bookApi';
 import {AxiosError} from 'axios';
 
 interface UseBooks {

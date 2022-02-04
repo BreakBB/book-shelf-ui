@@ -1,10 +1,10 @@
 import {renderHook} from '@testing-library/react-hooks';
 import useBooks from './useBooks';
 import {act} from '@testing-library/react';
-import {createNewBook, deleteBook as remoteDeleteBook, getAllBooks} from '../bookService';
+import {createNewBook, deleteBook as remoteDeleteBook, getAllBooks} from '../api/bookApi';
 import {TEST_BOOKS} from '../testUtils';
 
-jest.mock('../bookService');
+jest.mock('../api/bookApi');
 
 describe('useBooks', () => {
     const getAllBooksMock = getAllBooks as jest.Mock;

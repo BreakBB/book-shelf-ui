@@ -1,18 +1,12 @@
 import React, {createContext, useContext, useEffect, useState} from 'react';
-import {AxiosResponse} from 'axios';
-import apiClient from '../apiClient';
 import {clearTokens, getAccessToken, setAccessToken, setRefreshToken} from '../utils/storageUtils';
 import {history} from '../history';
+import {makeCheckTokenRequest, makeLoginRequest} from '../api/loginApi';
 
 interface UseLogin {
     isAuthenticated: boolean;
     login: (username: string, password: string) => Promise<boolean>;
     logout: () => void;
-}
-
-interface TokenResponse {
-    access_token: string;
-    refresh_token: string;
 }
 
 const LoginContext = createContext({isAuthenticated: false} as UseLogin);
@@ -24,8 +18,8 @@ export const LoginProvider = ({children}: {children: JSX.Element}): JSX.Element 
         if (!isAuthenticated && getAccessToken()) {
             const checkExistingAccessToken = async () => {
                 try {
-                    const response: boolean = await apiClient.get('/login/checkToken');
-                    setIsAuthenticated(response);
+                    const response = await makeCheckTokenRequest();
+                    setIsAuthenticated(response.data);
                 } catch (e) {
                     // Response is different to 2XX
                     setIsAuthenticated(false);
@@ -37,10 +31,7 @@ export const LoginProvider = ({children}: {children: JSX.Element}): JSX.Element 
 
     const login = async (username: string, password: string): Promise<boolean> => {
         try {
-            const tokenResponse: AxiosResponse<TokenResponse> = await apiClient.post('/login', {
-                username,
-                password,
-            });
+            const tokenResponse = await makeLoginRequest(username, password);
 
             setAccessToken(tokenResponse.data.access_token);
             setRefreshToken(tokenResponse.data.refresh_token);

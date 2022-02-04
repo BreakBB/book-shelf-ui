@@ -3,10 +3,10 @@ import {renderHook} from '@testing-library/react-hooks';
 import {act} from '@testing-library/react';
 import useLogin, {LoginProvider} from './useLogin';
 import {clearTokens, getAccessToken, setAccessToken, setRefreshToken} from '../utils/storageUtils';
-import apiClient from '../apiClient';
 import {history} from '../history';
+import {makeCheckTokenRequest, makeLoginRequest} from '../api/loginApi';
 
-jest.mock('../apiClient');
+jest.mock('../api/loginApi');
 jest.mock('../utils/storageUtils');
 
 describe('useLogin', () => {
@@ -14,19 +14,19 @@ describe('useLogin', () => {
     const setAccessTokenMock = setAccessToken as jest.Mock;
     const setRefreshTokenMock = setRefreshToken as jest.Mock;
     const clearTokensMock = clearTokens as jest.Mock;
-    const apiClientGetMock = apiClient.get as jest.Mock;
-    const apiClientPostMock = apiClient.post as jest.Mock;
+    const checkTokenMock = makeCheckTokenRequest as jest.Mock;
+    const makeLoginMock = makeLoginRequest as jest.Mock;
 
     const wrapper = ({children}) => <LoginProvider>{children}</LoginProvider>;
 
     it('should successfully authenticate with valid access token', async () => {
         getAccessTokenMock.mockReturnValue('token');
-        apiClientGetMock.mockReturnValue(true);
+        checkTokenMock.mockReturnValue({data: true});
 
         const {result, waitFor} = renderHook(() => useLogin(), {wrapper});
 
         await act(async () => {
-            await waitFor(() => expect(apiClientGetMock).toHaveBeenCalled());
+            await waitFor(() => expect(checkTokenMock).toHaveBeenCalled());
         });
         expect(result.current.isAuthenticated).toBe(true);
     });
@@ -42,14 +42,14 @@ describe('useLogin', () => {
 
     it('should not be authenticated with invalid access token', async () => {
         getAccessTokenMock.mockReturnValue('token');
-        apiClientGetMock.mockImplementation(() => {
+        checkTokenMock.mockImplementation(() => {
             throw new Error();
         });
 
         const {result, waitFor} = renderHook(() => useLogin(), {wrapper});
 
         await act(async () => {
-            await waitFor(() => expect(apiClientGetMock).toHaveBeenCalled());
+            await waitFor(() => expect(checkTokenMock).toHaveBeenCalled());
         });
 
         expect(result.current.isAuthenticated).toBe(false);
@@ -57,22 +57,19 @@ describe('useLogin', () => {
 
     describe('login', () => {
         it('should authenticate on successful login', async () => {
-            apiClientPostMock.mockReturnValue({data: {}});
+            makeLoginMock.mockReturnValue({data: {}});
 
             const {result} = renderHook(() => useLogin(), {wrapper});
             await act(async () => {
                 await result.current.login('testUser', 'testPassword');
             });
 
-            expect(apiClientPostMock).toHaveBeenLastCalledWith('/login', {
-                username: 'testUser',
-                password: 'testPassword',
-            });
+            expect(makeLoginMock).toHaveBeenLastCalledWith('testUser', 'testPassword');
             expect(result.current.isAuthenticated).toBe(true);
         });
 
         it('should update access and refresh token on successful login', async () => {
-            apiClientPostMock.mockReturnValue({data: {access_token: 'at', refresh_token: 'rt'}});
+            makeLoginMock.mockReturnValue({data: {access_token: 'at', refresh_token: 'rt'}});
 
             const {result} = renderHook(() => useLogin(), {wrapper});
             await act(async () => {
@@ -84,7 +81,7 @@ describe('useLogin', () => {
         });
 
         it('should not be authenticated on failed login', async () => {
-            apiClientPostMock.mockImplementation(() => {
+            makeLoginMock.mockImplementation(() => {
                 throw new Error();
             });
 
@@ -102,7 +99,7 @@ describe('useLogin', () => {
     describe('logout', () => {
         it('should remove tokens and navigate to login view', async () => {
             getAccessTokenMock.mockReturnValue('token');
-            apiClientGetMock.mockReturnValue(true);
+            checkTokenMock.mockReturnValue(true);
 
             const {result, waitFor} = renderHook(() => useLogin(), {wrapper});
             await act(async () => {

@@ -1,10 +1,10 @@
 import {renderHook} from '@testing-library/react-hooks';
 import useBook, {EMPTY_BOOK} from './useBook';
 import {act, waitFor} from '@testing-library/react';
-import {updateBook, getBook, deleteBook} from '../bookService';
+import {updateBook, getBook, deleteBook} from '../api/bookApi';
 import {TEST_BOOKS} from '../testUtils';
 
-jest.mock('../bookService');
+jest.mock('../api/bookApi');
 
 describe('useBook', () => {
     const ISBN = TEST_BOOKS.harryPotter1.isbn;

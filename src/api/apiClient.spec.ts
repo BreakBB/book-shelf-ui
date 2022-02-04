@@ -1,7 +1,7 @@
 import apiClient from './apiClient';
-import {getAccessToken, setAccessToken, setRefreshToken} from './utils/storageUtils';
+import {getAccessToken, setAccessToken, setRefreshToken} from '../utils/storageUtils';
 
-jest.mock('./utils/storageUtils');
+jest.mock('../utils/storageUtils');
 
 jest.mock('axios', () => {
     const client = jest.fn((config) => config) as unknown as {
