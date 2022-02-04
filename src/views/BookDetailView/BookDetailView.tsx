@@ -5,12 +5,12 @@ import Grid from '@material-ui/core/Grid/Grid';
 import './BookDetailView.css';
 import {toast} from 'react-toastify';
 import MetaDataBlock from './MetaDataBlock';
-import {EditableInput} from '../ComponentLib/EditableInput';
+import {EditableInput} from '../../components/EditableInput/EditableInput';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import IconButton from '@material-ui/core/IconButton';
 import {PlaceholderImage} from '../BookCardView/PlaceholderImage/PlaceholderImage';
-import useBook from '../hooks/useBook';
-import {Book} from '../types/types';
+import useBook from '../../hooks/useBook';
+import {Book} from '../../types/types';
 
 interface ParamTypes {
     isbn: string;

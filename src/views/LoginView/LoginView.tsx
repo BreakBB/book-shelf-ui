@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {history} from '../history';
+import {history} from '../../history';
 import {Redirect, useLocation} from 'react-router-dom';
 import './LoginView.css';
-import useLogin from '../hooks/useLogin';
+import useLogin from '../../hooks/useLogin';
 
 const LoginView = (): JSX.Element => {
     const location = useLocation<{[key: string]: unknown}>();

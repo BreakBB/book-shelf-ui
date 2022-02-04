@@ -2,11 +2,11 @@ import React from 'react';
 import LoginView from './LoginView';
 import {screen} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import {history} from '../history';
-import {renderWithRouter} from '../testUtils';
-import useLogin from '../hooks/useLogin';
+import {history} from '../../history';
+import {renderWithRouter} from '../../testUtils';
+import useLogin from '../../hooks/useLogin';
 
-jest.mock('../hooks/useLogin');
+jest.mock('../../hooks/useLogin');
 
 describe('LoginView', () => {
     const useLoginMock = useLogin as jest.Mock;

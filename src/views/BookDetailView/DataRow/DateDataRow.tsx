@@ -4,7 +4,7 @@ import DoneIcon from '@material-ui/icons/Done';
 import IconButton from '@material-ui/core/IconButton';
 import './DataRow.css';
 import dayjs from 'dayjs';
-import {DEFAULT_DATE_FORMAT} from '../../utils';
+import {DEFAULT_DATE_FORMAT} from '../../../utils';
 
 interface Props {
     title: string;

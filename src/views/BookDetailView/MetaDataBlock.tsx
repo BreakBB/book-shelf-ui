@@ -1,7 +1,7 @@
 import React from 'react';
 import DataRow from './DataRow/DataRow';
 import DateDataRow from './DataRow/DateDataRow';
-import {Book} from '../types/types';
+import {Book} from '../../types/types';
 
 interface Props {
     book: Book;
