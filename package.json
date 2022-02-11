@@ -29,8 +29,10 @@
         "@types/react-router-dom": "^5.1.7",
         "@typescript-eslint/eslint-plugin": "^4.13.0",
         "@typescript-eslint/parser": "^4.13.0",
+        "cypress": "^9.4.1",
         "eslint": "^7.17.0",
         "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-cypress": "^2.12.1",
         "eslint-plugin-react": "^7.22.0",
         "husky": "^7.0.1",
         "npm-run-all": "^4.1.5",
@@ -40,6 +42,7 @@
     },
     "scripts": {
         "start": "react-scripts --openssl-legacy-provider start",
+        "start-node-16": "react-scripts start",
         "build": "node esbuildScript.js",
         "test": "CI=true react-scripts test --env=jsdom",
         "test:coverage": "CI=true react-scripts test --env=jsdom --coverage",

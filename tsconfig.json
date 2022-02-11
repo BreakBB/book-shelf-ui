@@ -18,5 +18,5 @@
         "downlevelIteration": true,
         "jsx": "react"
     },
-    "include": ["src", "esbuildScript.js"]
+    "include": ["src", "cypress", "esbuildScript.js"]
 }

@@ -46,3 +46,36 @@ jobs:
 
       - name: Codecov
         uses: codecov/codecov-action@v2
+
+  cypress-firefox:
+    runs-on: ubuntu-latest
+    container:
+      image: cypress/browsers:node16.5.0-chrome97-ff96
+      options: --user 1001 # Firefox needs a non-root user due to security restrictions
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cypress Firefox tests
+        uses: cypress-io/github-action@v2
+        with:
+          browser: firefox
+          start: npm run start-node-16
+          wait-on: http://localhost:3000
+          wait-on-timeout: 300
+
+  cypress-chrome:
+    runs-on: ubuntu-latest
+    container:
+      image: cypress/browsers:node16.5.0-chrome97-ff96
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Cypress Chrome tests
+        uses: cypress-io/github-action@v2
+        with:
+          browser: chrome
+          start: npm run start-node-16
+          wait-on: http://localhost:3000
+          wait-on-timeout: 300
