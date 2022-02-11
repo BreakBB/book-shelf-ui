@@ -12,7 +12,7 @@ const client = axios.create({
 client.interceptors.request.use(
     (config) => {
         const accessToken = getAccessToken();
-        if (accessToken && config.url !== '/login') {
+        if (accessToken && config.url !== '/login' && config.url !== '/login/refresh') {
             config.headers['Authorization'] = `Bearer ${accessToken}`;
         }
         return config;
@@ -23,21 +23,20 @@ client.interceptors.request.use(
 client.interceptors.response.use(
     (response) => response,
     async (error) => {
-        const originalConfig = error.config;
+        const config = error.config;
 
-        if (originalConfig.url !== '/login' && originalConfig.url !== '/login/checkToken' && error.response) {
-            if (error.response.status === 401 && !originalConfig.isRetry) {
-                originalConfig.isRetry = true;
-                try {
-                    const response = await makeRequestTokenRequest();
-                    console.log('Saving new tokens after refresh');
-                    setAccessToken(response.data.access_token);
-                    setRefreshToken(response.data.refresh_token);
-                    return client(originalConfig);
-                } catch (retryError) {
-                    return Promise.reject(retryError);
-                }
-            }
+        if (
+            !config.isRetry &&
+            config.url !== '/login' &&
+            config.url !== '/login/refresh' &&
+            error.response &&
+            error.response.status === 401
+        ) {
+            config.isRetry = true;
+            const response = await makeRequestTokenRequest();
+            setAccessToken(response.data.access_token);
+            setRefreshToken(response.data.refresh_token);
+            return client(config);
         }
 
         return Promise.reject(error);

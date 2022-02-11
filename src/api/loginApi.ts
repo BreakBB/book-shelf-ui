@@ -8,7 +8,7 @@ interface TokenResponse {
 }
 
 export const makeRequestTokenRequest = async (): Promise<AxiosResponse<TokenResponse>> =>
-    await apiClient.post('/login', {
+    await apiClient.post('/login/refresh', {
         refreshToken: getRefreshToken(),
     });
 
