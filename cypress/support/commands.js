@@ -1,5 +1,5 @@
 Cypress.Commands.add('login', (username, password) => {
-    cy.visit('http://localhost:3000/login');
+    cy.visit('login');
     cy.intercept(
         {
             method: 'POST',
