@@ -82,9 +82,71 @@ describe('apiClient', () => {
             expect(result).toBe(response);
         });
 
-        it('should not retry on /login', () => {});
+        it('should not retry on /login', async () => {
+            const error = {
+                config: {
+                    url: '/login',
+                },
+                isRetry: false,
+            };
 
-        it('should not retry on /login/checkToken', () => {});
+            const rejectedPromise = responseOnRejectedMock(error);
+
+            await expect(rejectedPromise).rejects.toEqual({
+                config: {url: '/login'},
+                isRetry: false,
+            });
+
+            expect(clientPostMock).not.toHaveBeenCalled();
+            expect(setAccessTokenMock).not.toHaveBeenCalled();
+            expect(setRefreshTokenMock).not.toHaveBeenCalled();
+        });
+
+        it('should not retry on /login/refresh', async () => {
+            const error = {
+                config: {
+                    url: '/login/refresh',
+                },
+                isRetry: false,
+            };
+
+            const rejectedPromise = responseOnRejectedMock(error);
+
+            await expect(rejectedPromise).rejects.toEqual({
+                config: {url: '/login/refresh'},
+                isRetry: false,
+            });
+
+            expect(clientPostMock).not.toHaveBeenCalled();
+            expect(setAccessTokenMock).not.toHaveBeenCalled();
+            expect(setRefreshTokenMock).not.toHaveBeenCalled();
+        });
+
+        it('should only retry on status code 401', async () => {
+            const error = {
+                config: {
+                    url: '/books',
+                },
+                response: {
+                    status: 500,
+                },
+                isRetry: false,
+            };
+
+            const rejectedPromise = responseOnRejectedMock(error);
+
+            await expect(rejectedPromise).rejects.toEqual({
+                config: {url: '/books'},
+                response: {
+                    status: 500,
+                },
+                isRetry: false,
+            });
+
+            expect(clientPostMock).not.toHaveBeenCalled();
+            expect(setAccessTokenMock).not.toHaveBeenCalled();
+            expect(setRefreshTokenMock).not.toHaveBeenCalled();
+        });
 
         it('should save new tokens', async () => {
             clientPostMock.mockReturnValue({
