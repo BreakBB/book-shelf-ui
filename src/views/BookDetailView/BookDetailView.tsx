@@ -1,5 +1,5 @@
 import {Paper} from '@material-ui/core';
-import React from 'react';
+import React, {useState} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid/Grid';
 import './BookDetailView.css';
@@ -11,12 +11,15 @@ import IconButton from '@material-ui/core/IconButton';
 import {PlaceholderImage} from '../BookCardView/PlaceholderImage/PlaceholderImage';
 import useBook from '../../hooks/useBook';
 import {Book} from '../../types/types';
+import {log} from 'util';
 
 interface ParamTypes {
     isbn: string;
 }
 
 const BookDetailView = (): JSX.Element => {
+    const [showCoverChange, setShowCoverChange] = useState<boolean>(false);
+
     const {isbn} = useParams<ParamTypes>();
     const {book, setBook, deleteBook} = useBook(isbn);
     const history = useHistory();
@@ -50,10 +53,20 @@ const BookDetailView = (): JSX.Element => {
                     </Grid>
                     <Grid item md={2} xs={12}>
                         {book.coverId ? (
-                            <img src={`/covers/${book.isbn}`} alt={book.title} />
+                            <img
+                                onMouseEnter={() => setShowCoverChange(true)}
+                                onMouseLeave={() => setShowCoverChange(false)}
+                                src={`/covers/${book.isbn}`}
+                                alt={book.title}
+                            />
                         ) : (
-                            <PlaceholderImage title={book.title} />
+                            <PlaceholderImage
+                                title={book.title}
+                                onEnter={() => setShowCoverChange(true)}
+                                onLeave={() => setShowCoverChange(false)}
+                            />
                         )}
+                        <button className={`cover-button${showCoverChange ? ' show' : ''}`}>Change</button>
                     </Grid>
                     <Grid item md={4} xs={12}>
                         <MetaDataBlock

@@ -3,11 +3,13 @@ import placeholderCover from './placeholder-cover.jpg';
 
 interface Props {
     title: string;
+    onEnter?: () => void;
+    onLeave?: () => void;
 }
 
-export const PlaceholderImage = (props: Props): JSX.Element => (
+export const PlaceholderImage = ({title, onEnter, onLeave}: Props): JSX.Element => (
     <div className="placeholder-image-container">
-        <img className="image" src={placeholderCover} alt="placeholder" />
-        <div className="placeholder-image-text">{props.title}</div>
+        <img onMouseEnter={onEnter} onMouseLeave={onLeave} className="image" src={placeholderCover} alt="placeholder" />
+        <div className="placeholder-image-text">{title}</div>
     </div>
 );
