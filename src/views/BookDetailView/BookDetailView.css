@@ -14,7 +14,19 @@
     border-radius: 4px;
 }
 
+.cover-detail-container {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    font-size: 0.75rem;
+    color: white;
+}
+
 .cover-button {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: #f50057;
     color: white;
     padding: 5px 8px;
@@ -22,6 +34,7 @@
     border-radius: 4px;
     opacity: 0;
     transition: all 0.7s;
+    cursor: pointer;
 }
 .cover-button.show {
     opacity: 1;

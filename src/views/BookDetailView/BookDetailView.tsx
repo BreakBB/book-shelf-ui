@@ -1,5 +1,5 @@
 import {Paper} from '@material-ui/core';
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid/Grid';
 import './BookDetailView.css';
@@ -11,18 +11,18 @@ import IconButton from '@material-ui/core/IconButton';
 import {PlaceholderImage} from '../BookCardView/PlaceholderImage/PlaceholderImage';
 import useBook from '../../hooks/useBook';
 import {Book} from '../../types/types';
-import {log} from 'util';
 
 interface ParamTypes {
     isbn: string;
 }
 
 const BookDetailView = (): JSX.Element => {
-    const [showCoverChange, setShowCoverChange] = useState<boolean>(false);
+    const [showCoverChange, setShowCoverChange] = useState<boolean>(true);
 
     const {isbn} = useParams<ParamTypes>();
     const {book, setBook, deleteBook} = useBook(isbn);
     const history = useHistory();
+    const coverInputRef = useRef<HTMLInputElement>(null);
 
     const handleDeleteClick = () => {
         void deleteBook(
@@ -41,6 +41,10 @@ const BookDetailView = (): JSX.Element => {
         void setBook(book);
     };
 
+    const handleCoverChange = () => {
+        coverInputRef.current?.click();
+    };
+
     return (
         <Paper className="book-detail-paper">
             <IconButton onClick={() => history.push('/books')}>
@@ -52,21 +56,29 @@ const BookDetailView = (): JSX.Element => {
                         <EditableInput text={book.title} header onChangeDone={handleTitleChange} />
                     </Grid>
                     <Grid item md={2} xs={12}>
-                        {book.coverId ? (
-                            <img
-                                onMouseEnter={() => setShowCoverChange(true)}
-                                onMouseLeave={() => setShowCoverChange(false)}
-                                src={`/covers/${book.isbn}`}
-                                alt={book.title}
-                            />
-                        ) : (
-                            <PlaceholderImage
-                                title={book.title}
-                                onEnter={() => setShowCoverChange(true)}
-                                onLeave={() => setShowCoverChange(false)}
-                            />
-                        )}
-                        <button className={`cover-button${showCoverChange ? ' show' : ''}`}>Change</button>
+                        <div className="cover-detail-container">
+                            {book.coverId ? (
+                                <img
+                                    onMouseEnter={() => setShowCoverChange(true)}
+                                    onMouseLeave={() => setShowCoverChange(false)}
+                                    src={`/covers/${book.isbn}`}
+                                    alt={book.title}
+                                />
+                            ) : (
+                                <PlaceholderImage
+                                    title={book.title}
+                                    onMouseEnter={() => setShowCoverChange(true)}
+                                    onMouseLeave={() => setShowCoverChange(false)}
+                                />
+                            )}
+                            <input type="file" hidden ref={coverInputRef} />
+                            <button
+                                className={`cover-button${showCoverChange ? ' show' : ''}`}
+                                onClick={handleCoverChange}
+                            >
+                                Change
+                            </button>
+                        </div>
                     </Grid>
                     <Grid item md={4} xs={12}>
                         <MetaDataBlock

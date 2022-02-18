@@ -19,23 +19,6 @@ img {
     margin: 0.4rem 0.4rem 0.8rem;
 }
 
-.placeholder-image-container {
-    position: relative;
-    text-align: center;
-    height: 100%;
-    width: 100%;
-    flex: 1;
-    font-size: 0.75rem;
-    color: white;
-}
-
-.placeholder-image-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
 .add-book-card {
     color: #f50057;
     border: 1px solid #9e9e9e;

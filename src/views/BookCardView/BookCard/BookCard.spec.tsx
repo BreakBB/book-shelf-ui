@@ -12,7 +12,6 @@ describe('BookCardView', () => {
         render(<BookCard title={book.title} isbn={book.isbn} coverId={book.coverId} />);
 
         const image = screen.getByAltText(book.title) as HTMLImageElement;
-        expect(image.className).toBe('image');
         expect(image.src).toBe(`http://localhost/covers/${book.isbn}`);
     });
 
@@ -22,7 +21,6 @@ describe('BookCardView', () => {
         render(<BookCard title={book.title} isbn={book.isbn} coverId="" />);
 
         const image = screen.getByAltText('placeholder') as HTMLImageElement;
-        expect(image.className).toBe('image');
         expect(image.src).toBe('http://localhost/placeholder-cover.jpg');
     });
 
