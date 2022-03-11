@@ -29,11 +29,16 @@ const bookApi = {
         return bookResponse.data;
     },
 
-    updateCover: async (isbn: string, cover: File): Promise<string> => {
+    updateCover: async (isbn: string, cover: File): Promise<boolean> => {
         const formData = new FormData();
         formData.append('file', cover);
-        const bookResponse = await apiClient.post(`/covers/${isbn}`, formData);
-        return bookResponse.data;
+        try {
+            await apiClient.post(`/covers/${isbn}`, formData);
+            return true;
+        } catch (e) {
+            console.error('Failed to update cover', e);
+        }
+        return false;
     },
 };
 

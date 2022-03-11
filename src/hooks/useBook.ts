@@ -25,8 +25,8 @@ const useBook = (isbn: string): UseBook => {
     };
 
     const updateCover = async (cover: File): Promise<void> => {
-        const coverId = await bookApi.updateCover(isbn, cover);
-        setBook({...book, coverId: coverId});
+        const uploadSuccessful = await bookApi.updateCover(isbn, cover);
+        setBook({...book, hasCover: uploadSuccessful});
     };
 
     const deleteBook = async (onSuccess: () => void, onError: () => void): Promise<void> => {

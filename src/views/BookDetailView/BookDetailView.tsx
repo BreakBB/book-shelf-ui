@@ -59,7 +59,7 @@ const BookDetailView = (): JSX.Element => {
                     </Grid>
                     <Grid item md={2} xs={12}>
                         <div className="cover-detail-container">
-                            {book.coverId ? (
+                            {book.hasCover ? (
                                 <img src={`/covers/${book.isbn}`} alt={book.title} />
                             ) : (
                                 <PlaceholderImage title={book.title} />
