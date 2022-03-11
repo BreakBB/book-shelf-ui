@@ -6,7 +6,7 @@ import {PlaceholderImage} from '../PlaceholderImage/PlaceholderImage';
 interface Props {
     title: string;
     isbn: string;
-    coverId: string | undefined;
+    hasCover: boolean;
 }
 
 const BookCard = (props: Props): JSX.Element => {
@@ -16,7 +16,7 @@ const BookCard = (props: Props): JSX.Element => {
 
     return (
         <li onClick={() => history.push(`/books/${props.isbn}`)} key={props.isbn} className="book-card hover-grow">
-            {props.coverId ? (
+            {props.hasCover ? (
                 <img className="image" src={localCoverUrl} alt={props.title} />
             ) : (
                 <PlaceholderImage title={props.title} />

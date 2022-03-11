@@ -3,7 +3,7 @@ export interface Book {
     title: string;
     author: string;
     releaseDate: string;
-    hasCover?: boolean;
+    hasCover: boolean;
 }
 
 export interface NewBookRequest {

@@ -98,7 +98,7 @@ describe('useBook', () => {
     });
 
     it('should update cover on cover change click', async () => {
-        updateCoverMock.mockReturnValue('someCoverId');
+        updateCoverMock.mockReturnValue(true);
         const testFile = new File([''], 'testImg.jpg', {type: 'img/jpg'});
 
         const {result} = renderHook(() => useBook(ISBN));
@@ -107,7 +107,7 @@ describe('useBook', () => {
         });
         await act(() => result.current.updateCover(testFile));
 
-        expect(result.current.book.coverId).toBe('someCoverId');
+        expect(result.current.book.hasCover).toBe(true);
         expect(updateCoverMock).toHaveBeenCalledWith(ISBN, testFile);
     });
 });

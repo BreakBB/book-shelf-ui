@@ -14,6 +14,7 @@ export const EMPTY_BOOK: Book = {
     isbn: '',
     releaseDate: '',
     title: '',
+    hasCover: false,
 };
 
 const useBook = (isbn: string): UseBook => {
