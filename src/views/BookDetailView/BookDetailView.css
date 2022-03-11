@@ -22,6 +22,11 @@
     color: white;
 }
 
+.cover-detail-container:hover button {
+    opacity: 1;
+    transition: all 0.7s;
+}
+
 .cover-button {
     position: absolute;
     top: 80%;
@@ -35,8 +40,4 @@
     opacity: 0;
     transition: all 0.7s;
     cursor: pointer;
-}
-.cover-button.show {
-    opacity: 1;
-    transition: all 0.7s;
 }

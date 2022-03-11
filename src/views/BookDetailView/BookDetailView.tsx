@@ -17,8 +17,6 @@ interface ParamTypes {
 }
 
 const BookDetailView = (): JSX.Element => {
-    const [showCoverChange, setShowCoverChange] = useState<boolean>(true);
-
     const {isbn} = useParams<ParamTypes>();
     const {book, setBook, deleteBook} = useBook(isbn);
     const history = useHistory();
@@ -58,18 +56,9 @@ const BookDetailView = (): JSX.Element => {
                     <Grid item md={2} xs={12}>
                         <div className="cover-detail-container">
                             {book.coverId ? (
-                                <img
-                                    onMouseEnter={() => setShowCoverChange(true)}
-                                    onMouseLeave={() => setShowCoverChange(false)}
-                                    src={`/covers/${book.isbn}`}
-                                    alt={book.title}
-                                />
+                                <img src={`/covers/${book.isbn}`} alt={book.title} />
                             ) : (
-                                <PlaceholderImage
-                                    title={book.title}
-                                    onMouseEnter={() => setShowCoverChange(true)}
-                                    onMouseLeave={() => setShowCoverChange(false)}
-                                />
+                                <PlaceholderImage title={book.title} />
                             )}
                             <input type="file" hidden ref={coverInputRef} />
                             <button

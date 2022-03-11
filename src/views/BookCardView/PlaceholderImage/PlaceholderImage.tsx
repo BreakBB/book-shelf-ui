@@ -4,13 +4,11 @@ import './PlaceholderImage.css';
 
 interface Props {
     title: string;
-    onMouseEnter?: () => void;
-    onMouseLeave?: () => void;
 }
 
-export const PlaceholderImage = ({title, onMouseEnter, onMouseLeave}: Props): JSX.Element => (
+export const PlaceholderImage = ({title}: Props): JSX.Element => (
     <>
-        <img onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} src={placeholderCover} alt="placeholder" />
+        <img src={placeholderCover} alt="placeholder" />
         <div className="placeholder-image-text">{title}</div>
     </>
 );
