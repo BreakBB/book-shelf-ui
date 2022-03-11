@@ -1,5 +1,5 @@
 import {Paper} from '@material-ui/core';
-import React, {useRef, useState} from 'react';
+import React, {useRef} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import Grid from '@material-ui/core/Grid/Grid';
 import './BookDetailView.css';
@@ -18,7 +18,7 @@ interface ParamTypes {
 
 const BookDetailView = (): JSX.Element => {
     const {isbn} = useParams<ParamTypes>();
-    const {book, setBook, deleteBook} = useBook(isbn);
+    const {book, setBook, deleteBook, updateCover} = useBook(isbn);
     const history = useHistory();
     const coverInputRef = useRef<HTMLInputElement>(null);
 
@@ -39,8 +39,12 @@ const BookDetailView = (): JSX.Element => {
         void setBook(book);
     };
 
-    const handleCoverChange = () => {
+    const openFileBrowser = () => {
         coverInputRef.current?.click();
+    };
+
+    const handleCoverChange = (files) => {
+        void updateCover(files[0]);
     };
 
     return (
@@ -60,11 +64,14 @@ const BookDetailView = (): JSX.Element => {
                             ) : (
                                 <PlaceholderImage title={book.title} />
                             )}
-                            <input type="file" hidden ref={coverInputRef} />
-                            <button
-                                className={`cover-button${showCoverChange ? ' show' : ''}`}
-                                onClick={handleCoverChange}
-                            >
+                            <input
+                                type="file"
+                                data-testid="coverUploadInput"
+                                hidden
+                                ref={coverInputRef}
+                                onChange={(event) => handleCoverChange(event.target.files)}
+                            />
+                            <button className={`cover-button`} onClick={openFileBrowser}>
                                 Change
                             </button>
                         </div>

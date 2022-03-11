@@ -1,6 +1,6 @@
 import {useState} from 'react';
 import {Book, NewBookRequest} from '../types/types';
-import {createNewBook, deleteBook as remoteDeleteBook, getAllBooks} from '../api/bookApi';
+import bookApi from '../api/bookApi';
 import {AxiosError} from 'axios';
 
 interface UseBooks {
@@ -15,7 +15,7 @@ const useBooks = (): UseBooks => {
 
     const fetchBooks = async () => {
         try {
-            const fetchedBooks = await getAllBooks();
+            const fetchedBooks = await bookApi.getAllBooks();
             console.info(`Fetched ${fetchedBooks.length} book(s)`);
             setBooks(fetchedBooks);
         } catch (e) {
@@ -29,7 +29,7 @@ const useBooks = (): UseBooks => {
         onError: (responseCode: number) => void
     ): Promise<void> => {
         try {
-            const newBook = await createNewBook(book);
+            const newBook = await bookApi.createNewBook(book);
             onSuccess();
             setBooks([...books, newBook]);
         } catch (e) {
@@ -40,7 +40,7 @@ const useBooks = (): UseBooks => {
 
     const deleteBook = async (isbn: string, onSuccess: () => void, onError: () => void): Promise<void> => {
         try {
-            await remoteDeleteBook(isbn);
+            await bookApi.deleteBook(isbn);
             onSuccess();
             setBooks(books.filter((book) => book.isbn !== isbn));
         } catch (e) {
