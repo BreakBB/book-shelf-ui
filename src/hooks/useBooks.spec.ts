@@ -1,15 +1,15 @@
 import {renderHook} from '@testing-library/react-hooks';
 import useBooks from './useBooks';
 import {act} from '@testing-library/react';
-import {createNewBook, deleteBook as remoteDeleteBook, getAllBooks} from '../api/bookApi';
+import bookApi from '../api/bookApi';
 import {TEST_BOOKS} from '../testUtils';
 
 jest.mock('../api/bookApi');
 
 describe('useBooks', () => {
-    const getAllBooksMock = getAllBooks as jest.Mock;
-    const createNewBookMock = createNewBook as jest.Mock;
-    const remoteDeleteBookMock = remoteDeleteBook as jest.Mock;
+    const getAllBooksMock = bookApi.getAllBooks as jest.Mock;
+    const createNewBookMock = bookApi.createNewBook as jest.Mock;
+    const remoteDeleteBookMock = bookApi.deleteBook as jest.Mock;
 
     const onSuccessMock = jest.fn();
     const onErrorMock = jest.fn();

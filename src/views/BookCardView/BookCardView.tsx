@@ -43,7 +43,7 @@ const BookCardView = (): JSX.Element => {
             {books.length === 0 && <p>{NO_BOOKS_YET}</p>}
             <ul className="grid-list">
                 {books.map((book, index) => (
-                    <BookCard key={index} title={book.title} isbn={book.isbn} coverId={book.coverId} />
+                    <BookCard key={index} title={book.title} isbn={book.isbn} hasCover={book.hasCover} />
                 ))}
                 <li onClick={() => setShowModal(true)} className="book-card hover-grow add-book-card">
                     <AddIcon className="add-icon" style={{fontSize: 90}} />

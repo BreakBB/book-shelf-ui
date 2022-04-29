@@ -13,6 +13,7 @@ describe('BookCardView', () => {
     let bookMock: Book = EMPTY_BOOK;
     const setBookMock = jest.fn();
     const deleteBookMock = jest.fn();
+    const updateCoverMock = jest.fn();
 
     beforeEach(() => {
         useBookMock.mockImplementation(() => {
@@ -20,6 +21,7 @@ describe('BookCardView', () => {
                 book: bookMock,
                 setBook: setBookMock,
                 deleteBook: deleteBookMock,
+                updateCover: updateCoverMock,
             };
         });
     });
@@ -100,5 +102,18 @@ describe('BookCardView', () => {
         const editDoneButton = screen.getAllByTestId('editDoneButton');
         userEvent.click(editDoneButton[0]);
         expect(setBookMock).toHaveBeenLastCalledWith({...bookMock, title: 'AAA'});
+    });
+
+    it('should handle cover changes', () => {
+        bookMock = TEST_BOOKS.harryPotter1;
+        history.push(`/books/${bookMock.isbn}`);
+        const testFile = new File([''], 'testImg.jpg', {type: 'img/jpg'});
+
+        renderWithRouterMatch(BookDetailView, '/books/:isbn');
+
+        const fileInput = screen.getByTestId('coverUploadInput');
+        userEvent.upload(fileInput, testFile);
+
+        expect(updateCoverMock).toHaveBeenCalledWith(testFile);
     });
 });

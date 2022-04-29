@@ -1,7 +1,7 @@
 import {renderHook} from '@testing-library/react-hooks';
 import useBook, {EMPTY_BOOK} from './useBook';
 import {act, waitFor} from '@testing-library/react';
-import {updateBook, getBook, deleteBook} from '../api/bookApi';
+import bookApi from '../api/bookApi';
 import {TEST_BOOKS} from '../testUtils';
 
 jest.mock('../api/bookApi');
@@ -9,12 +9,17 @@ jest.mock('../api/bookApi');
 describe('useBook', () => {
     const ISBN = TEST_BOOKS.harryPotter1.isbn;
 
-    const getBookMock = getBook as jest.Mock;
-    const updateBookMock = updateBook as jest.Mock;
-    const deleteBookMock = deleteBook as jest.Mock;
+    const getBookMock = bookApi.getBook as jest.Mock;
+    const updateBookMock = bookApi.updateBook as jest.Mock;
+    const deleteBookMock = bookApi.deleteBook as jest.Mock;
+    const updateCoverMock = bookApi.updateCover as jest.Mock;
 
     const onSuccessMock = jest.fn();
     const onErrorMock = jest.fn();
+
+    beforeEach(() => {
+        getBookMock.mockReturnValue(TEST_BOOKS.harryPotter1);
+    });
 
     it('should return an empty book without an isbn', () => {
         const {result} = renderHook(() => useBook(''));
@@ -22,8 +27,6 @@ describe('useBook', () => {
     });
 
     it('should fetch and return a book', async () => {
-        getBookMock.mockReturnValue(TEST_BOOKS.harryPotter1);
-
         const {result} = renderHook(() => useBook(ISBN));
         await waitFor(() => {
             expect(getBookMock).toHaveBeenCalled();
@@ -51,7 +54,6 @@ describe('useBook', () => {
     });
 
     it('should update a book', async () => {
-        getBookMock.mockReturnValue(TEST_BOOKS.harryPotter1);
         updateBookMock.mockReturnValue(TEST_BOOKS.harryPotter2);
 
         const {result} = renderHook(() => useBook(ISBN));
@@ -72,8 +74,6 @@ describe('useBook', () => {
     });
 
     it('should delete a book', async () => {
-        getBookMock.mockReturnValue(TEST_BOOKS.harryPotter1);
-
         const {result} = renderHook(() => useBook(ISBN));
         await waitFor(() => {
             expect(getBookMock).toHaveBeenCalled();
@@ -84,7 +84,6 @@ describe('useBook', () => {
     });
 
     it('should call onError callback if book deletion fails', async () => {
-        getBookMock.mockReturnValue(TEST_BOOKS.harryPotter1);
         deleteBookMock.mockImplementation(() => {
             throw new Error('deletion failed');
         });
@@ -96,5 +95,19 @@ describe('useBook', () => {
         await act(() => result.current.deleteBook(onSuccessMock, onErrorMock));
 
         expect(onErrorMock).toHaveBeenCalled();
+    });
+
+    it('should update cover on cover change click', async () => {
+        updateCoverMock.mockReturnValue(true);
+        const testFile = new File([''], 'testImg.jpg', {type: 'img/jpg'});
+
+        const {result} = renderHook(() => useBook(ISBN));
+        await waitFor(() => {
+            expect(getBookMock).toHaveBeenCalled();
+        });
+        await act(() => result.current.updateCover(testFile));
+
+        expect(result.current.book.hasCover).toBe(true);
+        expect(updateCoverMock).toHaveBeenCalledWith(ISBN, testFile);
     });
 });
