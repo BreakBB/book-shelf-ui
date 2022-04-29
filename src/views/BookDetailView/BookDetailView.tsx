@@ -47,6 +47,7 @@ const BookDetailView = (): JSX.Element => {
         void updateCover(files[0]);
     };
 
+    const coverSrc = `/covers/${book.isbn}?${Date.now()}`; // Date.now is added to force the browser to do a new refresh
     return (
         <Paper className="book-detail-paper">
             <IconButton onClick={() => history.push('/books')}>
@@ -60,7 +61,7 @@ const BookDetailView = (): JSX.Element => {
                     <Grid item md={2} xs={12}>
                         <div className="cover-detail-container">
                             {book.hasCover ? (
-                                <img src={`/covers/${book.isbn}`} alt={book.title} />
+                                <img src={coverSrc} alt={book.title} />
                             ) : (
                                 <PlaceholderImage title={book.title} />
                             )}
