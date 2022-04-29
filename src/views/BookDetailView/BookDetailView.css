@@ -22,11 +22,6 @@
     color: white;
 }
 
-.cover-detail-container:hover button {
-    opacity: 1;
-    transition: all 0.7s;
-}
-
 .cover-change-blur {
     position: absolute;
     background-color: white;
