@@ -58,7 +58,7 @@ const BookDetailView = (): JSX.Element => {
                     <Grid item md={12} xs={12}>
                         <EditableInput text={book.title} header onChangeDone={handleTitleChange} />
                     </Grid>
-                    <Grid item md={2} xs={12} style={{minWidth: '25%'}}>
+                    <Grid item md={2} sm={4} xs={12} style={{minWidth: '25%'}}>
                         <div className="cover-detail-container">
                             <div className="cover-change-blur" onClick={openFileBrowser}>
                                 <p>Change</p>
@@ -77,7 +77,7 @@ const BookDetailView = (): JSX.Element => {
                             />
                         </div>
                     </Grid>
-                    <Grid item md={4} xs={12}>
+                    <Grid item md={5} sm={8} xs={12}>
                         <MetaDataBlock
                             book={book}
                             onChange={(updatedBook: Book) => {
