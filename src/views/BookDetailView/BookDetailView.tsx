@@ -60,6 +60,9 @@ const BookDetailView = (): JSX.Element => {
                     </Grid>
                     <Grid item md={2} xs={12}>
                         <div className="cover-detail-container">
+                            <div className="cover-change-blur" onClick={openFileBrowser}>
+                                <p>Change</p>
+                            </div>
                             {book.hasCover ? (
                                 <img src={coverSrc} alt={book.title} />
                             ) : (
@@ -72,9 +75,6 @@ const BookDetailView = (): JSX.Element => {
                                 ref={coverInputRef}
                                 onChange={(event) => handleCoverChange(event.target.files)}
                             />
-                            <button className={`cover-button`} onClick={openFileBrowser}>
-                                Change
-                            </button>
                         </div>
                     </Grid>
                     <Grid item md={4} xs={12}>
