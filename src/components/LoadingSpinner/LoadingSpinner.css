@@ -1,0 +1,72 @@
+.loading-spinner-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-spinner {
+    width: 128px;
+}
+
+.loading-spinner p {
+    color: #777777;
+    margin-top: 0;
+}
+
+.book-shelf .book {
+    animation: book-bounce 1s ease infinite;
+}
+
+.book-shelf .book-two {
+    animation-delay: 0s;
+}
+
+.book-shelf .book-two {
+    animation-delay: 0.04s;
+}
+
+.book-shelf .book-three {
+    animation-delay: 0.08s;
+}
+
+@keyframes book-bounce {
+    0% {
+        transform: translateY(0);
+    }
+    25% {
+        transform: translateY(-10px);
+    }
+    50% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.book-shelf .shelf {
+    animation: shelf-lift 1s ease infinite;
+    transform-origin: 50% 50%;
+}
+
+@keyframes shelf-lift {
+    0% {
+        transform: translateY(0) rotate(0);
+    }
+    15% {
+        transform: translateY(-4px) rotate(10deg);
+    }
+    25% {
+        transform: translateY(-4px) rotate(0);
+    }
+    35% {
+        transform: translateY(-4px) rotate(-10deg);
+    }
+    50% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}

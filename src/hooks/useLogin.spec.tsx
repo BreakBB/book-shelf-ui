@@ -29,6 +29,7 @@ describe('useLogin', () => {
             await waitFor(() => expect(checkTokenMock).toHaveBeenCalled());
         });
         expect(result.current.isAuthenticated).toBe(true);
+        expect(result.current.isLoading).toBe(false);
     });
 
     it('should not be authenticated without access token', async () => {
@@ -38,6 +39,7 @@ describe('useLogin', () => {
             await waitFor(() => expect(getAccessTokenMock).toHaveBeenCalled());
         });
         expect(result.current.isAuthenticated).toBe(false);
+        expect(result.current.isLoading).toBe(false);
     });
 
     it('should not be authenticated with invalid access token', async () => {
@@ -53,6 +55,7 @@ describe('useLogin', () => {
         });
 
         expect(result.current.isAuthenticated).toBe(false);
+        expect(result.current.isLoading).toBe(false);
     });
 
     describe('login', () => {
@@ -66,6 +69,7 @@ describe('useLogin', () => {
 
             expect(makeLoginMock).toHaveBeenLastCalledWith('testUser', 'testPassword');
             expect(result.current.isAuthenticated).toBe(true);
+            expect(result.current.isLoading).toBe(false);
         });
 
         it('should update access and refresh token on successful login', async () => {
@@ -93,6 +97,7 @@ describe('useLogin', () => {
             expect(setAccessTokenMock).not.toHaveBeenCalled();
             expect(setRefreshTokenMock).not.toHaveBeenCalled();
             expect(result.current.isAuthenticated).toBe(false);
+            expect(result.current.isLoading).toBe(false);
         });
     });
 
