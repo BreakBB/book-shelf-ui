@@ -6,15 +6,7 @@ import userEvent from '@testing-library/user-event';
 describe('NewBookModal', () => {
     it('should submit the new book data when all fields are filled', () => {
         const onSubmitMock = jest.fn();
-        render(
-            <NewBookModal
-                show={true}
-                closeModal={() => {}}
-                onClose={() => {}}
-                onSubmit={onSubmitMock}
-                bookAlreadyExists={false}
-            />
-        );
+        render(<NewBookModal onClose={() => {}} onSubmit={onSubmitMock} bookAlreadyExists={false} />);
 
         userEvent.type(screen.getByLabelText('Book name'), 'Some Book Title');
         userEvent.type(screen.getByLabelText('ISBN'), 'Some ISBN');
@@ -34,59 +26,17 @@ describe('NewBookModal', () => {
 
     it('should not try to add a book without sufficient data', () => {
         const onSubmitMock = jest.fn();
-        const closeModalMock = jest.fn();
-        render(
-            <NewBookModal
-                show={true}
-                closeModal={closeModalMock}
-                onClose={() => {}}
-                onSubmit={onSubmitMock}
-                bookAlreadyExists={false}
-            />
-        );
+        render(<NewBookModal onClose={() => {}} onSubmit={onSubmitMock} bookAlreadyExists={false} />);
 
         userEvent.click(screen.getByText('Create'));
 
         expect(onSubmitMock).not.toHaveBeenCalled();
-        expect(closeModalMock).not.toHaveBeenCalled();
     });
 
     it('should render book already exists error message', () => {
         const onSubmitMock = jest.fn();
-        render(
-            <NewBookModal
-                show={true}
-                closeModal={() => {}}
-                onClose={() => {}}
-                onSubmit={onSubmitMock}
-                bookAlreadyExists={true}
-            />
-        );
+        render(<NewBookModal onClose={() => {}} onSubmit={onSubmitMock} bookAlreadyExists={true} />);
 
         screen.getByText('This book is already in your library');
-    });
-
-    it('should close after successfully adding a book', () => {
-        const closeModalMock = jest.fn();
-
-        render(
-            <NewBookModal
-                show={true}
-                closeModal={closeModalMock}
-                onClose={() => {}}
-                onSubmit={() => {}}
-                bookAlreadyExists={false}
-            />
-        );
-
-        userEvent.type(screen.getByLabelText('Book name'), 'Some Book Title');
-        userEvent.type(screen.getByLabelText('ISBN'), 'Some ISBN');
-        userEvent.type(screen.getByLabelText('Author'), 'Some Book Author');
-        const releaseDateInput = screen.getByLabelText('Release Date');
-        userEvent.type(releaseDateInput, '2021-03-12'); // input of type date need this format
-
-        userEvent.click(screen.getByText('Create'));
-
-        expect(closeModalMock).toHaveBeenCalled();
     });
 });

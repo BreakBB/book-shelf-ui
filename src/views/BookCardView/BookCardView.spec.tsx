@@ -80,6 +80,7 @@ describe('BookCardView', () => {
         });
 
         expect(screen.queryByText('This book is already in your library')).toBeNull();
+        expect(screen.queryByText('Create')).toBeNull();
 
         expect(await screen.findByAltText('Harry Potter und der Stein der Weisen'));
 

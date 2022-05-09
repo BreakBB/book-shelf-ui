@@ -8,9 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
 interface Props {
-    show: boolean;
     onSubmit: (book: NewBookRequest) => void;
-    closeModal: () => void;
     onClose: () => void;
     bookAlreadyExists: boolean;
 }
@@ -30,12 +28,11 @@ const NewBookModal = (props: Props): JSX.Element => {
                 author: author.value,
                 releaseDate: dayjs(releaseDate.value).format('YYYY-MM-DD'),
             });
-            props.closeModal();
         }
     };
 
     return (
-        <Dialog open={props.show} onClose={props.onClose}>
+        <Dialog open={true} onClose={props.onClose}>
             <DialogTitle disableTypography className="dialogTitle">
                 <h3>Add a new book</h3>
                 <IconButton onClick={props.onClose}>

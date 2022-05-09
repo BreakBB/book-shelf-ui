@@ -26,9 +26,12 @@ const BookCardView = (): JSX.Element => {
             newBook,
             () => {
                 toast.success('A new book was added');
+                setShowModal(false);
             },
             (status: number) => {
                 if (status === 409) {
+                    console.log('showModal', showModal);
+                    console.log('bookAlreadyExists', bookAlreadyExists);
                     setBookAlreadyExists(true);
                     return;
                 }
@@ -36,6 +39,9 @@ const BookCardView = (): JSX.Element => {
             }
         );
     };
+
+    console.log('r showModal', showModal);
+    console.log('r bookAlreadyExists', bookAlreadyExists);
 
     return (
         <>
@@ -49,16 +55,16 @@ const BookCardView = (): JSX.Element => {
                     <AddIcon className="add-icon" style={{fontSize: 90}} />
                 </li>
             </ul>
-            <NewBookModal
-                show={showModal}
-                onSubmit={handleNewBookSubmit}
-                closeModal={() => setShowModal(false)}
-                onClose={() => {
-                    setShowModal(false);
-                    setBookAlreadyExists(false);
-                }}
-                bookAlreadyExists={bookAlreadyExists}
-            />
+            {showModal && (
+                <NewBookModal
+                    onSubmit={handleNewBookSubmit}
+                    onClose={() => {
+                        setShowModal(false);
+                        setBookAlreadyExists(false);
+                    }}
+                    bookAlreadyExists={bookAlreadyExists}
+                />
+            )}
         </>
     );
 };
